@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MHO Music Academy - Acasă</title>
+    <link rel="icon" type="image/png" href="/assets/Logo MHO Academy-df4a0f87.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            border-radius: 24px;
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.12);
+        }
+    </style>
+    
+    <script src="i18n.js?v=20260602-exam-ru"></script>
+  <script type="module" crossorigin src="/assets/index-e66cff65.js"></script>
+  <link rel="stylesheet" href="/assets/index-a3a484ab.css">
+</head>
+<body class="bg-gradient-to-br from-amber-50 to-orange-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-lg font-bold">🎵 MHO Music Academy</h1>
+                </div>
+                <div class="hidden md:flex space-x-4 items-center">
+                    <a href="index.html" class="bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-home">Acasă</a>
+                    <a href="noutati.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-news">Noutăți</a>
+                    <a href="register.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-register">Înregistrare</a>
+                    <a href="exam.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-exam">Examen</a>
+                    <a href="galerie.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-gallery">Galerie</a>
+                    <a href="admin.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-admin">Admin</a>
+                    <div id="authButtons" class="flex items-center space-x-2 ml-4 pl-4 border-l border-amber-500">
+                        <a href="login.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-login">Autentificare</a>
+                        <a href="signup.html" class="bg-white text-amber-600 px-4 py-2 rounded-lg hover:bg-amber-50 transition" data-i18n="nav-signup">Înregistrare</a>
+                    </div>
+                    <div id="userMenu" class="hidden flex items-center space-x-2 ml-4 pl-4 border-l border-amber-500">
+                        <a href="profile.html" id="userName" class="flex items-center space-x-2 text-sm hover:bg-amber-700 px-4 py-2 rounded-lg transition">
+                            <img id="userProfilePicture" src="" alt="Profile" class="w-8 h-8 rounded-full object-cover border-2 border-white hidden">
+                            <span id="userProfilePicturePlaceholder" class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-lg">👤</span>
+                            <span id="userNameText"></span>
+                        </a>
+                        <button id="logoutBtn" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-logout">Deconectare</button>
+                    </div>
+                </div>
+                <!-- Mobile menu button handled by mobile-menu.js -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="min-h-screen">
+        <!-- Hero Section -->
+        <section class="py-20 md:py-28 px-4 relative overflow-hidden flex items-center justify-center">
+            <div class="absolute inset-0 bg-gradient-to-br from-amber-100 to-orange-100 opacity-40 -z-10"></div>
+            <div class="max-w-4xl mx-auto text-center glass-card p-10 md:p-16 border-none shadow-none bg-transparent">
+                <h1 class="text-5xl md:text-7xl font-black text-gray-900 mb-8 tracking-tight" data-i18n="hero-welcome">Bine ai Venit!</h1>
+                <p class="text-xl md:text-2xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed font-medium" data-i18n="hero-description">
+                    Înregistrează-te la Cursuri ori la Seminare și Susține Examenele Online de Intrare.
+                    Am creat această platformă pentru a facilita procesul de învățare și evaluare.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                    <a href="register.html" class="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-10 py-4 rounded-2xl font-bold text-xl hover:from-amber-700 hover:to-orange-700 transition shadow-xl hover:shadow-orange-200 transform hover:-translate-y-1" data-i18n="btn-register-now">
+                        Înregistrează-te Acum
+                    </a>
+                    <a href="noutati.html" class="bg-white/80 backdrop-blur-md text-amber-600 px-10 py-4 rounded-2xl font-bold text-xl border-2 border-amber-600 hover:bg-amber-50 transition shadow-lg hover:shadow-xl transform hover:-translate-y-1" data-i18n="btn-view-news">
+                        Vezi Noutăți
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Quick Links Section -->
+        <section class="py-20 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight" data-i18n="quick-links-title">Navigare rapidă</h2>
+                    <div class="w-24 h-1.5 bg-amber-500 mx-auto rounded-full shadow-sm"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <a href="register.html" class="glass-card p-8 transition-all duration-300 text-center flex flex-col items-center">
+                        <div class="text-6xl mb-6 transform group-hover:scale-110 transition-transform">📝</div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3" data-i18n="link-student-reg">Înscriere Studenți</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed" data-i18n="link-student-reg-desc">Alege cursul tău și Înregistrează-te pentru a începe studiile.</p>
+                        <span class="mt-auto bg-amber-100 text-amber-700 px-6 py-2 rounded-full font-bold text-sm" data-i18n="link-student-reg-action">Înregistrează-te</span>
+                    </a>
+                    <a href="exam.html" class="glass-card p-8 transition-all duration-300 text-center flex flex-col items-center">
+                        <div class="text-6xl mb-6 transform group-hover:scale-110 transition-transform">✍️</div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3" data-i18n="link-take-exam">Susține examenul</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed" data-i18n="link-take-exam-desc">Trimite răspunsurile la examen pentru a evalua cunoștințele tale muzicale.</p>
+                        <span class="mt-auto bg-amber-100 text-amber-700 px-6 py-2 rounded-full font-bold text-sm" data-i18n="link-take-exam-action">Mergi la examen</span>
+                    </a>
+                    <a href="noutati.html" class="glass-card p-8 transition-all duration-300 text-center flex flex-col items-center">
+                        <div class="text-6xl mb-6 transform group-hover:scale-110 transition-transform">📰</div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3" data-i18n="link-news-seminars">Noutăți și Seminare</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed" data-i18n="link-news-seminars-desc">Vezi cele mai recente noutăți și seminare disponibile pentru studenți.</p>
+                        <span class="mt-auto bg-amber-100 text-amber-700 px-6 py-2 rounded-full font-bold text-sm" data-i18n="link-news-seminars-action">Vezi noutăți</span>
+                    </a>
+                    <a href="galerie.html" class="glass-card p-8 transition-all duration-300 text-center flex flex-col items-center">
+                        <div class="text-6xl mb-6 transform group-hover:scale-110 transition-transform">📷</div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3" data-i18n="link-gallery">Galerie Foto</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed" data-i18n="link-gallery-desc">Explorează fotografiile din cursurile și evenimentele noastre academice.</p>
+                        <span class="mt-auto bg-amber-100 text-amber-700 px-6 py-2 rounded-full font-bold text-sm" data-i18n="link-gallery-action">Vezi galeria</span>
+                    </a>
+                    <a href="profile.html" class="glass-card p-8 transition-all duration-300 text-center flex flex-col items-center">
+                        <div class="text-6xl mb-6 transform group-hover:scale-110 transition-transform">👤</div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3" data-i18n="link-profile">Profilul Meu</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed" data-i18n="link-profile-desc">Gestionează datele tale personale și vezi cine mai este online pe platformă.</p>
+                        <span class="mt-auto bg-amber-100 text-amber-700 px-6 py-2 rounded-full font-bold text-sm" data-i18n="link-profile-action">Vezi profilul</span>
+                    </a>
+                    <a href="admin.html" class="glass-card p-8 transition-all duration-300 text-center flex flex-col items-center border-2 border-amber-200">
+                        <div class="text-6xl mb-6 transform group-hover:scale-110 transition-transform">🛠️</div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3" data-i18n="link-admin">Administrare</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed" data-i18n="link-admin-desc">Gestionează înregistrările și vizualizează lucrările trimise. (Profesori)</p>
+                        <span class="mt-auto bg-amber-600 text-white px-6 py-2 rounded-full font-bold text-sm" data-i18n="link-admin-action">Panou Admin</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-amber-600 to-orange-600 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">MHO Music Academy</h3>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4" data-i18n="footer-links-title">Link-uri Rapide</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-home">Acasă</a></li>
+                        <li><a href="noutati.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-news">Noutăți</a></li>
+                        <li><a href="register.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-register">Înregistrare</a></li>
+                        <li><a href="exam.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-exam">Examen</a></li>
+                        <li><a href="galerie.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-gallery">Galerie</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4" data-i18n="footer-contact-title">Contact</h4>
+                    <p class="text-amber-100 mb-2">
+                        <a href="tel:+37369956831" class="hover:text-white transition underline">+373 69 956 831</a>
+                        <span class="text-sm block mt-1" data-i18n="footer-general-q">- pentru întrebări generale - Andrei Borinschi</span>
+                    </p>
+                    <p class="text-amber-100 mb-2">
+                        <a href="tel:+37369597497" class="hover:text-white transition underline">+373 69 597 497</a>
+                        <span class="text-sm block mt-1" data-i18n="footer-tech-assist">- pentru asistență tehnică - Mihail Borinschi</span>
+                    </p>
+                    <p class="text-amber-100">
+                        <a href="tel:+37368947450" class="hover:text-white transition underline">+373 68 947 450</a>
+                        <span class="text-sm block mt-1" data-i18n="footer-exam-q">- pentru întrebări cu privire la examene - Cristina Costaș</span>
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-amber-500 pt-6 text-center">
+                <p class="text-amber-100">&copy; 2025 MHO Music Academy. <span data-i18n="footer-rights">Toate drepturile rezervate.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Handle password reset redirect
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('mode') === 'resetPassword' && urlParams.get('oobCode')) {
+            window.location.replace(`resetPassword.html?${urlParams.toString()}`);
+        }
+    </script>
+
+    <!-- Firebase App -->
+    
+    <script src="posthog-analytics.js?v=20260530-posthog"></script>
+    <script src="mobile-menu.js?v=20260616-home-redirect"></script>
+</body>
+</html>

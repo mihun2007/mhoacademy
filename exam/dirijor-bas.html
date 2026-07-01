@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen Dirijor de cor - Bas - MHO Music Academy</title>
+  <meta name="description" content="Trimite examenul online in siguranta prin platforma MHO Music Academy.">
+  <meta property="og:title" content="Examen Dirijor de cor - Bas - MHO Music Academy">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="../Logo MHO Academy.png">
+  <link rel="icon" type="image/png" href="../Logo MHO Academy.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../mobile.css?v=20260701-custom-group-picker">
+  <link rel="stylesheet" href="../glass-theme.css?v=20260602-cache-fix">
+  <link rel="stylesheet" href="../public-glass-pages.css?v=20260616-glass-transparency">
+  <link rel="stylesheet" href="../exam-pages.css?v=20260701-collapsible-assignment">
+  <script src="../i18n.js?v=20260604-group-ru-labels"></script>
+  <script src="../exam-config.js"></script>
+</head>
+<body class="public-glass-page exam-page exam-mobile-page min-h-screen">
+<nav class="public-glass-nav text-white shadow-lg sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex items-center"><h1 class="exam-brand text-lg font-bold">MHO Music Academy</h1></div>
+      <div class="hidden md:flex space-x-4">
+        <a href="../index.html" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-home">Acasa</a>
+        <a href="../noutati.html" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-news">Noutati</a>
+        <a href="../register.html" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-register">Inregistrare</a>
+        <a href="../exam.html" class="public-nav-link public-nav-link-active px-4 py-2 rounded-full" data-i18n="nav-exam">Examen</a>
+        <a href="../galerie.html" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-gallery">Galerie</a>
+        <a href="../admin.html" class="public-nav-link px-4 py-2 rounded-full transition hidden" data-admin-link="true" data-i18n="nav-admin">Admin</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<main id="mainContent" class="public-page-shell exam-shell max-w-3xl mx-auto px-4 py-8">
+  <div class="public-glass-panel exam-panel rounded-[2rem] p-8">
+    <a href="../exam.html" class="inline-flex items-center gap-2 text-sm font-bold text-blue-700 hover:text-blue-900 mb-6">&larr; Inapoi la lista examenelor</a>
+    <div class="mb-8">
+      <p class="text-sm uppercase tracking-[0.22em] font-black text-blue-700">Dirijor de cor</p>
+      <h2 class="exam-mobile-title text-3xl font-black text-gray-800 mt-2">Bas</h2>
+      <p class="exam-mobile-copy text-gray-600 mt-3">Trimite fisierele si informatiile tale pentru examenul de Bas.</p>
+    </div>
+    <div id="examFormMount"></div>
+  </div>
+</main>
+<div id="successModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+  <div id="successModalContent" class="bg-white rounded-3xl p-8 max-w-md w-full text-center transform scale-95 opacity-0 transition-all">
+    <h3 class="text-2xl font-black text-gray-900 mb-3">Examen trimis cu succes</h3>
+    <p class="text-gray-600 mb-6">Examenul tau a fost salvat in sistem.</p>
+    <button type="button" id="successModalClose" class="public-cta text-white px-6 py-3 rounded-2xl font-bold">Inchide</button>
+  </div>
+</div>
+<footer class="exam-footer public-glass-footer text-white py-8 mt-12">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+      <div><h3 class="text-xl font-bold mb-4">MHO Music Academy</h3></div>
+      <div><h4 class="text-lg font-semibold mb-4" data-i18n="footer-links-title">Link-uri Rapide</h4><ul class="space-y-2"><li><a href="../index.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-home">Acasa</a></li><li><a href="../noutati.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-news">Noutati</a></li><li><a href="../register.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-register">Inregistrare</a></li><li><a href="../exam.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-exam">Examen</a></li></ul></div>
+      <div><h4 class="text-lg font-semibold mb-4" data-i18n="footer-contact-title">Contact</h4><p class="text-amber-100 mb-2"><a href="tel:+37369956831" class="hover:text-white transition underline">+373 69 956 831</a><span class="text-sm block mt-1" data-i18n="footer-general-q">- pentru intrebari generale - Andrei Borinschi</span></p><p class="text-amber-100"><a href="tel:+37369430494" class="hover:text-white transition underline">+373 69 430 494</a><span class="text-sm block mt-1" data-i18n="footer-exam-q">- Oleg Șarcov - răspunzator de cursurile ORNI</span></p></div>
+    </div>
+    <div class="border-t border-amber-500 pt-6 text-center"><p class="text-amber-100">&copy; 2025 MHO Music Academy. <span data-i18n="footer-rights">Toate drepturile rezervate.</span></p></div>
+  </div>
+</footer>
+<script src="../posthog-analytics.js?v=20260530-posthog"></script>
+<script src="../mobile-menu.js?v=20260616-home-redirect"></script>
+<script>window.MHO_EXAM_PAGE = {"course":"Dirijor","courseLabel":"Dirijor de cor","instrument":"Bas","instrumentSlug":"dirijor-bas","pageTitle":"Examen Dirijor de cor - Bas"};</script>
+<script type="module" src="../exam-page.js?v=20260701-collapsible-assignment"></script>
+</body>
+</html>
