@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administrare materiale - MHO Music Academy</title>
+  <link rel="icon" type="image/png" href="Logo MHO Academy.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: Inter, sans-serif; }
+    .admin-authenticated #adminDashboard { display: block !important; }
+    #adminAccessLoading { display: flex; }
+    .admin-authenticated #adminAccessLoading { display: none !important; }
+  </style>
+  <link rel="stylesheet" href="mobile.css?v=20260701-custom-group-picker">
+  <link rel="stylesheet" href="glass-theme.css?v=20260602-cache-fix">
+  <link rel="stylesheet" href="admin-course-sections.css?v=20260602-cache-fix">
+  <link rel="stylesheet" href="course-materials.css?v=20260701-mobile-overflow-fix">
+  <script src="i18n.js?v=20260603-bilingual-membership"></script>
+  <script src="safe-dom.js"></script>
+  <script src="firebase-shared.js?v=20260602-teacher-allowlist"></script>
+  <script src="exam-config.js"></script>
+  <script src="admin-gate.js"></script>
+</head>
+<body class="admin-course-section-page min-h-screen flex flex-col">
+  <div id="adminAccessLoading" class="min-h-screen hidden items-center justify-center px-6 text-center">
+    <div class="bg-white rounded-2xl shadow-xl border border-amber-100 p-8 max-w-lg">
+      <h1 class="text-2xl font-bold text-gray-900 mb-3">Verificam accesul</h1>
+      <p class="text-gray-600">Te autentificam si verificam rolul tau de profesor.</p>
+    </div>
+  </div>
+  <div id="adminDashboard" class="hidden flex-grow">
+    <main class="admin-course-shell max-w-[95%] mx-auto px-4 py-10">
+      <section class="bg-white rounded-2xl shadow-lg border border-blue-200 overflow-hidden mb-8">
+        <div class="bg-gradient-to-r from-indigo-500 to-blue-500 px-10 py-10">
+          <h1 class="text-5xl font-bold text-white">Materiale de curs</h1>
+          <p class="text-white/85 mt-4 text-xl max-w-3xl">Incarca pentru elevi cantari, note, lectii de teorie si lectii de solfegiu.</p>
+        </div>
+        <div class="p-8 flex flex-wrap justify-between gap-4 items-center">
+          <a href="admin.html" class="materials-action">Inapoi la admin</a>
+          <a href="materiale.html" class="materials-action" target="_blank" rel="noopener">Vezi pagina elevilor</a>
+        </div>
+      </section>
+
+      <section class="materials-panel rounded-[1.5rem] p-8 mb-8">
+        <div class="flex flex-wrap justify-between gap-4 items-start mb-6">
+          <div>
+            <p class="text-sm uppercase tracking-[0.22em] font-black text-blue-700">Materiale</p>
+            <h2 id="adminMaterialCourseTitle" class="text-3xl font-black text-gray-900">Alege folderul</h2>
+            <p id="adminMaterialContext" class="text-slate-700 font-bold mt-2">Alege teoria, solfegiul sau instrumentul, apoi cursul unde incarci materialele.</p>
+          </div>
+          <label class="admin-material-course-picker">Curs
+            <select id="adminMaterialCoursePicker"></select>
+          </label>
+        </div>
+        <div id="adminMaterialFolderBrowser"></div>
+      </section>
+
+      <section id="adminMaterialUploadPanel" class="materials-panel rounded-[1.5rem] p-8 mb-8 hidden">
+        <div class="mb-6">
+          <p class="text-sm uppercase tracking-[0.22em] font-black text-blue-700">Incarcare</p>
+          <h2 id="adminMaterialUploadTitle" class="text-3xl font-black text-gray-900">Incarca material nou</h2>
+          <p id="adminMaterialUploadContext" class="text-slate-700 font-bold mt-2">Materialul va fi salvat in folderul ales.</p>
+        </div>
+        <div id="materialStatusMessage" class="hidden mb-6 p-4 rounded-lg"></div>
+        <form id="materialUploadForm" class="materials-admin-form">
+          <div class="materials-admin-form-grid admin-material-autofilled-controls">
+            <label>Curs
+              <select id="materialCourse" required></select>
+            </label>
+            <label>Instrument / sectiune
+              <select id="materialInstrument" required></select>
+            </label>
+            <label>Curs
+              <select id="materialSession" required>
+                <option value="Sesia 1-2">Curs 1-2</option>
+                <option value="Sesia 3-4">Curs 3-4</option>
+                <option value="Sesia 5-6">Curs 5-6</option>
+                <option value="Sesia 7">Curs 7</option>
+                <option value="__all__">Toate cursurile</option>
+              </select>
+            </label>
+            <label>Categorie
+              <select id="materialCategory" required>
+                <option value="cantari">Cantari</option>
+                <option value="note">Note</option>
+                <option value="teorie">Lectii de teorie</option>
+                <option value="solfegiu">Lectii de solfegiu</option>
+              </select>
+            </label>
+          </div>
+          <label id="adminMaterialCategoryChoiceWrap" class="hidden">Tip material
+            <select id="adminMaterialCategoryChoice">
+              <option value="cantari">Cantari</option>
+              <option value="note">Note</option>
+            </select>
+          </label>
+          <label>Titlu material
+            <input id="materialTitle" type="text" required placeholder="Ex: Lectia 1 - game majore">
+          </label>
+          <label>Descriere
+            <textarea id="materialDescription" rows="3" placeholder="Optional: detalii pentru elevi"></textarea>
+          </label>
+          <label>Fisier
+            <input id="materialFile" type="file" required accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.mp3,.mp4,.mov,.m4a,.wav">
+          </label>
+          <button id="materialUploadButton" type="submit" class="materials-admin-button w-full"><span id="materialUploadButtonText">Incarca materialul</span></button>
+        </form>
+      </section>
+
+      <section class="materials-panel rounded-[1.5rem] p-8">
+        <div class="flex flex-wrap justify-between gap-4 items-center mb-6">
+          <div>
+            <h2 id="adminMaterialListTitle" class="text-3xl font-black text-gray-900">Materiale incarcate</h2>
+            <p id="adminMaterialListContext" class="text-slate-700 font-bold mt-2">Alege un folder pentru a vedea materialele din el.</p>
+          </div>
+          <select id="materialListCourse" class="px-4 py-3 rounded-xl border"></select>
+        </div>
+        <div id="adminMaterialsList" class="materials-list"></div>
+      </section>
+    </main>
+  </div>
+  <footer class="text-white py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-amber-100">&copy; 2025 MHO Music Academy. Toate drepturile rezervate.</p>
+    </div>
+  </footer>
+  <script src="posthog-analytics.js?v=20260530-posthog"></script>
+    <script src="mobile-menu.js?v=20260616-home-redirect"></script>
+  <script type="module" src="admin-materials.js?v=20260603-final"></script>
+</body>
+</html>

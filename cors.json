@@ -1,0 +1,17 @@
+[
+  {
+    "origin": ["*"],
+    "method": ["GET", "HEAD", "OPTIONS"],
+    "responseHeader": ["Content-Type", "Content-Disposition"],
+    "maxAgeSeconds": 3600
+  }
+]
+
+function downloadImage(url, fileName) {
+  const a = document.createElement("a");
+  a.href = url;         // direct download link from Firebase Storage
+  a.download = fileName || "image.jpg";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}

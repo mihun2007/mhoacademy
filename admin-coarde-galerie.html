@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie Foto Coarde - MHO Music Academy</title>
+    <link rel="icon" type="image/png" href="Logo MHO Academy.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .admin-authenticated #adminDashboard { display: block !important; }
+        #adminAccessLoading { display: flex; }
+        .admin-authenticated #adminAccessLoading { display: none !important; }
+    </style>
+    
+    <link rel="stylesheet" href="mobile.css?v=20260701-custom-group-picker">
+    <link rel="stylesheet" href="glass-theme.css?v=20260602-cache-fix">
+    <link rel="stylesheet" href="admin-course-sections.css?v=20260602-cache-fix">
+    <script src="i18n.js?v=20260603-bilingual-membership"></script>
+    <script src="safe-dom.js"></script>
+    <script src="firebase-shared.js?v=20260602-teacher-allowlist"></script>
+    <script src="admin-gate.js"></script>
+
+</head>
+<body class="admin-course-section-page min-h-screen flex flex-col">
+    <div id="adminDashboard" class="hidden flex-grow">
+        <div class="admin-course-shell max-w-[95%] mx-auto px-4 py-10">
+            <div class="bg-white rounded-2xl shadow-lg border border-green-200 overflow-hidden">
+                <div class="bg-gradient-to-r from-green-500 to-emerald-500 px-10 py-10">
+                    <h2 class="text-5xl font-bold text-white flex items-center gap-3">
+                        <span class="text-5xl">📷</span>
+                        <span>Galerie Foto - Coarde</span>
+                    </h2>
+                    <p class="text-green-100 mt-4 text-xl max-w-3xl">
+                        Încarcă și gestionează fotografiile din cursurile Coarde.
+                    </p>
+                </div>
+
+                <div class="p-8">
+                    <div class="flex justify-between items-center border-b border-gray-200 pb-6 mb-6">
+                        <div>
+                            <p class="text-base uppercase tracking-wide text-gray-500">Secțiune Galerie</p>
+                        </div>
+                        <a href="admin-coarde.html" class="text-green-600 hover:text-green-900 font-bold text-lg flex items-center gap-2 px-6 py-3 bg-green-50 rounded-xl transition shadow-sm hover:shadow-md">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                            </svg>
+                            <span data-i18n="btn-back-to-menu">Înapoi la meniu</span> Coarde
+                        </a>
+                    </div>
+
+                    <div id="galleryStatusMessage" class="hidden mb-6 p-4 rounded-lg"></div>
+
+                    <form id="galleryUploadForm" class="space-y-8 mb-12">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <label for="galleryCourse" class="block text-lg font-medium text-gray-700 mb-2" data-i18n="table-th-course">Curs</label>
+                                <select id="galleryCourse" required class="w-full px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus-border-transparent text-lg">
+                                    <option value="COARDE">Coarde</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="galleryYear" class="block text-lg font-medium text-gray-700 mb-2" data-i18n="th-year">An</label>
+                                <input type="number" id="galleryYear" required class="w-full px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent text-lg" placeholder="Ex: 2025" value="2025">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="flex items-center justify-center w-full">
+                                <label for="galleryImages" class="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                        <svg class="w-12 h-12 mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                        </svg>
+                                        <p class="mb-2 text-lg text-gray-500"><span class="font-semibold" data-i18n="label-click-for-files">Click pentru fișiere</span></p>
+                                        <p class="text-sm text-gray-400" data-i18n="label-allowed-formats-gallery">PNG, JPG sau JPEG</p>
+                                    </div>
+                                    <input id="galleryImages" type="file" class="hidden" multiple accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" />
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-center w-full">
+                                <label for="galleryFolder" class="flex flex-col items-center justify-center w-full h-48 border-2 border-amber-300 border-dashed rounded-xl cursor-pointer bg-amber-50 hover:bg-amber-100 transition">
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                        <svg class="w-12 h-12 mb-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                                        </svg>
+                                        <p class="mb-2 text-lg text-amber-700"><span class="font-semibold" data-i18n="label-click-for-folder">Click pentru folder</span></p>
+                                        <p class="text-sm text-amber-600" data-i18n="label-upload-folder-desc">Încarcă un folder întreg</p>
+                                    </div>
+                                    <input id="galleryFolder" type="file" class="hidden" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" webkitdirectory directory multiple />
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="galleryFilesInfo" class="mt-4 hidden p-4 bg-gray-50 rounded-xl">
+                            <p class="text-lg text-gray-600">
+                                <span id="galleryFilesCount" class="font-bold text-green-600"></span> fișiere selectate
+                                <span id="galleryFolderName" class="text-amber-600 font-bold ml-2"></span>
+                            </p>
+                        </div>
+                        <div id="galleryUploadProgress" class="hidden rounded-xl border border-green-200 bg-green-50 p-4">
+                            <div class="mb-2 flex items-center justify-between gap-4 text-sm font-bold text-green-900">
+                                <span id="galleryUploadProgressLabel">Pregătim încărcarea...</span>
+                                <span id="galleryUploadProgressPercent">0%</span>
+                            </div>
+                            <div class="h-3 overflow-hidden rounded-full bg-white shadow-inner">
+                                <div id="galleryUploadProgressBar" class="h-full w-0 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 transition-all duration-200"></div>
+                            </div>
+                            <p id="galleryUploadProgressFile" class="mt-2 truncate text-xs text-green-700"></p>
+                        </div>
+
+                        <button type="submit" id="galleryUploadBtn" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-5 rounded-xl font-bold text-xl hover:from-green-700 hover:to-emerald-700 transition shadow-lg flex items-center justify-center gap-2">
+                            <span id="galleryUploadBtnText" data-i18n="btn-upload-photos">Încarcă Fotografiile</span>
+                        </button>
+                    </form>
+
+                    <div class="mt-16">
+                        <h3 class="text-3xl font-bold text-gray-800 mb-8">Albume Coarde</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-green-50">
+                                    <tr>
+                                        <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="table-th-course">Curs</th>
+                                        <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="th-year">An</th>
+                                        <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="th-photos-count">Număr Fotografii</th>
+                                        <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="table-th-actions">Acțiuni</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="gallerySummaryTableBody" class="bg-white divide-y divide-gray-200 text-lg">
+                                    <tr>
+                                        <td colspan="4" class="px-8 py-10 text-center text-gray-500 text-xl italic"><span data-i18n="loading-gallery">Se încarcă galeria...</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">MHO Music Academy</h3>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4" data-i18n="footer-links-title">Link-uri Rapide</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-home">Acasă</a></li>
+                        <li><a href="noutati.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-news">Noutăți</a></li>
+                        <li><a href="register.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-register">Înregistrare</a></li>
+                        <li><a href="exam.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-exam">Examen</a></li>
+                        <li><a href="galerie.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-gallery">Galerie</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4" data-i18n="footer-contact-title">Contact</h4>
+                    <p class="text-amber-100 mb-2">
+                        <a href="tel:+37369956831" class="hover:text-white transition underline">+373 69 956 831</a>
+                        <span class="text-sm block mt-1" data-i18n="footer-general-q">- pentru întrebări generale - Andrei Borinschi</span>
+                    </p>
+                    <p class="text-amber-100 mb-2">
+                        <a href="tel:+37369597497" class="hover:text-white transition underline">+373 69 597 497</a>
+                        <span class="text-sm block mt-1" data-i18n="footer-tech-assist">- pentru asistență tehnică - Mihail Borinschi</span>
+                    </p>
+                    <p class="text-amber-100">
+                        <a href="tel:+37369430494" class="hover:text-white transition underline">+373 69 430 494</a>
+                        <span class="text-sm block mt-1" data-i18n="footer-exam-q">- Oleg Șarcov - răspunzator de cursurile ORNI</span>
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-amber-500 pt-6 text-center">
+                <p class="text-amber-100">&copy; 2025 MHO Music Academy. <span data-i18n="footer-rights">Toate drepturile rezervate.</span></p>
+            </div>
+        </div>
+    </footer>
+    <script src="posthog-analytics.js?v=20260530-posthog"></script>
+    <script src="mobile-menu.js?v=20260616-home-redirect"></script>
+
+    
+
+    <script type="module">
+        import { getApp, getApps, initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+        import { getFirestore, collection, query, onSnapshot, orderBy, doc, deleteDoc, addDoc, serverTimestamp, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+        import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
+
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyAV0_Buy_KKD4TSe-1IpByCVoZFoRJQaNE",
+            authDomain: "mho-music-academy.firebaseapp.com",
+            projectId: "mho-music-academy",
+            storageBucket: "mho-music-academy.firebasestorage.app",
+            messagingSenderId: "705322739069",
+            appId: "1:705322739069:web:422b6fd0c7a08ab8921814",
+            measurementId: "G-CF5HDVT6MK"
+        };
+
+
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+        const COURSE_TYPE = "COARDE";
+
+        const esc = (value) => window.SafeDOM.escapeHTML(value);
+        const safeLink = (value) => window.SafeDOM.safeURL(value);
+
+        function formatDate(timestamp) {
+            if (!timestamp) return '-';
+            try {
+                const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+                if (isNaN(date.getTime())) return '-';
+                return date.toLocaleDateString(window.i18n ? (window.i18n.getLanguage() === 'ru' ? 'ru-RU' : 'ro-RO') : 'ro-RO', { 
+                    year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+            } catch (e) { return '-'; }
+        }
+
+        const galleryUploadForm = document.getElementById('galleryUploadForm');
+        const gallerySummaryTableBody = document.getElementById('gallerySummaryTableBody');
+        const statusMsg = document.getElementById('galleryStatusMessage');
+        const filesInfo = document.getElementById('galleryFilesInfo');
+        const filesCount = document.getElementById('galleryFilesCount');
+        const folderName = document.getElementById('galleryFolderName');
+        const uploadBtn = document.getElementById('galleryUploadBtn');
+        const uploadBtnText = document.getElementById('galleryUploadBtnText');
+        const uploadProgress = document.getElementById('galleryUploadProgress');
+        const uploadProgressLabel = document.getElementById('galleryUploadProgressLabel');
+        const uploadProgressPercent = document.getElementById('galleryUploadProgressPercent');
+        const uploadProgressBar = document.getElementById('galleryUploadProgressBar');
+        const uploadProgressFile = document.getElementById('galleryUploadProgressFile');
+
+        const imagesInput = document.getElementById('galleryImages');
+        const folderInput = document.getElementById('galleryFolder');
+
+        function updateInfo() {
+            const files = [...(imagesInput.files || []), ...(folderInput.files || [])];
+            if (files.length > 0) {
+                filesInfo.classList.remove('hidden');
+                filesCount.textContent = files.length;
+                if (folderInput.files.length > 0 && folderInput.files[0].webkitRelativePath) {
+                    folderName.textContent = `(Folder: ${folderInput.files[0].webkitRelativePath.split('/')[0]})`;
+                } else {
+                    folderName.textContent = '';
+                }
+            } else {
+                filesInfo.classList.add('hidden');
+            }
+        }
+
+        if (imagesInput) imagesInput.onchange = updateInfo;
+        if (folderInput) folderInput.onchange = updateInfo;
+
+        function showGalStatus(msg, type) {
+            if (!statusMsg) return;
+            statusMsg.textContent = msg;
+            statusMsg.className = `p-4 rounded-lg mb-6 ${type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
+            statusMsg.classList.remove('hidden');
+            setTimeout(() => statusMsg.classList.add('hidden'), 5000);
+        }
+
+        function isSupportedGalleryFile(file) {
+            return ['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || /\.(jpe?g|png|webp)$/i.test(file.name || '');
+        }
+
+        function updateUploadProgress(completedFiles, totalFiles, completedBytes, totalBytes, currentFileName) {
+            if (!uploadProgress) return;
+            const percent = Math.min(100, Math.round((completedBytes / Math.max(totalBytes, 1)) * 100));
+            uploadProgress.classList.remove('hidden');
+            uploadProgressLabel.textContent = `Se încarcă ${completedFiles}/${totalFiles} fotografii`;
+            uploadProgressPercent.textContent = `${percent}%`;
+            uploadProgressBar.style.width = `${percent}%`;
+            uploadProgressFile.textContent = currentFileName ? `Fișier curent: ${currentFileName}` : '';
+        }
+
+        function resetUploadProgress() {
+            if (!uploadProgress) return;
+            uploadProgress.classList.add('hidden');
+            uploadProgressBar.style.width = '0%';
+            uploadProgressPercent.textContent = '0%';
+            uploadProgressLabel.textContent = 'Pregătim încărcarea...';
+            uploadProgressFile.textContent = '';
+        }
+
+        function uploadFileWithProgress(fileRef, file, metadata, onProgress) {
+            return new Promise((resolve, reject) => {
+                const task = uploadBytesResumable(fileRef, file, metadata);
+                task.on('state_changed', (snapshot) => {
+                    onProgress(snapshot.bytesTransferred, snapshot.totalBytes);
+                }, reject, () => resolve(task.snapshot));
+            });
+        }
+
+        if (galleryUploadForm) {
+            galleryUploadForm.onsubmit = async (e) => {
+                e.preventDefault();
+                const files = [...(imagesInput.files || []), ...(folderInput.files || [])];
+                if (files.length === 0) return;
+                const unsupportedFiles = files.filter(file => !isSupportedGalleryFile(file));
+                if (unsupportedFiles.length > 0) {
+                    showGalStatus(`Format neacceptat: ${unsupportedFiles[0].name}. Folosește JPG, PNG sau WEBP.`, 'error');
+                    return;
+                }
+
+                const year = document.getElementById('galleryYear').value;
+                const course = document.getElementById('galleryCourse').value;
+
+                try {
+                    uploadBtn.disabled = true;
+                    resetUploadProgress();
+                    let completedFiles = 0;
+                    let completedBytes = 0;
+                    const totalBytes = files.reduce((sum, file) => sum + file.size, 0);
+                    updateUploadProgress(0, files.length, 0, totalBytes, '');
+                    for (const file of files) {
+                        uploadBtnText.textContent = `Se încarcă (${completedFiles + 1}/${files.length})...`;
+                        const path = `gallery/${course}/${year}/${Date.now()}_${file.name}`;
+                        const fileRef = ref(storage, path);
+                        const metadata = {
+                            contentType: file.type || 'image/jpeg',
+                            cacheControl: 'public,max-age=31536000'
+                        };
+                        const snap = await uploadFileWithProgress(fileRef, file, metadata, (bytesTransferred) => {
+                            updateUploadProgress(completedFiles, files.length, completedBytes + bytesTransferred, totalBytes, file.name);
+                        });
+                        completedBytes += file.size;
+                        completedFiles++;
+                        const url = await getDownloadURL(snap.ref);
+
+                        await addDoc(collection(db, 'gallery'), {
+                            course,
+                            year,
+                            albumKey: `${course}_${year}`,
+                            folderPath: `gallery/${course}/${year}`,
+                            imageURL: url,
+                            imagePath: fileRef.fullPath,
+                            storagePath: fileRef.fullPath,
+                            fileName: file.name,
+                            contentType: file.type || 'image/jpeg',
+                            uploadedAt: serverTimestamp(),
+                            createdAt: serverTimestamp()
+                        });
+                        updateUploadProgress(completedFiles, files.length, completedBytes, totalBytes, '');
+                    }
+                    showGalStatus('Fotografii încărcate cu succes!', 'success');
+                    galleryUploadForm.reset();
+                    filesInfo.classList.add('hidden');
+                } catch (error) {
+                    console.error(error);
+                    showGalStatus('Eroare la încărcare!', 'error');
+                } finally {
+                    uploadBtn.disabled = false;
+                    uploadBtnText.textContent = 'Încarcă Fotografiile';
+                }
+            };
+        }
+
+        onSnapshot(query(collection(db, 'gallery'), orderBy('createdAt', 'desc')), (snapshot) => {
+            const all = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+                .filter(g => (g.course || '').toUpperCase().includes(COURSE_TYPE));
+
+            if (gallerySummaryTableBody) {
+                const groups = all.reduce((acc, curr) => {
+                    const key = `${curr.course}-${curr.year}`;
+                    if (!acc[key]) acc[key] = { course: curr.course, year: curr.year, count: 0, items: [] };
+                    acc[key].count++;
+                    acc[key].items.push(curr);
+                    return acc;
+                }, {});
+
+                const sorted = Object.values(groups).sort((a,b) => b.year - a.year);
+
+                if (sorted.length === 0) {
+                    gallerySummaryTableBody.innerHTML = `<tr><td colspan="4" class="px-8 py-10 text-center text-gray-500 italic">Nu sunt fotografii.</td></tr>`;
+                    return;
+                }
+
+                gallerySummaryTableBody.innerHTML = sorted.map(g => `
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-8 py-6 font-bold text-green-700">${esc(g.course)}</td>
+                        <td class="px-8 py-6 font-medium">${esc(g.year)}</td>
+                        <td class="px-8 py-6">${g.count} fotografii</td>
+                        <td class="px-8 py-6">
+                            <button onclick="deleteAlbum('${esc(g.course)}', '${esc(g.year)}')" class="text-red-600 hover:text-red-900 bg-red-50 px-4 py-2 rounded-lg transition-colors">Șterge Album</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        });
+
+        window.deleteAlbum = async (course, year) => {
+            if (confirm(`Sigur ștergeți tot albumul ${course} ${year}?`)) {
+                const q = query(collection(db, 'gallery'));
+                const snap = await getDocs(q);
+                const items = snap.docs.filter(d => d.data().course === course && d.data().year === year);
+                for (const item of items) {
+                    const data = item.data();
+                    if (data.imagePath) await deleteObject(ref(storage, data.imagePath)).catch(e => console.error(e));
+                    await deleteDoc(doc(db, 'gallery', item.id));
+                }
+            }
+        };
+    </script>
+</body>
+</html>

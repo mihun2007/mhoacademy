@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="admin-conductor-registrations-title">Înregistrări Studenți Dirijor - MHO Music Academy</title>
+    <link rel="icon" type="image/png" href="Logo MHO Academy.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .admin-authenticated #adminDashboard { display: block !important; }
+        #adminAccessLoading { display: flex; }
+        .admin-authenticated #adminAccessLoading { display: none !important; }
+    </style>
+    
+    <link rel="stylesheet" href="mobile.css?v=20260701-custom-group-picker">
+    <link rel="stylesheet" href="glass-theme.css?v=20260602-cache-fix">
+    <link rel="stylesheet" href="admin-course-sections.css?v=20260602-cache-fix">
+    <script src="i18n.js?v=20260603-bilingual-membership"></script>
+    <script src="safe-dom.js"></script>
+    <script src="firebase-shared.js?v=20260602-teacher-allowlist"></script>
+    <script src="admin-gate.js"></script>
+    <script src="membership-verification.js?v=20260603-bilingual-membership"></script>
+
+</head>
+<body class="admin-course-section-page min-h-screen flex flex-col">
+    <div id="adminAccessLoading" class="min-h-screen hidden items-center justify-center px-6 text-center">
+        <div class="bg-white rounded-2xl shadow-xl border border-amber-100 p-8 max-w-lg">
+            <h1 class="text-2xl font-bold text-gray-900 mb-3">Verificăm accesul</h1>
+            <p class="text-gray-600">Te autentificăm și verificăm rolul tău de profesor înainte să deschidem panoul.</p>
+        </div>
+    </div>
+    <!-- Admin Dashboard (hidden until authenticated) -->
+    <div id="adminDashboard" class="hidden flex-grow">
+        <div class="max-w-[95%] mx-auto px-4 py-10">
+            <div class="bg-white rounded-2xl shadow-lg border border-amber-200 overflow-hidden">
+                <div class="bg-gradient-to-r from-amber-500 to-orange-500 px-10 py-10 flex flex-wrap justify-between items-center gap-6">
+                    <div>
+                        <h2 class="text-5xl font-bold text-white flex items-center gap-3">
+                            <span class="text-5xl">👥</span>
+                            <span><span data-i18n="admin-panel-registrations">Înregistrări Studenți</span> Dirijor</span>
+                        </h2>
+                        <p class="text-amber-100 mt-4 text-xl max-w-3xl">
+                            <span data-i18n="admin-panel-registrations-conductor-desc">Accesează înregistrările studenților înscriși la cursul Dirijor.</span>
+                        </p>
+                    </div>
+                    <button 
+                        onclick="exportToExcel()" 
+                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl text-lg font-bold flex items-center gap-3 transition shadow-lg hover:shadow-xl transform hover:scale-105"
+                    >
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Export Excel
+                    </button>
+                </div>
+
+                <div class="p-8">
+                    <div class="flex flex-wrap justify-between items-center border-b border-gray-200 pb-6 mb-6 gap-4">
+                        <div class="flex items-center gap-8">
+                            <div>
+                                <p class="text-base uppercase tracking-wide text-gray-500" data-i18n="admin-panel-total-registrations">Total înregistrări</p>
+                                <p class="text-5xl font-bold text-amber-600" id="totalRegistrations">0</p>
+                            </div>
+                            <div class="bg-amber-50 p-4 rounded-xl border border-amber-100 ">
+                                <div>
+                                    <label for="groupFilter" class="block text-sm font-bold text-amber-800 mb-2">Filtrează după Grupă:</label>
+                                    <select id="groupFilter" class="bg-white border border-amber-200 text-gray-900 text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5 shadow-sm">
+                                        <option value="all">Toate grupele</option>
+                                        <option value="none">Fără grupă</option>
+                                        <option value="Sesia 1 (grupa B)">Curs 1 (grupa B)</option>
+                                        <option value="Sesia 2 (grupa A)">Curs 2 (grupa A)</option>
+                                        <option value="Sesia 3 (armonie)">Curs 3 (armonie)</option>
+                                        <option value="Sesia 4 (armonie)">Curs 4 (armonie)</option>
+                                        <option value="Sesia 5 (armonie)">Curs 5 (armonie)</option>
+                                        <option value="Sesia 6 (armonie)">Curs 6 (armonie)</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <a href="admin-dirijor.html" class="text-amber-600 hover:text-amber-800 font-bold text-lg flex items-center gap-2 px-6 py-3 bg-amber-50 rounded-xl transition shadow-sm hover:shadow-md">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                            </svg>
+                            <span data-i18n="admin-panel-back-to">Înapoi la meniul Dirijor</span>
+                        </a>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-amber-50">
+                                <tr>
+                                    <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="table-th-name">Nume</th>
+                                    <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="table-th-birth-date">Data Nașterii</th>
+                                    <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="table-th-church">Biserică</th>
+                                    <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="table-th-pastor">Pastor</th>
+                                    <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="table-th-pastor-phone">Tel. Pastor</th>
+                                    <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="table-th-member-status">Status membru</th>
+                                    <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider whitespace-normal min-w-[180px]" data-i18n="table-th-whatsapp-verification">Verificare WhatsApp</th>
+                                    <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="table-th-course">Curs</th>
+                                    <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="table-th-voice">Voce</th>
+                                    <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="table-th-group">Grupă</th>
+                                    <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider whitespace-normal min-w-[180px]" data-i18n="table-th-previous-courses">Cursuri anterioare</th>
+                                    <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="table-th-registered">Înregistrat</th>
+                                    <th class="px-8 py-5 text-left text-sm font-bold text-gray-700 uppercase tracking-wider" data-i18n="table-th-actions">Acțiuni</th>
+                                </tr>
+                            </thead>
+                            <tbody id="registrationsTableBody" class="bg-white divide-y divide-gray-200 text-lg">
+                                <tr>
+                                    <td colspan="13" class="px-8 py-10 text-center text-gray-500 text-xl italic" data-i18n="loading-registrations"><span data-i18n="loading-registrations">Se încarcă înregistrările...</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-amber-600 to-orange-600 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">MHO Music Academy</h3>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4" data-i18n="footer-links-title">Link-uri Rapide</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-home">Acasă</a></li>
+                        <li><a href="noutati.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-news">Noutăți</a></li>
+                        <li><a href="register.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-register">Înregistrare</a></li>
+                        <li><a href="exam.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-exam">Examen</a></li>
+                        <li><a href="galerie.html" class="text-amber-100 hover:text-white transition" data-i18n="nav-gallery">Galerie</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4" data-i18n="footer-contact-title">Contact</h4>
+                    <p class="text-amber-100 mb-2">
+                        <a href="tel:+37369956831" class="hover:text-white transition underline">+373 69 956 831</a>
+                        <span class="text-sm block mt-1" data-i18n="footer-general-q">- pentru întrebări generale - Andrei Borinschi</span>
+                    </p>
+                    <p class="text-amber-100 mb-2">
+                        <a href="tel:+37369597497" class="hover:text-white transition underline">+373 69 597 497</a>
+                        <span class="text-sm block mt-1" data-i18n="footer-tech-assist">- pentru asistență tehnică - Mihail Borinschi</span>
+                    </p>
+                    <p class="text-amber-100">
+                        <a href="tel:+37369430494" class="hover:text-white transition underline">+373 69 430 494</a>
+                        <span class="text-sm block mt-1" data-i18n="footer-exam-q">- Oleg Șarcov - răspunzator de cursurile ORNI</span>
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-amber-500 pt-6 text-center">
+                <p class="text-amber-100">&copy; 2025 MHO Music Academy. <span data-i18n="footer-rights">Toate drepturile rezervate.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    
+    <script src="posthog-analytics.js?v=20260530-posthog"></script>
+    <script src="mobile-menu.js?v=20260616-home-redirect"></script>
+
+    
+
+    <script type="module">
+        import { getApp, getApps, initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+        import { getFirestore, collection, query, onSnapshot, orderBy, doc, deleteDoc, addDoc, serverTimestamp, getDocs, updateDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
+
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyAV0_Buy_KKD4TSe-1IpByCVoZFoRJQaNE",
+            authDomain: "mho-music-academy.firebaseapp.com",
+            projectId: "mho-music-academy",
+            storageBucket: "mho-music-academy.firebasestorage.app",
+            messagingSenderId: "705322739069",
+            appId: "1:705322739069:web:422b6fd0c7a08ab8921814",
+            measurementId: "G-CF5HDVT6MK"
+        };
+
+
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+        const COURSE_TYPE = "DIRIJOR";
+
+        const esc = (value) => window.SafeDOM.escapeHTML(value);
+        const safeLink = (value) => window.SafeDOM.safeURL(value);
+
+        function formatDate(timestamp) {
+            if (!timestamp) return '-';
+            try {
+                const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+                if (isNaN(date.getTime())) return '-';
+                return date.toLocaleDateString(window.i18n ? (window.i18n.getLanguage() === 'ru' ? 'ru-RU' : 'ro-RO') : 'ro-RO', { 
+                    year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+            } catch (e) { return '-'; }
+        }
+
+        const registrationsTableBody = document.getElementById('registrationsTableBody');
+        const totalRegistrations = document.getElementById('totalRegistrations');
+        const groupFilter = document.getElementById('groupFilter');
+        let currentCourseData = [];
+        const membershipHelpers = window.MHOMembershipVerification;
+
+        function t(key, fallback) {
+            const value = window.i18n ? window.i18n.t(key) : '';
+            return value && value !== key ? value : fallback;
+        }
+
+        function instrumentLabel(reg) {
+            const slug = reg.instrumentSlug || '';
+            const key = slug ? `materials-folder-${slug}` : '';
+            const translated = key && window.i18n ? window.i18n.t(key) : '';
+            return translated && translated !== key ? translated : (reg.instrument || reg.voice || '-');
+        }
+
+        function getCourseLabel(value) {
+            const normalized = String(value || '').trim().toLowerCase();
+            const map = {
+                orni: 'course-orni',
+                coarde: 'course-strings',
+                aerofone: 'course-aerophones',
+                dirijor: 'course-conductor',
+            };
+            return map[normalized] ? t(map[normalized], value) : value;
+        }
+
+        function getCourseLevelLabel(value) {
+            const normalized = String(value || '').trim().toLowerCase();
+            const map = {
+                'sesia 1-2': 'course-level-1-2',
+                'sesia 3-4': 'course-level-3-4',
+                'sesia 5-6': 'course-level-5-6',
+            };
+            return map[normalized] ? t(map[normalized], value) : value;
+        }
+
+        function getPreviousCourseSummary(registration) {
+            if (!registration?.hasPreviousCourse) return t('previous-course-no', 'Nu');
+            const course = registration.previousCourseTypeLabel || getCourseLabel(registration.previousCourseType);
+            const level = registration.previousCourseLevelLabel || getCourseLevelLabel(registration.previousCourseLevel);
+            const detail = [course, level].filter(Boolean).join(' / ');
+            return detail ? `${t('previous-course-yes', 'Da')}: ${detail}` : t('previous-course-yes', 'Da');
+        }
+
+        function renderMembershipBadge(registration) {
+            const status = membershipHelpers.getMembershipStatus(registration);
+            const meta = membershipHelpers.getMembershipBadgeMeta(status);
+            const label = t(`membership-status-${status}`, meta.label);
+            return `<span class="inline-flex items-center px-3 py-1 text-sm font-bold rounded-full ${meta.classes}">${esc(label)}</span>`;
+        }
+
+        function renderMembershipWhatsAppAction(registration) {
+            const status = membershipHelpers.getMembershipStatus(registration);
+            if (!membershipHelpers.inferChurchMember(registration) || status !== 'pending') {
+                return '<span class="text-sm text-gray-400">-</span>';
+            }
+            const normalizedPhone = membershipHelpers.normalizePastorPhone(registration.pastorPhone);
+            if (!normalizedPhone) {
+                return `<span class="text-sm text-gray-400">${esc(t('membership-no-valid-phone', 'Fără număr valid'))}</span>`;
+            }
+            return `<button type="button" onclick="window.openMembershipWhatsApp('${registration.id}')" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl text-sm font-bold transition shadow-sm hover:shadow-md"><span>🟢</span><span>${esc(t('membership-send-whatsapp', 'Trimite pe WhatsApp'))}</span></button>`;
+        }
+
+        function renderTable(data) {
+            if (!registrationsTableBody) return;
+            if (data.length === 0) {
+                registrationsTableBody.innerHTML = `<tr><td colspan="13" class="px-8 py-10 text-center text-gray-500 text-xl italic">${window.i18n ? window.i18n.t('status-no-registrations') : 'Nu s-au găsit înregistrări.'}</td></tr>`;
+                return;
+            }
+            registrationsTableBody.innerHTML = data.map(reg => `
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-8 py-6 whitespace-nowrap text-lg font-semibold text-gray-900">${esc(reg.firstName)} ${esc(reg.lastName)}</td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-600">${formatDate(reg.birthDate)}</td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-600">${esc(reg.church || '-')}</td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-600">${esc(reg.pastorName || '-')}</td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-600">${esc(membershipHelpers.normalizePastorPhone(reg.pastorPhone) || reg.pastorPhone || '-')}</td>
+                    <td class="px-8 py-6 whitespace-nowrap">${renderMembershipBadge(reg)}</td>
+                    <td class="px-8 py-6 whitespace-nowrap min-w-[180px]">${renderMembershipWhatsAppAction(reg)}</td>
+                    <td class="px-8 py-6 whitespace-nowrap">
+                        <span class="px-4 py-2 text-sm font-bold rounded-full bg-amber-100 text-amber-800">${esc(reg.courseType || COURSE_TYPE)}</span>
+                    </td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-600">${esc(instrumentLabel(reg))}</td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-600">
+                        <span class="px-3 py-1 rounded-lg ${ (reg.group || reg.studentGroup) ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-400 italic' }">
+                            ${esc(reg.group || reg.studentGroup || 'Nicio grupă')}
+                        </span>
+                    </td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-600">${esc(getPreviousCourseSummary(reg))}</td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-500">${formatDate(reg.timestamp || reg.createdAt)}</td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base font-bold">
+                        <button onclick="deleteDocItem('registrations', '${esc(reg.id)}')" class="text-red-600 hover:text-red-900 bg-red-50 px-4 py-2 rounded-lg transition-colors">${window.i18n ? window.i18n.t('btn-delete') : 'Șterge'}</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterData() {
+            if (!groupFilter) return;
+            const selectedGroup = groupFilter.value;
+            let filtered = currentCourseData;
+            if (selectedGroup !== 'all') {
+                if (selectedGroup === 'none') {
+                    filtered = currentCourseData.filter(reg => !reg.group && !reg.studentGroup);
+                } else {
+                    filtered = currentCourseData.filter(reg => reg.group === selectedGroup || reg.studentGroup === selectedGroup);
+                }
+            }
+            renderTable(filtered);
+        }
+
+        if (groupFilter) groupFilter.addEventListener('change', filterData);
+
+        const q = query(collection(db, 'registrations'), orderBy('timestamp', 'desc'));
+        onSnapshot(q, (snapshot) => {
+            const allData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            const courseData = allData.filter(reg => {
+                const course = (reg.courseType || reg.course || reg.selectedCourse || reg.instrument || '').toUpperCase();
+                return course.includes(COURSE_TYPE);
+            });
+            if (totalRegistrations) totalRegistrations.textContent = courseData.length;
+            currentCourseData = courseData;
+            filterData();
+        });
+
+        window.deleteDocItem = async (coll, id) => {
+            if (confirm('Sigur doriți să ștergeți?')) {
+                try {
+                    await deleteDoc(doc(db, coll, id));
+                } catch (e) { console.error(e); }
+            }
+        };
+
+        window.openMembershipWhatsApp = async (id) => {
+            const registration = currentCourseData.find((item) => item.id === id);
+            if (!registration) {
+                alert(t('membership-registration-not-found', 'Înregistrarea nu a fost găsită.'));
+                return;
+            }
+            const whatsappUrl = membershipHelpers.buildWhatsAppUrl(registration);
+            if (!whatsappUrl) {
+                alert(t('membership-not-enough-whatsapp-data', 'Nu există date suficiente pentru trimiterea mesajului pe WhatsApp.'));
+                return;
+            }
+            window.open(whatsappUrl, '_blank', 'noopener');
+            try {
+                await updateDoc(doc(db, 'registrations', id), { whatsappMessageOpenedAt: serverTimestamp() });
+            } catch (error) {
+                console.warn('Nu am putut salva whatsappMessageOpenedAt:', error);
+            }
+        };
+    
+        window.exportToExcel = function() {
+            if (!currentCourseData || currentCourseData.length === 0) {
+                alert("Nu există date de exportat!");
+                return;
+            }
+
+            try {
+                const headers = [
+                    "Nume", 
+                    "Prenume", 
+                    "Data Nașterii", 
+                    "Biserică", 
+                    "Pastor", 
+                    "Tel. Pastor",
+                    "Curs", 
+                    "Voce",
+                    "Grupă",
+                    "Cursuri anterioare",
+                    "Membru",
+                    "Data Înregistrării",
+                    "Email",
+                    "Telefon",
+                    "Oraș",
+                    "Note"
+                ];
+
+                let csvContent = "\uFEFF"; 
+                csvContent += headers.join(";") + "\n";
+
+                currentCourseData.forEach(r => {
+                    const row = [
+                        r.lastName || "",
+                        r.firstName || "",
+                        r.birthDate || "",
+                        r.church || "",
+                        r.pastorName || "",
+                        r.pastorPhone || "",
+                        r.courseType || COURSE_TYPE,
+                        instrumentLabel(r),
+                        r.group || r.studentGroup || "",
+                        getPreviousCourseSummary(r),
+                        (r.isChurchMember || r.dirijorIsMember || r.isMember) ? "Da" : "Nu",
+                        formatDate(r.timestamp || r.createdAt),
+                        r.email || "",
+                        r.phone || "",
+                        r.city || "",
+                        (r.notes || "").replace(/(\r\n|\n|\r|;)/gm, " ")
+                    ];
+                    const escapedRow = row.map(val => `"${String(val).replace(/"/g, '""')}"`);
+                    csvContent += escapedRow.join(";") + "\n";
+                });
+
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                const fileName = `Inregistrari_${COURSE_TYPE}_${new Date().toISOString().split('T')[0]}.csv`;
+                
+                link.setAttribute("href", url);
+                link.setAttribute("download", fileName);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (error) {
+                console.error("Export failed:", error);
+                alert("Eroare la export!");
+            }
+        };
+</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista studenti - MHO Music Academy</title>
+  <link rel="icon" type="image/png" href="Logo MHO Academy.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: Inter, sans-serif; }
+    .admin-authenticated #adminDashboard { display: block !important; }
+    #adminAccessLoading { display: flex; }
+    .admin-authenticated #adminAccessLoading { display: none !important; }
+  </style>
+  <link rel="stylesheet" href="mobile.css?v=20260701-custom-group-picker">
+  <link rel="stylesheet" href="glass-theme.css?v=20260602-cache-fix">
+  <link rel="stylesheet" href="admin-course-sections.css?v=20260602-cache-fix">
+  <script src="i18n.js?v=20260603-bilingual-membership"></script>
+  <script src="safe-dom.js"></script>
+  <script src="firebase-shared.js?v=20260602-teacher-allowlist"></script>
+  <script src="exam-config.js"></script>
+  <script src="admin-gate.js"></script>
+</head>
+<body class="admin-course-section-page min-h-screen flex flex-col">
+  <div id="adminAccessLoading" class="min-h-screen hidden items-center justify-center px-6 text-center">
+    <div class="bg-white rounded-2xl shadow-xl border border-amber-100 p-8 max-w-lg">
+      <h1 class="text-2xl font-bold text-gray-900 mb-3" data-i18n="admin-checking-access-title">Verificam accesul</h1>
+      <p class="text-gray-600" data-i18n="admin-checking-access-desc">Te autentificam si verificam rolul tau de profesor.</p>
+    </div>
+  </div>
+
+  <div id="adminDashboard" class="hidden flex-grow">
+    <div class="admin-course-shell max-w-[95%] mx-auto px-4 py-10">
+      <section class="bg-white rounded-2xl shadow-lg border border-sky-200 overflow-hidden mb-8">
+        <div class="bg-gradient-to-r from-sky-500 to-blue-600 px-10 py-10">
+          <p class="text-white/80 uppercase tracking-[0.28em] font-black mb-3" data-i18n="admin-students-kicker">Catalog studenti</p>
+          <h1 class="text-5xl font-black text-white"><span data-i18n="admin-students-title">Lista studentilor</span> - <span id="courseTitle">ORNI</span></h1>
+          <p class="text-white/85 mt-4 text-xl max-w-4xl" data-i18n="admin-students-desc">Studentii apar automat dupa inscriere. Profesorii pot completa instrumentul, grupa si pot adauga studenti manual.</p>
+        </div>
+        <div class="p-8 flex flex-wrap justify-between items-end gap-5">
+          <div>
+            <p class="text-base uppercase tracking-wide text-gray-500" data-i18n="admin-students-total">Total studenti</p>
+            <p class="text-5xl font-bold text-sky-700" id="totalStudents">0</p>
+          </div>
+          <div class="flex flex-wrap gap-4 items-end">
+            <label class="block">
+              <span class="block text-sm font-bold text-gray-700 mb-2" data-i18n="common-course">Curs</span>
+              <select id="courseFilter" class="px-5 py-3 rounded-xl border border-gray-300 min-w-56"></select>
+            </label>
+            <a id="backToCourseMenu" href="admin-orni.html" class="text-sky-700 hover:text-sky-900 font-bold text-lg px-6 py-3 bg-sky-50 rounded-xl transition shadow-sm" data-i18n="admin-students-back-course">Inapoi la meniul cursului</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-white rounded-2xl shadow-lg border border-sky-100 overflow-hidden mb-8">
+        <div class="bg-sky-50 px-8 py-5 border-b border-sky-100">
+          <h2 class="text-2xl font-black text-sky-900" data-i18n="admin-students-add-title">Adauga student nou</h2>
+        </div>
+        <form id="studentForm" class="p-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-5 items-end">
+          <label class="block xl:col-span-1">
+            <span class="block text-sm font-bold text-gray-700 mb-2" data-i18n="label-first-name-profile">Prenume</span>
+            <input id="firstName" required class="w-full px-5 py-3 rounded-xl border border-gray-300" data-i18n-placeholder="admin-students-first-name-placeholder" placeholder="Ex: Mihail">
+          </label>
+          <label class="block xl:col-span-1">
+            <span class="block text-sm font-bold text-gray-700 mb-2" data-i18n="label-last-name-profile">Nume</span>
+            <input id="lastName" required class="w-full px-5 py-3 rounded-xl border border-gray-300" data-i18n-placeholder="admin-students-last-name-placeholder" placeholder="Ex: Borinschi">
+          </label>
+          <label class="block xl:col-span-1">
+            <span class="block text-sm font-bold text-gray-700 mb-2" data-i18n="csv-email">Email</span>
+            <input id="email" type="email" class="w-full px-5 py-3 rounded-xl border border-gray-300" data-i18n-placeholder="placeholder-email-example" placeholder="exemplu@email.com">
+          </label>
+          <label class="block xl:col-span-1">
+            <span class="block text-sm font-bold text-gray-700 mb-2" data-i18n="common-instrument">Instrument</span>
+            <select id="instrument" class="w-full px-5 py-3 rounded-xl border border-gray-300"></select>
+          </label>
+          <label class="block xl:col-span-1">
+            <span class="block text-sm font-bold text-gray-700 mb-2" data-i18n="common-group">Grupa</span>
+            <select id="group" class="w-full px-5 py-3 rounded-xl border border-gray-300"></select>
+          </label>
+          <button id="addStudentBtn" type="submit" class="w-full bg-gradient-to-r from-sky-500 to-blue-700 text-white py-3 rounded-xl font-black text-lg" data-i18n="admin-students-add-button">Adauga student</button>
+        </form>
+        <div id="studentStatus" class="hidden mx-8 mb-8 p-4 rounded-xl text-center font-bold"></div>
+      </section>
+
+      <section class="bg-white rounded-2xl shadow-lg border border-sky-100 overflow-hidden">
+        <div class="p-8 border-b border-gray-200 flex flex-wrap justify-between gap-5 items-end">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1">
+            <label class="block">
+              <span class="block text-sm font-bold text-gray-700 mb-2" data-i18n="admin-students-search">Cauta student</span>
+              <input id="searchFilter" class="w-full px-5 py-3 rounded-xl border border-gray-300" data-i18n-placeholder="admin-students-search-placeholder" placeholder="Nume sau email">
+            </label>
+            <label class="block">
+              <span class="block text-sm font-bold text-gray-700 mb-2" data-i18n="common-instrument">Instrument</span>
+              <select id="instrumentFilter" class="w-full px-5 py-3 rounded-xl border border-gray-300"></select>
+            </label>
+            <label class="block">
+              <span class="block text-sm font-bold text-gray-700 mb-2" data-i18n="common-group">Grupa</span>
+              <select id="groupFilter" class="w-full px-5 py-3 rounded-xl border border-gray-300"></select>
+            </label>
+          </div>
+          <button id="exportStudentsExcelBtn" type="button" class="bg-gradient-to-r from-emerald-500 to-teal-700 text-white px-6 py-3 rounded-xl font-black text-lg shadow-lg hover:from-emerald-600 hover:to-teal-800 transition" data-i18n="btn-export-excel">Export Excel</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-sky-50">
+              <tr>
+                <th class="px-6 py-4 text-left text-sm font-black text-gray-700 uppercase" data-i18n="admin-students-name">Nume student</th>
+                <th class="px-6 py-4 text-left text-sm font-black text-gray-700 uppercase" data-i18n="csv-email">Email</th>
+                <th class="px-6 py-4 text-left text-sm font-black text-gray-700 uppercase" data-i18n="common-instrument">Instrument</th>
+                <th class="px-6 py-4 text-left text-sm font-black text-gray-700 uppercase" data-i18n="common-group">Grupa</th>
+                <th class="px-6 py-4 text-left text-sm font-black text-gray-700 uppercase" data-i18n="admin-students-source">Sursa</th>
+                <th class="px-6 py-4 text-left text-sm font-black text-gray-700 uppercase" data-i18n="admin-exams-actions">Actiuni</th>
+              </tr>
+            </thead>
+            <tbody id="studentsTableBody" class="bg-white divide-y divide-gray-200 text-base">
+              <tr><td colspan="6" class="px-8 py-10 text-center text-gray-500 text-xl italic" data-i18n="admin-students-loading">Se incarca studentii...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <footer class="text-white py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="border-t border-amber-500 pt-6 text-center">
+        <p class="text-amber-100">&copy; 2025 MHO Music Academy. <span data-i18n="footer-rights">Toate drepturile rezervate.</span></p>
+      </div>
+    </div>
+  </footer>
+  <script src="posthog-analytics.js?v=20260530-posthog"></script>
+  <script src="mobile-menu.js?v=20260616-home-redirect"></script>
+  <script type="module" src="admin-students.js?v=20260603-register-history"></script>
+</body>
+</html>

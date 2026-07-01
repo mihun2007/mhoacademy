@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursuri - MHO Music Academy</title>
+    <link rel="icon" type="image/png" href="Logo MHO Academy.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+    <link rel="stylesheet" href="mobile.css?v=20260701-custom-group-picker">
+    <link rel="stylesheet" href="glass-theme.css?v=20260602-cache-fix">
+    <script src="i18n.js?v=20260603-bilingual-membership"></script>
+</head>
+<body class="courses-mobile-page bg-gradient-to-br from-amber-50 to-orange-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="courses-brand text-2xl font-bold">🎵 MHO Music Academy</h1>
+                </div>
+                <div class="hidden md:flex space-x-4">
+                    <a href="index.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-home">Acasă</a>
+                    <a href="courses.html" class="bg-amber-700 px-4 py-2 rounded-lg" data-i18n="nav-courses">Cursuri</a>
+                    <a href="register.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-register">Înregistrare</a>
+                    <a href="exam.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-exam">Examen</a>
+                    <a href="galerie.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-gallery">Galerie</a>
+                    <a href="admin.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition hidden" data-admin-link="true" data-i18n="nav-admin">Admin</a>
+                    <a href="noutati.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-news">Noutăți</a>
+                </div>
+                <!-- Mobile menu button -->
+                <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg hover:bg-amber-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobileMenu" class="hidden md:hidden pb-4">
+                <div class="flex flex-col space-y-2">
+                    <a href="index.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-home">Acasă</a>
+                    <a href="courses.html" class="bg-amber-700 px-4 py-2 rounded-lg" data-i18n="nav-courses">Cursuri</a>
+                    <a href="register.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-register">Înregistrare</a>
+                    <a href="exam.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-exam">Examen</a>
+                    <a href="galerie.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-gallery">Galerie</a>
+                    <a href="admin.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition hidden" data-admin-link="true" data-i18n="nav-admin">Admin</a>
+                    <a href="noutati.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-news">Noutăți</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-amber-100 to-orange-100 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="courses-mobile-title text-5xl font-bold text-gray-800 mb-4" data-i18n="courses-title">Cursurile Noastre de Muzică</h1>
+            <p class="courses-mobile-copy text-xl text-gray-600 max-w-3xl mx-auto" data-i18n="courses-desc">
+                Explorează gama noastră completă de cursuri de muzică concepute pentru toate nivelurile de pregătire. 
+                De la instrumentele tradiționale ORNI la instrumentele cu coarde și de suflat clasice, 
+                oferim instruire condusă de experți, concentrată pe muzica sacră și tradițională.
+            </p>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="space-y-8">
+            <!-- ORNI / ОРНИ Courses -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-l-4 border-amber-500 hover:shadow-2xl transition-shadow">
+                <div class="p-8">
+                    <div class="flex items-start gap-6 mb-6">
+                        <div class="bg-gradient-to-br from-amber-400 to-amber-600 w-20 h-20 rounded-full flex items-center justify-center text-4xl shadow-lg flex-shrink-0">
+                            🎹
+                        </div>
+                        <div class="flex-1">
+                            <h2 class="text-3xl font-bold text-gray-800 mb-3" data-i18n="orni-title">Cursuri ORNI / ОРНИ</h2>
+                            <p class="text-gray-600 text-lg leading-relaxed" data-i18n="orni-desc">
+                                Stăpânește instrumentele tradiționale ORNI cu curriculum-ul nostru specializat conceput pentru educația muzicală tradițională. 
+                                Învață elementele fundamentale ale instrumentelor ORNI, inclusiv tehnica corectă, repertoriul tradițional și jocul în ansamblu.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-amber-50 rounded-lg p-4 text-center border border-amber-200">
+                            <div class="text-3xl mb-2">🎵</div>
+                            <div class="font-semibold text-gray-700" data-i18n="orni-feature-1">Repertoriu Tradițional</div>
+                        </div>
+                        <div class="bg-amber-50 rounded-lg p-4 text-center border border-amber-200">
+                            <div class="text-3xl mb-2">👥</div>
+                            <div class="font-semibold text-gray-700" data-i18n="orni-feature-2">Abilități de Ansamblu</div>
+                        </div>
+                        <div class="bg-amber-50 rounded-lg p-4 text-center border border-amber-200">
+                            <div class="text-3xl mb-2">🎯</div>
+                            <div class="font-semibold text-gray-700" data-i18n="orni-feature-3">Tehnică Corectă</div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <a href="register.html" class="inline-block bg-gradient-to-r from-amber-600 to-orange-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-amber-700 hover:to-orange-700 transition shadow-lg hover:shadow-xl" data-i18n="btn-register-orni">
+                            Înregistrează-te la Cursurile ORNI
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- String Instruments -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-l-4 border-green-500 hover:shadow-2xl transition-shadow">
+                <div class="p-8">
+                    <div class="flex items-start gap-6 mb-6">
+                        <div class="bg-gradient-to-br from-green-400 to-green-600 w-20 h-20 rounded-full flex items-center justify-center text-4xl shadow-lg flex-shrink-0">
+                            🎻
+                        </div>
+                        <div class="flex-1">
+                            <h2 class="text-3xl font-bold text-gray-800 mb-3" data-i18n="strings-title">Instrumente cu Coarde</h2>
+                            <p class="text-gray-600 text-lg leading-relaxed" data-i18n="strings-desc">
+                                Stăpânește vioara, violoncelul, chitara și alte instrumente cu coarde cu instruire personalizată de la muzicieni experimentați. 
+                                Dezvoltă postura corectă, tehnicile de arc și explorează repertoriul clasic și contemporan.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-green-50 rounded-lg p-4 text-center border border-green-200">
+                            <div class="text-3xl mb-2">🎼</div>
+                            <div class="font-semibold text-gray-700" data-i18n="strings-feature-1">Clasic & Contemporan</div>
+                        </div>
+                        <div class="bg-green-50 rounded-lg p-4 text-center border border-green-200">
+                            <div class="text-3xl mb-2">🎪</div>
+                            <div class="font-semibold text-gray-700" data-i18n="strings-feature-2">Muzică de Cameră</div>
+                        </div>
+                        <div class="bg-green-50 rounded-lg p-4 text-center border border-green-200">
+                            <div class="text-3xl mb-2">🎸</div>
+                            <div class="font-semibold text-gray-700" data-i18n="strings-feature-3">Tehnici de Fingerpicking</div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <a href="register.html" class="inline-block bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-green-700 hover:to-emerald-700 transition shadow-lg hover:shadow-xl" data-i18n="btn-register-strings">
+                            Înregistrează-te la Cursurile cu Coarde
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aerophone Instruments -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-l-4 border-blue-500 hover:shadow-2xl transition-shadow">
+                <div class="p-8">
+                    <div class="flex items-start gap-6 mb-6">
+                        <div class="bg-gradient-to-br from-blue-400 to-blue-600 w-20 h-20 rounded-full flex items-center justify-center text-4xl shadow-lg flex-shrink-0">
+                            🎺
+                        </div>
+                        <div class="flex-1">
+                            <h2 class="text-3xl font-bold text-gray-800 mb-3" data-i18n="aerophones-title">Instrumente Aerofone</h2>
+                            <p class="text-gray-600 text-lg leading-relaxed" data-i18n="aerophones-desc">
+                                Explorează instrumentele de suflat, inclusiv flautul, clarinetul, trompeta și multe altele, cu programe de pregătire cuprinzătoare. 
+                                Stăpânește controlul respirației, tehnicile de embouchure și dezvoltă abilități pentru stilurile de muzică clasică, tradițională și sacră.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-blue-50 rounded-lg p-4 text-center border border-blue-200">
+                            <div class="text-3xl mb-2">💨</div>
+                            <div class="font-semibold text-gray-700" data-i18n="aerophones-feature-1">Controlul Respirației</div>
+                        </div>
+                        <div class="bg-blue-50 rounded-lg p-4 text-center border border-blue-200">
+                            <div class="text-3xl mb-2">🎷</div>
+                            <div class="font-semibold text-gray-700" data-i18n="aerophones-feature-2">Clasic & Tradițional</div>
+                        </div>
+                        <div class="bg-blue-50 rounded-lg p-4 text-center border border-blue-200">
+                            <div class="text-3xl mb-2">🎭</div>
+                            <div class="font-semibold text-gray-700" data-i18n="aerophones-feature-3">Abilități de Interpretare</div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <a href="register.html" class="inline-block bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-cyan-700 transition shadow-lg hover:shadow-xl" data-i18n="btn-register-aerophones">
+                            Înregistrează-te la Cursurile de Suflat
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Choir Conductor -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-l-4 border-purple-500 hover:shadow-2xl transition-shadow">
+                <div class="p-8">
+                    <div class="flex items-start gap-6 mb-6">
+                        <div class="bg-gradient-to-br from-purple-400 to-purple-600 w-20 h-20 rounded-full flex items-center justify-center text-4xl shadow-lg flex-shrink-0">
+                            👨‍🎤
+                        </div>
+                        <div class="flex-1">
+                            <h2 class="text-3xl font-bold text-gray-800 mb-3" data-i18n="conductor-title">Dirijor de Cor</h2>
+                            <p class="text-gray-600 text-lg leading-relaxed" data-i18n="conductor-desc">
+                                Dezvoltă-ți abilitățile de dirijare și învață să conduci coruri cu încredere prin programul nostru specializat de pregătire pentru dirijori. 
+                                Stăpânește tehnicile fundamentale de dirijare, analiza partiturilor și conducerea ansamblurilor pentru muzica corală.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-purple-50 rounded-lg p-4 text-center border border-purple-200">
+                            <div class="text-3xl mb-2">🎼</div>
+                            <div class="font-semibold text-gray-700" data-i18n="conductor-feature-1">Tehnici de Dirijare</div>
+                        </div>
+                        <div class="bg-purple-50 rounded-lg p-4 text-center border border-purple-200">
+                            <div class="text-3xl mb-2">📜</div>
+                            <div class="font-semibold text-gray-700" data-i18n="conductor-feature-2">Analiza Partiturilor</div>
+                        </div>
+                        <div class="bg-purple-50 rounded-lg p-4 text-center border border-purple-200">
+                            <div class="text-3xl mb-2">🎤</div>
+                            <div class="font-semibold text-gray-700" data-i18n="conductor-feature-3">Pedagogie Vocală</div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <a href="register.html" class="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-purple-700 hover:to-pink-700 transition shadow-lg hover:shadow-xl" data-i18n="btn-register-conductor">
+                            Înregistrează-te la Cursurile de Dirijor
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">🎵 MHO Music Academy</h3>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4" data-i18n="footer-links-title">Link-uri Rapide</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition" data-i18n="nav-home">Acasă</a></li>
+                        <li><a href="courses.html" class="text-gray-400 hover:text-white transition" data-i18n="nav-courses">Cursuri</a></li>
+                        <li><a href="register.html" class="text-gray-400 hover:text-white transition" data-i18n="nav-register">Înregistrare</a></li>
+                        <li><a href="exam.html" class="text-gray-400 hover:text-white transition" data-i18n="nav-exam">Examen</a></li>
+                        <li><a href="admin.html" class="text-gray-400 hover:text-white transition hidden" data-admin-link="true" data-i18n="nav-admin">Admin</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4" data-i18n="footer-contact-title">Contact</h4>
+                    <p class="text-gray-400">Phone: <a href="tel:+37369956831" class="text-white hover:text-amber-400 transition underline">+373 69 956 831</a> - <span class="text-sm" data-i18n="footer-general-q">pentru întrebări generale - Andrei Borinschi</span></p>
+                    <p class="text-gray-400">Phone: <a href="tel:+37369597497" class="text-white hover:text-amber-400 transition underline">+373 69 597 497</a> - <span class="text-sm" data-i18n="footer-tech-assist">pentru asistență tehnică - Mihail Borinschi</span></p>
+                    <p class="text-gray-400">Phone: <a href="tel:+37369430494" class="text-white hover:text-amber-400 transition underline">+373 69 430 494</a> - <span class="text-sm" data-i18n="footer-exam-q">Oleg Șarcov - răspunzator de cursurile ORNI</span><br><span class="text-sm"><a href="tel:+37369247568" class="text-white hover:text-amber-400 transition underline">+373 69 247 568</a> Daniel Damian - răspunzator cursurile de dirijor</span><br><span class="text-sm"><a href="tel:+37369343678" class="text-white hover:text-amber-400 transition underline">+373 69 343 678</a> Sergiu Bazi - răspunzator cursurile Aerofone</span></p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 MHO Music Academy. <span data-i18n="footer-rights"><span data-i18n="footer-rights">Toate drepturile rezervate.</span></span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+    <script src="firebase-shared.js?v=20260602-teacher-allowlist"></script>
+    <script src="posthog-analytics.js?v=20260530-posthog"></script>
+    <script src="mobile-menu.js?v=20260616-home-redirect"></script>
+    <script src="public-auth.js?v=20260602-teacher-allowlist"></script>
+</body>
+</html>

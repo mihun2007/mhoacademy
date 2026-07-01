@@ -1,0 +1,2554 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page-title-admin">Panou de Administrare - MHO Music Academy</title>
+    <link rel="icon" type="image/png" href="Logo MHO Academy.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .admin-authenticated #adminDashboard { display: block !important; }
+        #adminAccessLoading { display: flex; }
+        .admin-authenticated #adminAccessLoading { display: none !important; }
+
+        .admin-page {
+            background:
+                radial-gradient(circle at 16% 12%, rgba(123, 189, 232, 0.48), transparent 26rem),
+                radial-gradient(circle at 88% 8%, rgba(78, 142, 162, 0.54), transparent 28rem),
+                radial-gradient(circle at 52% 74%, rgba(10, 65, 116, 0.72), transparent 34rem),
+                linear-gradient(145deg, #BDD8E9 0%, #7BBDE8 18%, #49769F 42%, #0A4174 68%, #001D39 100%) !important;
+            background-attachment: fixed;
+            color: #e7f2fb;
+        }
+
+        .admin-page #adminDashboard > .max-w-7xl > .mb-8 h2,
+        .admin-page #adminDashboard > .max-w-7xl > .mb-8 p {
+            color: #e7f2fb !important;
+        }
+
+        .admin-page .bg-white {
+            background: rgba(186, 204, 219, 0.88) !important;
+            border-color: rgba(255, 255, 255, 0.32) !important;
+            box-shadow: 0 22px 60px rgba(0, 15, 32, 0.2) !important;
+            backdrop-filter: blur(20px) saturate(1.08);
+            -webkit-backdrop-filter: blur(20px) saturate(1.08);
+        }
+
+        .admin-page .bg-white,
+        .admin-page .bg-white h1,
+        .admin-page .bg-white h2,
+        .admin-page .bg-white h3,
+        .admin-page .bg-white h4,
+        .admin-page .bg-white p,
+        .admin-page .bg-white label,
+        .admin-page .bg-white span,
+        .admin-page .bg-white td,
+        .admin-page .bg-white th,
+        .admin-page .bg-white button:not(.text-white),
+        .admin-page .bg-white a:not(.text-white) {
+            color: #102943 !important;
+        }
+
+        .admin-page .text-gray-900,
+        .admin-page .text-gray-800,
+        .admin-page .text-gray-700,
+        .admin-page .text-gray-600,
+        .admin-page .text-gray-500,
+        .admin-page .text-gray-400 {
+            color: #102943 !important;
+        }
+
+        .admin-page input,
+        .admin-page select,
+        .admin-page textarea {
+            background: rgba(232, 240, 246, 0.92) !important;
+            color: #16314b !important;
+            border: 1px solid rgba(123, 189, 232, 0.32) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.58);
+        }
+
+        .admin-page input::placeholder,
+        .admin-page textarea::placeholder {
+            color: #6b8ea9 !important;
+        }
+
+        .admin-page input:focus,
+        .admin-page select:focus,
+        .admin-page textarea:focus {
+            outline: none;
+            border-color: rgba(78, 142, 162, 0.72) !important;
+            box-shadow:
+                0 0 0 4px rgba(123, 189, 232, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.62);
+        }
+
+        .admin-page .bg-gray-100,
+        .admin-page .bg-amber-50,
+        .admin-page .bg-orange-50,
+        .admin-page .bg-purple-50 {
+            background: rgba(221, 233, 242, 0.58) !important;
+        }
+
+        .admin-page .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+            border-color: rgba(123, 189, 232, 0.2) !important;
+        }
+
+        .admin-page .text-white,
+        .admin-page .text-amber-100,
+        .admin-page .text-orange-100,
+        .admin-page .text-purple-100,
+        .admin-page .text-blue-100,
+        .admin-page .text-green-100,
+        .admin-page .bg-gradient-to-r,
+        .admin-page .bg-gradient-to-r * {
+            color: #f8fbff !important;
+        }
+
+        .admin-page .course-tab.bg-gray-100,
+        .admin-page .exam-course-tab.bg-gray-100 {
+            color: #16314b !important;
+        }
+
+        .admin-page #adminAccessLoading .bg-white,
+        .admin-page #adminAccessLoading .bg-white * {
+            color: #102943 !important;
+        }
+
+        html[lang="ru"] .admin-page .course-tab,
+        html[lang="ru"] .admin-page .exam-course-tab,
+        html[lang="ru"] .admin-page button,
+        html[lang="ru"] .admin-page select {
+            white-space: normal;
+            line-height: 1.25;
+        }
+
+        html[lang="ru"] .admin-page th,
+        html[lang="ru"] .admin-page td {
+            white-space: normal !important;
+            line-height: 1.35;
+        }
+
+        html[lang="ru"] .admin-page h2,
+        html[lang="ru"] .admin-page h3,
+        html[lang="ru"] .admin-page h4 {
+            line-height: 1.18;
+        }
+    </style>
+    <link rel="stylesheet" href="mobile.css?v=20260701-custom-group-picker">
+    <link rel="stylesheet" href="glass-theme.css?v=20260602-cache-fix">
+    <link rel="stylesheet" href="public-glass-pages.css?v=20260616-glass-transparency">
+    <style>
+        .admin-page::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            background:
+                linear-gradient(115deg, rgba(255, 255, 255, 0.22), transparent 24%, rgba(255, 255, 255, 0.06) 46%, transparent 70%),
+                radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.18), transparent 34rem);
+            mix-blend-mode: soft-light;
+        }
+
+        .admin-shell {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-shell::before,
+        .admin-shell::after {
+            content: "";
+            position: absolute;
+            width: 28rem;
+            height: 28rem;
+            border-radius: 999px;
+            filter: blur(30px);
+            opacity: 0.22;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .admin-shell::before {
+            top: 3rem;
+            left: -11rem;
+            background: #7BBDE8;
+        }
+
+        .admin-shell::after {
+            right: -13rem;
+            top: 24rem;
+            background: #4E8EA2;
+        }
+
+        .admin-shell > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .admin-page nav {
+            background: rgba(0, 29, 57, 0.42) !important;
+            border-bottom: 1px solid rgba(189, 216, 233, 0.24) !important;
+            box-shadow: 0 12px 40px rgba(0, 29, 57, 0.18);
+            backdrop-filter: blur(28px) saturate(1.4);
+            -webkit-backdrop-filter: blur(28px) saturate(1.4);
+        }
+
+        .admin-page nav a {
+            border: 1px solid transparent;
+            border-radius: 999px !important;
+            transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+        }
+
+        .admin-page nav a:hover {
+            background: rgba(189, 216, 233, 0.14) !important;
+            border-color: rgba(189, 216, 233, 0.22) !important;
+            transform: translateY(-1px);
+        }
+
+        .admin-page nav .bg-amber-700 {
+            background: rgba(189, 216, 233, 0.24) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 12px 30px rgba(0, 29, 57, 0.18);
+        }
+
+        .admin-page .bg-white {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(189, 216, 233, 0.1)) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow:
+                0 26px 78px rgba(0, 29, 57, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.36) !important;
+            backdrop-filter: blur(30px) saturate(1.18);
+            -webkit-backdrop-filter: blur(30px) saturate(1.18);
+        }
+
+        .admin-page .rounded-xl.bg-white,
+        .admin-page .rounded-2xl.bg-white,
+        .admin-page .rounded-b-xl.bg-white,
+        .admin-page .rounded-lg.bg-white {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-page .rounded-xl.bg-white::before,
+        .admin-page .rounded-2xl.bg-white::before,
+        .admin-page .rounded-b-xl.bg-white::before,
+        .admin-page .rounded-lg.bg-white::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(130deg, rgba(255, 255, 255, 0.3), transparent 34%, rgba(255, 255, 255, 0.07));
+            opacity: 0.84;
+            pointer-events: none;
+        }
+
+        .admin-page .rounded-xl.bg-white > *,
+        .admin-page .rounded-2xl.bg-white > *,
+        .admin-page .rounded-b-xl.bg-white > *,
+        .admin-page .rounded-lg.bg-white > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .admin-page .bg-gradient-to-r.from-amber-500.to-orange-500,
+        .admin-page .bg-gradient-to-r.from-orange-500.to-red-500,
+        .admin-page .bg-gradient-to-r.from-purple-500.to-pink-500,
+        .admin-page .bg-gradient-to-r.from-blue-500.to-cyan-500,
+        .admin-page .bg-gradient-to-r.from-green-500.to-emerald-500 {
+            background: linear-gradient(135deg, rgba(123, 189, 232, 0.82), rgba(78, 142, 162, 0.64) 52%, rgba(10, 65, 116, 0.86)) !important;
+            border: 1px solid rgba(255, 255, 255, 0.26) !important;
+            box-shadow: 0 20px 50px rgba(10, 65, 116, 0.28) !important;
+        }
+
+        .admin-page .bg-gradient-to-r.from-amber-500.to-orange-500 p,
+        .admin-page .bg-gradient-to-r.from-orange-500.to-red-500 p,
+        .admin-page .bg-gradient-to-r.from-purple-500.to-pink-500 p,
+        .admin-page .bg-gradient-to-r.from-blue-500.to-cyan-500 p,
+        .admin-page .bg-gradient-to-r.from-green-500.to-emerald-500 p {
+            color: rgba(244, 251, 255, 0.9) !important;
+        }
+
+        .admin-page .text-amber-600,
+        .admin-page .text-orange-600,
+        .admin-page .text-purple-600 {
+            color: #f2fbff !important;
+            text-shadow: 0 10px 24px rgba(0, 29, 57, 0.24);
+        }
+    </style>
+    <script src="i18n.js?v=20260603-bilingual-membership"></script>
+    <script src="safe-dom.js"></script>
+    <script src="firebase-shared.js?v=20260602-teacher-allowlist"></script>
+    <script src="exam-config.js"></script>
+    <script src="membership-verification.js?v=20260603-bilingual-membership"></script>
+    <script src="admin-gate.js"></script>
+</head>
+<body class="admin-page min-h-screen">
+    <div id="adminAccessLoading" class="min-h-screen hidden items-center justify-center px-6 text-center">
+        <div class="bg-white rounded-2xl shadow-xl border border-amber-100 p-8 max-w-lg">
+            <h1 class="text-2xl font-bold text-gray-900 mb-3" data-i18n="admin-access-loading-title">Verificăm accesul</h1>
+            <p class="text-gray-600" data-i18n="admin-access-loading-desc">Te autentificăm și verificăm rolul tău de profesor înainte să deschidem panoul principal.</p>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard (hidden until authenticated) -->
+    <div id="adminDashboard" class="hidden">
+        <!-- Navigation -->
+        <nav class="text-white shadow-lg sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                    <a href="index.html" class="text-lg font-bold">🎵 MHO Music Academy</a>
+                    </div>
+                <div class="hidden md:flex space-x-4 items-center">
+                    <a href="index.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-home">Acasă</a>
+                    <a href="noutati.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-news">Noutăți</a>
+                    <a href="register.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-register">Înregistrare</a>
+                    <a href="exam.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-exam">Examen</a>
+                    <a href="galerie.html" class="hover:bg-amber-700 px-4 py-2 rounded-lg transition" data-i18n="nav-gallery">Galerie</a>
+                    <a href="admin.html" class="bg-amber-700 px-4 py-2 rounded-lg" data-i18n="nav-admin">Admin</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+    <div class="admin-shell max-w-7xl mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2" data-i18n="admin-dashboard-title">Panou de Administrare</h2>
+            <p class="text-gray-600" data-i18n="admin-dashboard-desc">Înregistrări studenți și trimiteri examene în timp real</p>
+        </div>
+
+        <!-- Panouri pentru Profesori -->
+        <div class="mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4" data-i18n="teacher-panels-title">Panouri pentru Profesori</h3>
+                <p class="text-gray-600 mb-6" data-i18n="teacher-panels-desc">Accesați panoul specific pentru fiecare categorie de instrumente:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <a href="admin-orni.html" class="bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg p-6 hover:from-amber-600 hover:to-orange-600 transition shadow-lg hover:shadow-xl">
+                        <div class="text-4xl mb-3">🎹</div>
+                        <h4 class="text-xl font-bold mb-2">ORNI</h4>
+                        <p class="text-amber-100 text-sm" data-i18n="panel-orni-desc">Panou pentru profesorii de ORNI</p>
+                    </a>
+                    <a href="admin-coarde.html" class="bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg p-6 hover:from-green-600 hover:to-emerald-600 transition shadow-lg hover:shadow-xl">
+                        <div class="text-4xl mb-3">🎻</div>
+                        <h4 class="text-xl font-bold mb-2" data-i18n="course-strings">Coarde</h4>
+                        <p class="text-green-100 text-sm" data-i18n="panel-coarde-desc">Panou pentru profesorii de Coarde</p>
+                    </a>
+                    <a href="admin-aerofone.html" class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg p-6 hover:from-blue-600 hover:to-cyan-600 transition shadow-lg hover:shadow-xl">
+                        <div class="text-4xl mb-3">🎺</div>
+                        <h4 class="text-xl font-bold mb-2" data-i18n="course-aerophones">Aerofone</h4>
+                        <p class="text-blue-100 text-sm" data-i18n="panel-aerofone-desc">Panou pentru profesorii de Aerofone</p>
+                    </a>
+                    <a href="admin-dirijor.html" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg p-6 hover:from-purple-600 hover:to-pink-600 transition shadow-lg hover:shadow-xl">
+                        <div class="text-4xl mb-3">👨‍🎤</div>
+                        <h4 class="text-xl font-bold mb-2" data-i18n="course-conductor">Dirijor</h4>
+                        <p class="text-purple-100 text-sm" data-i18n="panel-dirijor-desc">Panou pentru profesorii de Dirijor</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex flex-col md:flex-row gap-4">
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    data-i18n="placeholder-search-admin"
+                    placeholder="Caută după nume sau curs..."
+                    class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                >
+                <div class="flex items-center text-sm text-gray-600">
+                    <span id="statusIndicator" class="inline-block w-3 h-3 rounded-full bg-green-500 mr-2 animate-pulse"></span>
+                    <span id="statusText" data-i18n="status-sync-active">Sincronizare activă</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2" data-i18n="stats-total-reg">Total Înregistrări</h3>
+                <p class="text-3xl font-bold text-amber-600" id="totalRegistrations">0</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2" data-i18n="stats-total-exams">Total Examene</h3>
+                <p class="text-3xl font-bold text-orange-600" id="totalExams">0</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2" data-i18n="stats-total-seminar-reg">Înregistrări Seminare</h3>
+                <p class="text-3xl font-bold text-purple-600" id="totalSeminarRegistrations">0</p>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ÎNREGISTRĂRI STUDENȚI SECTION -->
+        <!-- ============================================ -->
+        <div class="mb-12">
+            <div class="bg-gradient-to-r from-amber-500 to-orange-500 rounded-t-xl p-6 mb-0">
+                <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <span class="text-4xl">👥</span>
+                    <span data-i18n="section-student-reg">Înregistrări Studenți</span>
+                </h2>
+                <p class="text-amber-100 mt-2" data-i18n="section-student-reg-desc">Vizualizați și gestionați înregistrările studenților la cursuri</p>
+            </div>
+
+        <!-- Student Registrations Section -->
+        <div class="bg-white rounded-b-xl shadow-lg p-6 mb-8 border-t-0 border-l-4 border-amber-500">
+            <!-- Course Filter Tabs -->
+            <div class="mb-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4" data-i18n="section-student-reg-course">Înregistrări Studenți pe Curs</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button 
+                        data-course="all" 
+                        class="course-tab active px-6 py-2 rounded-lg font-semibold transition bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-lg"
+                        data-i18n="placeholder-all-courses"
+                    >
+                        Toate Cursurile
+                    </button>
+                    <button 
+                        data-course="ORNI" 
+                        class="course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-amber-100 hover:text-amber-700"
+                    >
+                        🎹 ORNI
+                    </button>
+                    <button 
+                        data-course="Coarde" 
+                        class="course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-green-100 hover:text-green-700"
+                    >
+                        🎻 <span data-i18n="course-strings">Coarde</span>
+                    </button>
+                    <button 
+                        data-course="Aerofone" 
+                        class="course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-700"
+                    >
+                        🎺 <span data-i18n="course-aerophones">Aerofone</span>
+                    </button>
+                    <button 
+                        data-course="Dirijor" 
+                        class="course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700"
+                    >
+                        👨‍🎤 <span data-i18n="course-conductor">Dirijor</span>
+                    </button>
+                </div>
+                <div class="mt-4 max-w-xs">
+                    <label for="examInstrumentFilter" class="block text-sm font-bold text-gray-700 mb-2">Instrument</label>
+                    <select id="examInstrumentFilter" class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-700 font-semibold">
+                        <option value="all">Toate instrumentele</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Registrations Table -->
+            <div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center">
+                        <span id="registrationsTitle" data-i18n="section-student-reg-all">Toate Înregistrările Studenților</span>
+                    <span class="text-lg font-normal text-gray-500 ml-2" id="registrationsCount">(0)</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button 
+                            onclick="exportRegistrationsToExcel()" 
+                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-md hover:shadow-lg"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <span data-i18n="btn-export-excel">Export Excel</span>
+                        </button>
+                    </div>
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-amber-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-name">Nume</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-birth-date">Data Nașterii</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-church">Biserică</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-pastor">Pastor</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-pastor-phone">Tel. Pastor</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-member-status">Status membru</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider whitespace-normal min-w-[180px]" data-i18n="table-th-whatsapp-verification">Verificare WhatsApp</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-course">Curs</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-group">Grupă</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider whitespace-normal min-w-[180px]" data-i18n="table-th-previous-courses">Cursuri anterioare</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-registered">Înregistrat</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-actions">Acțiuni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registrationsTableBody" class="bg-white divide-y divide-gray-200">
+                            <tr>
+                            <td colspan="12" class="px-6 py-4 text-center text-gray-500" data-i18n="status-loading-reg">Se încarcă înregistrările...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- EXAMENE SECTION -->
+        <!-- ============================================ -->
+        <div class="mb-12">
+            <div class="bg-gradient-to-r from-orange-500 to-red-500 rounded-t-xl p-6 mb-0">
+                <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <span class="text-4xl">📝</span>
+                    <span data-i18n="section-exams">Secțiunea Examene</span>
+                </h2>
+                <p class="text-orange-100 mt-2" data-i18n="section-exams-desc">Gestionați trimiterile de examene de la studenți</p>
+            </div>
+
+        <!-- Exams Section -->
+        <div class="bg-white rounded-b-xl shadow-lg p-6 mb-8 border-t-0 border-l-4 border-orange-500">
+            <!-- Course Filter Tabs for Exams -->
+            <div class="mb-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4" data-i18n="section-exams-course">Trimiteri Examene pe Curs</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button 
+                        data-exam-course="all" 
+                        class="exam-course-tab active px-6 py-2 rounded-lg font-semibold transition bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-lg"
+                        data-i18n="placeholder-all-courses"
+                    >
+                        Toate Cursurile
+                    </button>
+                    <button 
+                        data-exam-course="ORNI" 
+                        class="exam-course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-amber-100 hover:text-amber-700"
+                    >
+                        🎹 ORNI
+                    </button>
+                    <button 
+                        data-exam-course="Coarde" 
+                        class="exam-course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-green-100 hover:text-green-700"
+                    >
+                        🎻 <span data-i18n="course-strings">Coarde</span>
+                    </button>
+                    <button 
+                        data-exam-course="Aerofone" 
+                        class="exam-course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-700"
+                    >
+                        🎺 <span data-i18n="course-aerophones">Aerofone</span>
+                    </button>
+                    <button 
+                        data-exam-course="Dirijor" 
+                        class="exam-course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700"
+                    >
+                        👨‍🎤 <span data-i18n="course-conductor">Dirijor</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Exams Table -->
+            <div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center">
+                        <span id="examsTitle" data-i18n="section-exams-all">Toate Trimiterile de Examene</span>
+                    <span class="text-lg font-normal text-gray-500 ml-2" id="examsCount">(0)</span>
+                    </div>
+                    <button 
+                        onclick="exportExamsToExcel()" 
+                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-md hover:shadow-lg"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <span data-i18n="btn-export-excel">Export Excel</span>
+                    </button>
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-orange-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-name">Nume</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-course">Curs</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Instrument</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-group">Grupă</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-exam-title">Titlu Examen</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-file">Fișier</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-performance">Video/Audio Interpretare</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-sent">Trimis</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-actions">Acțiuni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="examsTableBody" class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td colspan="9" class="px-6 py-8 text-center text-gray-500" data-i18n="status-loading-exams">Se încarcă examenele...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ÎNREGISTRĂRI LA SEMINARE SECTION -->
+        <!-- ============================================ -->
+        <div class="mb-12">
+            <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-t-xl p-6 mb-0">
+                <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <span class="text-4xl">📋</span>
+                    <span data-i18n="section-seminar-reg">Înregistrări la Seminare</span>
+                </h2>
+                <p class="text-purple-100 mt-2" data-i18n="section-seminar-reg-desc">Vizualizați și gestionați înregistrările studenților la seminare</p>
+            </div>
+
+        <!-- Seminar Registrations Section -->
+        <div class="bg-white rounded-b-xl shadow-lg p-6 mb-8 border-t-0 border-l-4 border-purple-500">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center">
+                    <span data-i18n="section-seminar-reg-all">Toate Înregistrările la Seminare</span>
+                <span class="text-lg font-normal text-gray-500 ml-2" id="seminarRegistrationsCount">(0)</span>
+                </div>
+                <button 
+                    onclick="exportSeminarsToExcel()" 
+                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition shadow-md hover:shadow-lg"
+                >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <span data-i18n="btn-export-excel">Export Excel</span>
+                </button>
+            </h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-purple-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-name">Nume</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-email">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-phone">Telefon</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-seminar">Seminar</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-notes">Note</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-registered">Înregistrat</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-actions">Acțiuni</th>
+                        </tr>
+                    </thead>
+                    <tbody id="seminarRegistrationsTableBody" class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td colspan="7" class="px-6 py-4 text-center text-gray-500" data-i18n="status-loading-seminar-reg">Se încarcă înregistrările la seminare...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SEMINARE SECTION -->
+        <!-- ============================================ -->
+        <div class="mb-12">
+            <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-t-xl p-6 mb-0">
+                <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <span class="text-4xl">🎓</span>
+                    <span data-i18n="section-seminars">Secțiunea Seminare</span>
+                </h2>
+                <p class="text-purple-100 mt-2" data-i18n="section-seminars-desc">Gestionați seminarele și înregistrările la seminare</p>
+            </div>
+
+        <!-- Seminar Management Section -->
+        <div class="bg-white rounded-b-xl shadow-lg p-6 mb-8 border-t-0 border-l-4 border-purple-500">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6" data-i18n="btn-add-seminar">Adaugă Seminar</h3>
+            
+            <!-- Status Message -->
+            <div id="seminarStatusMessage" class="hidden mb-6 p-4 rounded-lg"></div>
+
+            <!-- Seminar Form -->
+            <form id="seminarForm" class="space-y-6 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="seminarTitle" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="label-seminar-title">
+                            Titlu seminar <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="seminarTitle"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                            data-i18n="placeholder-seminar-title"
+                            placeholder="Ex: Seminar de teorie muzicală"
+                        >
+                    </div>
+                    <div>
+                        <label for="seminarType" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="label-seminar-type">
+                            Tipul seminarului <span class="text-red-500">*</span>
+                        </label>
+                        <select 
+                            id="seminarType"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        >
+                            <option value="" data-i18n="placeholder-type-select">Selectează tipul</option>
+                            <option value="ORNI">ORNI</option>
+                            <option value="Coarde" data-i18n="course-strings">Coarde</option>
+                            <option value="Aerofone" data-i18n="course-aerophones">Aerofone</option>
+                            <option value="Dirijor" data-i18n="course-conductor">Dirijor</option>
+                            <option value="Vioriști" data-i18n="course-violinists">Vioriști</option>
+                            <option value="General" data-i18n="course-general">General</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="seminarStartDate" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="label-start-date">
+                            Data început <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="date" 
+                            id="seminarStartDate"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        >
+                    </div>
+                    <div>
+                        <label for="seminarEndDate" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="label-end-date">
+                            Data sfârșit <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="date" 
+                            id="seminarEndDate"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        >
+                    </div>
+                </div>
+
+                <div>
+                    <label for="seminarLocation" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="label-location">
+                        Locația <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="seminarLocation"
+                        required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        data-i18n="placeholder-location"
+                        placeholder="Ex: Sângerei Noi"
+                    >
+                </div>
+
+                <div>
+                    <label for="seminarDescription" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="label-description">
+                        Descriere <span class="text-red-500">*</span>
+                    </label>
+                    <textarea 
+                        id="seminarDescription"
+                        required
+                        rows="4"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                            data-i18n="placeholder-description-seminar"
+                    ></textarea>
+                </div>
+
+                <div>
+                    <label for="seminarLink" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="label-optional-link">
+                        Link opțional
+                    </label>
+                    <input 
+                        type="url" 
+                        id="seminarLink"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        placeholder="https://..."
+                    >
+                </div>
+
+                <button 
+                    type="submit"
+                    class="w-full bg-gradient-to-r from-amber-600 to-orange-600 text-white py-3 rounded-lg font-semibold text-lg hover:from-amber-700 hover:to-orange-700 transition shadow-lg hover:shadow-xl"
+                    data-i18n="btn-add-seminar"
+                >
+                    Adaugă seminar
+                </button>
+            </form>
+
+            <!-- Seminars Preview Table -->
+            <div class="mt-8">
+                <h4 class="text-xl font-bold text-gray-800 mb-4" data-i18n="existing-seminars">Seminare existente</h4>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-amber-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-title">Titlu</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-type">Tip</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-dates">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-location">Locație</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-link">Link</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-actions">Acțiuni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="seminarsTableBody" class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td colspan="6" class="px-6 py-4 text-center text-gray-500" data-i18n="loading-seminars">Se încarcă seminarele...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ANUNȚURI CURSURI SECTION -->
+        <!-- ============================================ -->
+        <div class="mb-12">
+            <div class="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-t-xl p-6 mb-0">
+                <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <span class="text-4xl">📢</span>
+                    <span data-i18n="admin-panel-announcements">Anunțuri Cursuri</span>
+                </h2>
+                <p class="text-blue-100 mt-2" data-i18n="admin-announcements-main-desc">Anunțați studenții despre când și unde se vor ține cursurile</p>
+            </div>
+
+        <!-- Course Announcements Section -->
+        <div class="bg-white rounded-b-xl shadow-lg p-6 mb-8 border-t-0 border-l-4 border-blue-500">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6" data-i18n="add-course-announcement-title">Adaugă Anunț Curs</h3>
+            
+            <!-- Status Message -->
+            <div id="announcementStatusMessage" class="hidden mb-6 p-4 rounded-lg"></div>
+
+            <!-- Announcement Form -->
+            <form id="announcementForm" class="space-y-6 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="announcementCourse" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="label-course-type-required">
+                            Tip Curs <span class="text-red-500">*</span>
+                        </label>
+                        <select 
+                            id="announcementCourse"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        >
+                            <option value="" data-i18n="select-course">Selectează cursul</option>
+                            <option value="ORNI">ORNI</option>
+                            <option value="Coarde" data-i18n="course-strings">Coarde</option>
+                            <option value="Aerofone" data-i18n="course-aerophones">Aerofone</option>
+                            <option value="Dirijor" data-i18n="course-conductor">Dirijor</option>
+                            <option value="General" data-i18n="course-general">General</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="announcementDate" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="label-start-date">
+                            Data <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="date" 
+                            id="announcementDate"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        >
+                    </div>
+                </div>
+
+                <div>
+                    <label for="announcementLocation" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="label-location">
+                        Locația <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="announcementLocation"
+                        required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        placeholder="Ex: Sângerei Noi"
+                        data-i18n="placeholder-location"
+                    >
+                </div>
+
+                <div>
+                    <label for="announcementDescription" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="label-description">
+                        Descriere <span class="text-red-500">*</span>
+                    </label>
+                    <textarea 
+                        id="announcementDescription"
+                        required
+                        rows="3"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        placeholder="Descrieți anunțul despre curs..."
+                            data-i18n="placeholder-announcement-description"
+                    ></textarea>
+                </div>
+
+                <button 
+                    type="submit"
+                    class="w-full bg-gradient-to-r from-amber-600 to-orange-600 text-white py-3 rounded-lg font-semibold text-lg hover:from-amber-700 hover:to-orange-700 transition shadow-lg hover:shadow-xl"
+                    data-i18n="add-announcement"
+                >
+                    Adaugă Anunț
+                </button>
+            </form>
+
+            <!-- Announcements Preview Table -->
+            <div class="mt-8">
+                <h4 class="text-xl font-bold text-gray-800 mb-4" data-i18n="existing-announcements">Anunțuri existente</h4>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-amber-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-course">Curs</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-date">Data</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-location">Locație</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-description">Descriere</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" data-i18n="table-th-actions">Acțiuni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="announcementsTableBody" class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500" data-i18n="loading-announcements">Se încarcă anunțurile...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+
+        <!-- GALLERY SECTION -->
+        <!-- ============================================ -->
+        <div class="mb-12">
+            <div class="bg-gradient-to-r from-green-500 to-emerald-500 rounded-t-xl p-6 mb-0">
+                <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <span class="text-4xl">📷</span>
+                    <span data-i18n="gallery-title">Galerie Foto</span>
+                </h2>
+                <p class="text-green-100 mt-2" data-i18n="gallery-desc">Încărcați și gestionați fotografiile din cursuri</p>
+            </div>
+
+            <!-- Gallery Upload Section -->
+            <div class="bg-white rounded-b-xl shadow-lg p-6 mb-8 border-t-0 border-l-4 border-green-500">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6" data-i18n="upload-photos-title">Încarcă Fotografii</h3>
+                
+                <!-- Status Message -->
+                <div id="galleryStatusMessage" class="hidden mb-6 p-4 rounded-lg"></div>
+
+                <!-- Gallery Upload Form -->
+                <form id="galleryUploadForm" class="space-y-6 mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="galleryCourse" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="table-th-course">
+                                Curs <span class="text-red-500">*</span>
+                            </label>
+                            <select 
+                                id="galleryCourse"
+                                required
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                            >
+                                <option value="" data-i18n="select-course">Selectează cursul</option>
+                                <option value="ORNI">ORNI</option>
+                                <option value="Coarde" data-i18n="course-strings">Coarde</option>
+                                <option value="Aerofone" data-i18n="course-aerophones">Aerofone</option>
+                                <option value="Dirijor" data-i18n="course-conductor">Dirijor</option>
+                                <option value="Vioriști" data-i18n="course-violinists">Vioriști</option>
+                                <option value="General" data-i18n="course-general">General</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="galleryYear" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="label-year">
+                                An <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="number" 
+                                id="galleryYear"
+                                required
+                                min="2020"
+                                max="2100"
+                                value="2025"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                            >
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="select-photos-label">
+                            Selectează Fotografii <span class="text-red-500">*</span>
+                            <span class="text-gray-500 text-xs" data-i18n="select-photos-hint">(JPG, PNG, maxim 10MB per imagine)</span>
+                        </label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <!-- Single/Multiple Files Upload -->
+                            <div>
+                                <label for="galleryImages" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                        <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                        </svg>
+                                        <p class="mb-2 text-sm text-gray-500 text-center">
+                                            <span class="font-semibold" data-i18n="select-files">Selectează fișiere</span>
+                                        </p>
+                                        <p class="text-xs text-gray-500 text-center" data-i18n="select-photos-hint-short">PNG, JPG (MAX. 10MB)</p>
+                                    </div>
+                                    <input 
+                                        id="galleryImages" 
+                                        type="file" 
+                                        accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                                        multiple
+                                        class="hidden"
+                                    >
+                                </label>
+                            </div>
+                            <!-- Folder Upload -->
+                            <div>
+                                <label for="galleryFolder" class="flex flex-col items-center justify-center w-full h-32 border-2 border-amber-300 border-dashed rounded-lg cursor-pointer bg-amber-50 hover:bg-amber-100 transition">
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                        <svg class="w-10 h-10 mb-3 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                                        </svg>
+                                        <p class="mb-2 text-sm text-amber-700 text-center">
+                                            <span class="font-semibold" data-i18n="select-folder">Selectează folder</span>
+                                        </p>
+                                        <p class="text-xs text-amber-600 text-center" data-i18n="upload-folder-hint">Încarcă întreg folderul</p>
+                                    </div>
+                                    <input 
+                                        id="galleryFolder" 
+                                        type="file" 
+                                        accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                                        webkitdirectory
+                                        directory
+                                        multiple
+                                        class="hidden"
+                                    >
+                                </label>
+                            </div>
+                        </div>
+                        <div id="galleryFilesInfo" class="mt-2 hidden p-3 bg-gray-50 rounded-lg">
+                            <p class="text-sm text-gray-700">
+                                <span id="galleryFilesCount" class="font-medium"></span> <span data-i18n="files-selected">fișiere selectate</span>
+                                <span id="galleryFolderName" class="text-amber-600 font-semibold ml-2"></span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="galleryUploadProgress" class="hidden rounded-xl border border-amber-200 bg-amber-50 p-4">
+                        <div class="mb-2 flex items-center justify-between gap-4 text-sm font-semibold text-amber-900">
+                            <span id="galleryUploadProgressLabel" data-i18n="gallery-upload-preparing">Pregătim încărcarea...</span>
+                            <span id="galleryUploadProgressPercent">0%</span>
+                        </div>
+                        <div class="h-3 overflow-hidden rounded-full bg-white shadow-inner">
+                            <div id="galleryUploadProgressBar" class="h-full w-0 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 transition-all duration-200"></div>
+                        </div>
+                        <p id="galleryUploadProgressFile" class="mt-2 truncate text-xs text-amber-700"></p>
+                    </div>
+
+                    <button 
+                        type="submit"
+                        id="galleryUploadBtn"
+                        class="w-full bg-gradient-to-r from-amber-600 to-orange-600 text-white py-3 rounded-lg font-semibold text-lg hover:from-amber-700 hover:to-orange-700 transition shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                        data-i18n="btn-upload-photos"
+                    >
+                        <span id="galleryUploadBtnText" data-i18n="btn-upload-photos">Încarcă Fotografiile</span>
+                    </button>
+                </form>
+
+                <!-- Gallery Photos Summary -->
+                <div class="mt-8">
+                    <h4 class="text-xl font-bold text-gray-800 mb-4" data-i18n="uploaded-photos-summary">Rezumat Fotografii Încărcate</h4>
+                    <div class="mb-4 flex gap-4">
+                        <select id="galleryFilterCourse" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500">
+                            <option value="" data-i18n="all-courses">Toate cursurile</option>
+                            <option value="ORNI">ORNI</option>
+                            <option value="Coarde" data-i18n="course-strings">Coarde</option>
+                            <option value="Aerofone" data-i18n="course-aerophones">Aerofone</option>
+                            <option value="Dirijor" data-i18n="course-conductor">Dirijor</option>
+                            <option value="Vioriști" data-i18n="course-violinists">Vioriști</option>
+                            <option value="General" data-i18n="course-general">General</option>
+                        </select>
+                        <select id="galleryFilterYear" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500">
+                            <option value="" data-i18n="all-years">Toți anii</option>
+                        </select>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-i18n="table-th-course">Curs</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-i18n="label-year">An</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-i18n="table-th-photo-count">Număr Fotografii</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-i18n="table-th-actions">Acțiuni</th>
+                                </tr>
+                            </thead>
+                            <tbody id="gallerySummaryTableBody" class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td colspan="4" class="px-6 py-4 text-center text-gray-500" data-i18n="loading-data">Se încarcă datele...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script>
+        window.FirebaseSharedReady.then(async ({
+            auth,
+            db,
+            storage,
+            onAuthStateChanged,
+            requireAdminAccess,
+            signOut,
+            serverTimestamp
+        }) => {
+        const { collection, query, onSnapshot, orderBy, addDoc, deleteDoc, doc, getDoc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+        const { ref, uploadBytesResumable, getDownloadURL, deleteObject } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js');
+
+        // --- CONFIG & CONSTANTS ---
+        let adminInitialized = false;
+
+        const ALL_GROUPS = {
+            'DIRIJOR': ['Sesia 1 (grupa B)', 'Sesia 2 (grupa A)', 'Sesia 3 (armonie)', 'Sesia 4 (armonie)', 'Sesia 5 (armonie)', 'Sesia 6 (armonie)'],
+            'DEFAULT': ['G', 'B', 'A', 'Armonie']
+        };
+
+        async function ensureAdminAction() {
+            const { allowed } = await requireAdminAccess();
+            if (!allowed) {
+                throw new Error(t('error-admin-action-denied', 'Nu ai acces admin pentru această acțiune.'));
+            }
+        }
+
+        window.checkIsAuthenticated = () => Boolean(auth.currentUser);
+        window.checkIfAuthenticated = window.checkIsAuthenticated;
+        window.forceLogout = async () => {
+            try {
+                await signOut(auth);
+            } finally {
+                window.location.href = 'login.html?redirect=admin.html';
+            }
+        };
+
+        window.updateStudentGroup = async (id, newGroup) => {
+            try {
+                await updateDoc(doc(db, 'registrations', id), {
+                    group: newGroup,
+                    studentGroup: newGroup
+                });
+            } catch (error) {
+                console.error("Error updating group:", error);
+                alert(t('error-update-group', 'Eroare la actualizarea grupei!'));
+            }
+        };
+
+        // --- GLOBAL STATE ---
+            let allRegistrations = [];
+            let allExams = [];
+            let allSeminarRegistrations = [];
+        let allSeminars = [];
+        let allAnnouncements = [];
+        
+        let registrationsLoaded = false;
+        let examsLoaded = false;
+        let seminarRegistrationsLoaded = false;
+        let seminarsLoaded = false;
+        let announcementsLoaded = false;
+        
+        let seminarsMap = {}; 
+            let filteredRegistrations = [];
+            let filteredExams = [];
+            let filteredSeminarRegistrations = [];
+        let filteredAnnouncements = [];
+        
+            let selectedCourse = 'all';
+            let selectedExamCourse = 'all';
+            let selectedExamInstrument = 'all';
+
+        const adminDashboard = document.getElementById('adminDashboard');
+
+        // --- HELPERS ---
+        function safeFormatDate(d) {
+            if (!d) return '-';
+            try {
+                const date = d.toDate ? d.toDate() : new Date(d);
+                if (isNaN(date.getTime())) return '-';
+                return date.toLocaleDateString(window.i18n ? (window.i18n.getLanguage() === 'ru' ? 'ru-RU' : 'ro-RO') : 'ro-RO', {
+                    year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+            } catch (e) { return '-'; }
+        }
+
+        const esc = (value) => window.SafeDOM.escapeHTML(value);
+        const safeLink = (value) => window.SafeDOM.safeURL(value);
+        const membershipHelpers = window.MHOMembershipVerification;
+
+        function t(key, fallback = '') {
+            if (window.i18n) {
+                const value = window.i18n.t(key);
+                if (value && value !== key) return value;
+            }
+            return fallback || key;
+        }
+
+        function formatTemplate(key, values = {}, fallback = '') {
+            return Object.entries(values).reduce(
+                (text, [name, value]) => text.replaceAll(`{${name}}`, value),
+                t(key, fallback)
+            );
+        }
+
+        function getCourseLabel(course) {
+            const normalized = String(course || '').trim().toLowerCase();
+            const map = {
+                orni: 'course-orni',
+                coarde: 'course-strings',
+                aerofone: 'course-aerophones',
+                dirijor: 'course-conductor',
+                'vioriști': 'course-violinists',
+                vioristi: 'course-violinists',
+                general: 'course-general'
+            };
+            return map[normalized] ? t(map[normalized], course) : (course || t('label-not-available', 'N/A'));
+        }
+
+        function getExamInstrumentLabel(exam) {
+            const helper = window.MHO_EXAM_HELPERS;
+            return exam.instrument || (helper ? helper.labelForInstrument(exam.instrumentSlug) : '') || 'Nespecificat';
+        }
+
+        function populateExamInstrumentFilter() {
+            const select = document.getElementById('examInstrumentFilter');
+            if (!select || !window.MHO_EXAM_HELPERS) return;
+            const course = selectedExamCourse === 'all' ? null : selectedExamCourse;
+            const items = course ? window.MHO_EXAM_HELPERS.instrumentsForCourse(course) : (window.MHO_EXAM_INSTRUMENTS || []);
+            select.innerHTML = '<option value="all">Toate instrumentele</option><option value="__missing__">Nespecificat</option>' + items
+                .map((item) => `<option value="${esc(item.slug)}">${esc(item.courseLabel ? `${item.courseLabel} - ${item.instrument}` : item.instrument)}</option>`)
+                .join('');
+            if (![...select.options].some((option) => option.value === selectedExamInstrument)) selectedExamInstrument = 'all';
+            select.value = selectedExamInstrument;
+        }
+
+        function getGroupLabel(group) {
+            const value = String(group || '').trim();
+            const normalized = value.toLowerCase();
+            const map = {
+                'pentru prima data': 'group-first-time',
+                armonie: 'group-harmony',
+                'sesia 1 (grupa b)': 'dirijor-group-option-1',
+                'sesia 2 (grupa a)': 'dirijor-group-option-2',
+                'sesia 3 (armonie)': 'dirijor-group-option-3',
+                'sesia 4 (armonie)': 'dirijor-group-option-4',
+                'sesia 5 (armonie)': 'dirijor-group-option-5',
+                'sesia 6 (armonie)': 'dirijor-group-option-6'
+            };
+            return map[normalized] ? t(map[normalized], value) : value;
+        }
+
+        function getCourseLevelLabel(value) {
+            const normalized = String(value || '').trim().toLowerCase();
+            const map = {
+                'sesia 1-2': 'course-level-1-2',
+                'sesia 3-4': 'course-level-3-4',
+                'sesia 5-6': 'course-level-5-6',
+            };
+            return map[normalized] ? t(map[normalized], value) : value;
+        }
+
+        function getPreviousCourseSummary(registration) {
+            if (!registration?.hasPreviousCourse) return t('previous-course-no', 'Nu');
+            const course = registration.previousCourseTypeLabel || getCourseLabel(registration.previousCourseType);
+            const level = registration.previousCourseLevelLabel || getCourseLevelLabel(registration.previousCourseLevel);
+            const detail = [course, level].filter(Boolean).join(' / ');
+            return detail ? `${t('previous-course-yes', 'Da')}: ${detail}` : t('previous-course-yes', 'Da');
+        }
+
+        function getRegistrationMembershipStatus(registration) {
+            return membershipHelpers.getMembershipStatus(registration);
+        }
+
+        function renderMembershipBadge(registration) {
+            const status = getRegistrationMembershipStatus(registration);
+            const meta = membershipHelpers.getMembershipBadgeMeta(status);
+            const label = t(`membership-status-${status}`, meta.label);
+            return `<span class="inline-flex items-center px-2.5 py-1 text-xs font-bold rounded-full ${meta.classes}">${esc(label)}</span>`;
+        }
+
+        function renderMembershipWhatsAppAction(registration) {
+            const status = getRegistrationMembershipStatus(registration);
+            if (!membershipHelpers.inferChurchMember(registration) || status !== 'pending') {
+                return '<span class="text-sm text-gray-400">-</span>';
+            }
+
+            const normalizedPhone = membershipHelpers.normalizePastorPhone(registration.pastorPhone);
+            if (!normalizedPhone) {
+                return `<span class="text-sm text-gray-400">${esc(t('membership-no-valid-phone', 'Fără număr valid'))}</span>`;
+            }
+
+            return `
+                <button
+                    type="button"
+                    onclick="window.openMembershipWhatsApp('${registration.id}')"
+                    class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm font-semibold transition shadow-sm hover:shadow-md"
+                >
+                    <span>🟢</span>
+                    <span>${esc(t('membership-send-whatsapp', 'Trimite pe WhatsApp'))}</span>
+                </button>
+            `;
+        }
+
+        // --- EXPORT TO EXCEL ---
+        window.exportRegistrationsToExcel = function() {
+            if (!filteredRegistrations || filteredRegistrations.length === 0) {
+                alert(window.i18n ? window.i18n.t('no-data-to-export') : "Nu există date de exportat!");
+                return;
+            }
+
+            try {
+                // Header rows
+                const headers = [
+                    t('csv-last-name', 'Nume'), 
+                    t('csv-first-name', 'Prenume'), 
+                    t('csv-birth-date', 'Data Nașterii'), 
+                    t('csv-church', 'Biserică'), 
+                    t('csv-pastor', 'Pastor'), 
+                    t('csv-pastor-phone', 'Tel. Pastor'),
+                    t('csv-course', 'Curs'), 
+                    t('csv-group', 'Grupă'),
+                    t('table-th-previous-courses', 'Cursuri anterioare'),
+                    t('csv-registration-date', 'Data Înregistrării'),
+                    t('csv-email', 'Email'),
+                    t('csv-phone', 'Telefon'),
+                    t('csv-city', 'Oraș'),
+                    t('csv-notes', 'Observații')
+                ];
+
+                // Prepare CSV content
+                // Using semicolon as separator and BOM for Excel UTF-8 compatibility
+                let csvContent = "\uFEFF"; 
+                csvContent += headers.join(";") + "\n";
+
+                filteredRegistrations.forEach(r => {
+                    const row = [
+                        r.lastName || "",
+                        r.firstName || "",
+                        r.birthDate || "",
+                        r.church || "",
+                        r.pastorName || "",
+                        r.pastorPhone || "",
+                        r.courseType || "",
+                        r.studentGroup || "",
+                        getPreviousCourseSummary(r),
+                        safeFormatDate(r.timestamp || r.createdAt),
+                        r.email || "",
+                        r.phone || "",
+                        r.city || "",
+                        (r.notes || "").replace(/(\r\n|\n|\r|;)/gm, " ") // Clean notes
+                    ];
+                    
+                    // Escape semicolons in values to not break CSV
+                    const escapedRow = row.map(val => `"${String(val).replace(/"/g, '""')}"`);
+                    csvContent += escapedRow.join(";") + "\n";
+                });
+
+                // Create download link
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                const fileName = `Inregistrari_MHO_${new Date().toISOString().split('T')[0]}.csv`;
+                
+                link.setAttribute("href", url);
+                link.setAttribute("download", fileName);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (error) {
+                console.error("Export failed:", error);
+                alert(t('error-export-data', 'Eroare la exportul datelor!'));
+            }
+        };
+
+        window.exportSeminarsToExcel = function() {
+            if (!filteredSeminarRegistrations || filteredSeminarRegistrations.length === 0) {
+                alert(window.i18n ? window.i18n.t('no-data-to-export') : "Nu există date de exportat!");
+                    return;
+                }
+
+            try {
+                const headers = [
+                    t('csv-last-name', 'Nume'), 
+                    t('csv-first-name', 'Prenume'), 
+                    t('csv-email', 'Email'), 
+                    t('csv-phone', 'Telefon'), 
+                    t('csv-seminar', 'Seminar'), 
+                    t('csv-notes', 'Note'), 
+                    t('csv-registration-date', 'Data Înregistrării')
+                ];
+
+                let csvContent = "\uFEFF"; 
+                csvContent += headers.join(";") + "\n";
+
+                filteredSeminarRegistrations.forEach(r => {
+                    const row = [
+                        r.lastName || "",
+                        r.firstName || "",
+                        r.email || "",
+                        r.phone || "",
+                        seminarsMap[r.seminarId] || t('table-th-seminar', 'Seminar'),
+                        (r.notes || "").replace(/(\r\n|\n|\r|;)/gm, " "),
+                        safeFormatDate(r.createdAt)
+                    ];
+                    
+                    const escapedRow = row.map(val => `"${String(val).replace(/"/g, '""')}"`);
+                    csvContent += escapedRow.join(";") + "\n";
+                });
+
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                const fileName = `Inregistrari_Seminare_MHO_${new Date().toISOString().split('T')[0]}.csv`;
+                
+                link.setAttribute("href", url);
+                link.setAttribute("download", fileName);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                } catch (error) {
+                console.error("Export failed:", error);
+                alert(t('error-export-data', 'Eroare la exportul datelor!'));
+            }
+        };
+
+        window.exportExamsToExcel = function() {
+            if (!filteredExams || filteredExams.length === 0) {
+                alert(window.i18n ? window.i18n.t('no-data-to-export') : "Nu există date de exportat!");
+                        return;
+                    }
+                    
+            try {
+                const headers = [
+                    t('csv-last-name', 'Nume'), 
+                    t('csv-first-name', 'Prenume'), 
+                    t('csv-course', 'Curs'), 
+                    t('csv-group', 'Grupă'), 
+                    t('csv-exam-title', 'Titlu Examen'), 
+                    t('csv-file-link', 'Link Fișier'), 
+                    t('csv-video-link', 'Link Video'), 
+                    t('csv-submission-date', 'Data Trimiterii')
+                ];
+
+                let csvContent = "\uFEFF"; 
+                csvContent += headers.join(";") + "\n";
+
+                filteredExams.forEach(e => {
+                    const row = [
+                        e.lastName || "",
+                        e.firstName || "",
+                        e.course || "",
+                        e.group || "",
+                        e.examTitle || "",
+                        e.fileURL || "",
+                        e.performanceFileURL || "",
+                        safeFormatDate(e.timestamp || e.createdAt)
+                    ];
+                    
+                    const escapedRow = row.map(val => `"${String(val).replace(/"/g, '""')}"`);
+                    csvContent += escapedRow.join(";") + "\n";
+                });
+
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                const fileName = `Trimiteri_Examene_MHO_${new Date().toISOString().split('T')[0]}.csv`;
+                
+                link.setAttribute("href", url);
+                link.setAttribute("download", fileName);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                } catch (error) {
+                console.error("Export failed:", error);
+                alert(t('error-export-data', 'Eroare la exportul datelor!'));
+            }
+        };
+
+        function sortByDate(arr, field) {
+            if (!Array.isArray(arr)) return [];
+            return [...arr].sort((a, b) => {
+                const getV = (o) => {
+                    if (!o) return 0;
+                    const v = (field ? o[field] : null) || o.createdAt || o.timestamp || o.date || 0;
+                    if (v && typeof v.toDate === 'function') return v.toDate();
+                    if (v instanceof Date) return v;
+                    const dt = new Date(v);
+                    return isNaN(dt.getTime()) ? 0 : dt;
+                };
+                return getV(b) - getV(a);
+            });
+        }
+
+        function filterData() {
+            try {
+                const sInput = document.getElementById('searchInput');
+                const term = (sInput ? sInput.value : '').toLowerCase().trim();
+                
+                // registrations filter (more robust like in course pages)
+                filteredRegistrations = allRegistrations.filter(r => {
+                    if (selectedCourse === 'all') return true;
+                    const course = (r.courseType || r.course || r.selectedCourse || r.instrument || '').toLowerCase();
+                    return course.includes(selectedCourse.toLowerCase());
+                });
+                
+                if (term) {
+                    filteredRegistrations = filteredRegistrations.filter(r => 
+                        `${r.firstName} ${r.lastName} ${r.courseType} ${r.course} ${r.churchName || r.church || ''} ${r.pastorName || ''} ${getRegistrationMembershipStatus(r)}`.toLowerCase().includes(term)
+                    );
+                }
+
+                // exams filter
+                filteredExams = allExams.filter(e => {
+                    const courseMatch = selectedExamCourse === 'all' || (e.course || e.courseType || '').toLowerCase().includes(selectedExamCourse.toLowerCase());
+                    const instrumentMatch = selectedExamInstrument === 'all' || (selectedExamInstrument === '__missing__' ? !e.instrumentSlug : e.instrumentSlug === selectedExamInstrument);
+                    return courseMatch && instrumentMatch;
+                });
+                
+                if (term) {
+                    filteredExams = filteredExams.filter(e => 
+                        `${e.firstName} ${e.lastName} ${e.course} ${getExamInstrumentLabel(e)} ${e.examTitle}`.toLowerCase().includes(term)
+                    );
+                }
+
+                // seminar registrations filter
+                filteredSeminarRegistrations = allSeminarRegistrations;
+                if (term) {
+                    filteredSeminarRegistrations = allSeminarRegistrations.filter(r => 
+                        `${r.firstName} ${r.lastName} ${r.email} ${seminarsMap[r.seminarId] || ''}`.toLowerCase().includes(term)
+                    );
+                }
+
+                // announcements filter
+                filteredAnnouncements = allAnnouncements;
+                if (term) {
+                    filteredAnnouncements = allAnnouncements.filter(a => 
+                        `${a.course || ''} ${a.location || ''} ${a.description || ''}`.toLowerCase().includes(term)
+                    );
+                }
+                
+                renderTables();
+            } catch (e) {
+                console.error("Filter error:", e);
+            }
+        }
+
+        function renderTables() {
+            try {
+                const getT = (key) => window.i18n ? window.i18n.t(key) : key;
+                
+                const regsTable = document.getElementById('registrationsTableBody');
+                const examsTable = document.getElementById('examsTableBody');
+                const semRegTable = document.getElementById('seminarRegistrationsTableBody');
+                const seminarsTable = document.getElementById('seminarsTableBody');
+                const announcementsTable = document.getElementById('announcementsTableBody');
+
+                // Update Stats
+                const tReg = document.getElementById('totalRegistrations');
+                const tExa = document.getElementById('totalExams');
+                const tSem = document.getElementById('totalSeminarRegistrations');
+                
+                if (tReg) tReg.textContent = registrationsLoaded ? allRegistrations.length : '...';
+                if (tExa) tExa.textContent = examsLoaded ? allExams.length : '...';
+                if (tSem) tSem.textContent = seminarRegistrationsLoaded ? allSeminarRegistrations.length : '...';
+                
+                const rCount = document.getElementById('registrationsCount');
+                if (rCount) rCount.textContent = registrationsLoaded ? `(${filteredRegistrations.length})` : '';
+                
+                const eCount = document.getElementById('examsCount');
+                if (eCount) eCount.textContent = examsLoaded ? `(${filteredExams.length})` : '';
+                
+                const sCount = document.getElementById('seminarRegistrationsCount');
+                if (sCount) sCount.textContent = seminarRegistrationsLoaded ? `(${filteredSeminarRegistrations.length})` : '';
+
+                // Update Titles to show selected filter
+                const rTitle = document.getElementById('registrationsTitle');
+                if (rTitle) {
+                    if (selectedCourse === 'all') rTitle.textContent = getT('section-student-reg-all');
+                    else rTitle.textContent = `${getT('section-student-reg')} - ${getCourseLabel(selectedCourse)}`;
+                }
+
+                const eTitle = document.getElementById('examsTitle');
+                if (eTitle) {
+                    if (selectedExamCourse === 'all') eTitle.textContent = getT('section-exams-all');
+                    else eTitle.textContent = `${getT('section-exams')} - ${getCourseLabel(selectedExamCourse)}`;
+                    if (selectedExamInstrument !== 'all') eTitle.textContent += ` - ${selectedExamInstrument === '__missing__' ? 'Nespecificat' : (window.MHO_EXAM_HELPERS ? window.MHO_EXAM_HELPERS.labelForInstrument(selectedExamInstrument) : selectedExamInstrument)}`;
+                }
+
+                // 1. Registrations
+                if (regsTable) {
+                    if (!registrationsLoaded) {
+                        regsTable.innerHTML = `<tr><td colspan="12" class="px-6 py-8 text-center text-gray-500 animate-pulse font-medium">${getT('status-loading-reg')}</td></tr>`;
+                    } else if (filteredRegistrations.length === 0) {
+                        regsTable.innerHTML = `<tr><td colspan="12" class="px-6 py-8 text-center text-gray-500 text-lg">${getT('no-registrations-found')}</td></tr>`;
+                    } else {
+                        regsTable.innerHTML = filteredRegistrations.map(r => `
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">${esc(r.firstName)} ${esc(r.lastName)}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${safeFormatDate(r.birthDate)}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${esc(r.churchName || r.church || '-')}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${esc(r.pastorName || '-')}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${esc(membershipHelpers.normalizePastorPhone(r.pastorPhone) || r.pastorPhone || '-')}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">${renderMembershipBadge(r)}</td>
+                                <td class="px-6 py-4 whitespace-nowrap min-w-[180px]">${renderMembershipWhatsAppAction(r)}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-amber-100 text-amber-800 border border-amber-200">${esc(getCourseLabel(r.courseType || r.course))}</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                    <span class="px-2 py-1 rounded-md ${ (r.group || r.studentGroup) ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-400 italic' }">
+                                        ${esc(getGroupLabel(r.group || r.studentGroup) || getT('no-group'))}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${esc(getPreviousCourseSummary(r))}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${safeFormatDate(r.timestamp || r.createdAt)}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    <button onclick="window.deleteRegistration('${r.id}')" class="text-red-500 hover:text-red-700 transform hover:scale-125 transition-all">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+                                </td>
+                            </tr>`).join('');
+                    }
+                }
+
+                // 2. Exams
+                if (examsTable) {
+                    if (!examsLoaded) {
+                        examsTable.innerHTML = `<tr><td colspan="9" class="px-6 py-8 text-center text-gray-500 animate-pulse font-medium">${getT('status-loading-exams')}</td></tr>`;
+                    } else if (filteredExams.length === 0) {
+                        examsTable.innerHTML = `<tr><td colspan="9" class="px-6 py-8 text-center text-gray-500 text-lg">${getT('no-exams-found')}</td></tr>`;
+                    } else {
+                        examsTable.innerHTML = filteredExams.map(e => `
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">${esc(e.firstName)} ${esc(e.lastName)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-orange-100 text-orange-800 border border-orange-200">${esc(getCourseLabel(e.course || e.courseType))}</span>
+                            </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 font-semibold">${esc(getExamInstrumentLabel(e))}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${esc(getGroupLabel(e.group) || '-')}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${esc(e.examTitle || '-')}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    ${safeLink(e.fileURL) ? `<a href="${safeLink(e.fileURL)}" target="_blank" rel="noopener" class="text-amber-600 font-bold hover:text-amber-700 flex items-center"><span class="mr-1">📎</span> ${getT('table-th-file')}</a>` : '-'}
+                            </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    ${safeLink(e.performanceFileURL) ? `<a href="${safeLink(e.performanceFileURL)}" target="_blank" rel="noopener" class="text-green-600 font-bold hover:text-green-700 flex items-center"><span class="mr-1">🎥</span> ${getT('label-video')}</a>` : '-'}
+                            </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${safeFormatDate(e.timestamp || e.createdAt)}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    <button onclick="window.deleteExam('${e.id}')" class="text-red-500 hover:text-red-700 transform hover:scale-125 transition-all">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
+                            </td>
+                            </tr>`).join('');
+                    }
+                }
+
+                // 3. Seminar Reg
+                if (semRegTable) {
+                    if (!seminarRegistrationsLoaded) {
+                        semRegTable.innerHTML = `<tr><td colspan="7" class="px-6 py-8 text-center text-gray-500 animate-pulse font-medium">${getT('status-loading-seminar-reg')}</td></tr>`;
+                    } else if (filteredSeminarRegistrations.length === 0) {
+                        semRegTable.innerHTML = `<tr><td colspan="7" class="px-6 py-8 text-center text-gray-500 text-lg">${getT('no-seminar-registrations-found')}</td></tr>`;
+                    } else {
+                        semRegTable.innerHTML = filteredSeminarRegistrations.map(r => `
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">${esc(r.firstName)} ${esc(r.lastName)}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${esc(r.email || '')}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${esc(r.phone || '')}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${esc(seminarsMap[r.seminarId] || getT('table-th-seminar'))}</td>
+                                <td class="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">${esc(r.notes || '-')}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${safeFormatDate(r.createdAt)}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    <button onclick="window.deleteSeminarRegistration('${r.id}')" class="text-red-500 hover:text-red-700 transform hover:scale-125 transition-all">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+                                </td>
+                            </tr>`).join('');
+                    }
+                }
+
+                // 4. Seminars
+                if (seminarsTable) {
+                    if (!seminarsLoaded) {
+                        seminarsTable.innerHTML = `<tr><td colspan="6" class="px-6 py-8 text-center text-gray-500 animate-pulse font-medium">${getT('loading-seminars')}</td></tr>`;
+                    } else if (allSeminars.length === 0) {
+                        seminarsTable.innerHTML = `<tr><td colspan="6" class="px-6 py-8 text-center text-gray-500 text-lg">${getT('no-seminars-found')}</td></tr>`;
+                    } else {
+                        seminarsTable.innerHTML = allSeminars.map(s => `
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">${esc(s.title || getT('label-not-available'))}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${esc(getCourseLabel(s.type || 'General'))}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${safeFormatDate(s.startDate)} - ${safeFormatDate(s.endDate)}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${esc(s.location || '-')}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    ${safeLink(s.link) ? `<a href="${safeLink(s.link)}" target="_blank" rel="noopener" class="text-amber-600 font-bold hover:text-amber-700 flex items-center"><span class="mr-1">🔗</span> ${getT('table-th-link')}</a>` : '-'}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    <button onclick="window.deleteSeminar('${s.id}')" class="text-red-500 hover:text-red-700 transform hover:scale-125 transition-all">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+                                </td>
+                            </tr>`).join('');
+                    }
+                }
+
+                // 5. Announcements
+                if (announcementsTable) {
+                    if (!announcementsLoaded) {
+                        announcementsTable.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-gray-500 animate-pulse font-medium">${getT('loading-announcements')}</td></tr>`;
+                    } else if (filteredAnnouncements.length === 0) {
+                        announcementsTable.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-gray-500 text-lg">${getT('no-announcements-found')}</td></tr>`;
+                    } else {
+                        announcementsTable.innerHTML = filteredAnnouncements.map(a => `
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-800 border border-blue-200">${esc(getCourseLabel(a.course || a.courseType || 'General'))}</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${safeFormatDate(a.date)}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${esc(a.location || '-')}</td>
+                                <td class="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">${esc(a.description || '-')}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    <button onclick="window.deleteAnnouncement('${a.id}')" class="text-red-500 hover:text-red-700 transform hover:scale-125 transition-all">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+                                </td>
+                            </tr>`).join('');
+                    }
+                }
+            } catch (err) { 
+                console.error("Render fail:", err); 
+            }
+        }
+
+        // --- FORM HANDLERS ---
+        function setupFormHandlers() {
+            const semForm = document.getElementById('seminarForm');
+            const semStatus = document.getElementById('seminarStatusMessage');
+            if (semForm) {
+                semForm.onsubmit = async (e) => {
+                    e.preventDefault();
+                    const btn = semForm.querySelector('button[type="submit"]');
+                    const orig = btn.textContent;
+                    try {
+                        btn.disabled = true; btn.textContent = "...";
+                        const d = {
+                            title: document.getElementById('seminarTitle').value.trim(),
+                            type: document.getElementById('seminarType').value,
+                            startDate: new Date(document.getElementById('seminarStartDate').value),
+                            endDate: new Date(document.getElementById('seminarEndDate').value),
+                            location: document.getElementById('seminarLocation').value.trim(),
+                            description: document.getElementById('seminarDescription').value.trim(),
+                            link: document.getElementById('seminarLink').value.trim() || null,
+                        createdAt: serverTimestamp()
+                    };
+                        await addDoc(collection(db, 'seminars'), d);
+                        semForm.reset();
+                        if (semStatus) {
+                            semStatus.textContent = t('add-success', 'Adăugat cu succes!'); semStatus.className = 'mb-6 p-4 rounded bg-green-100 text-green-700 text-center font-bold';
+                            semStatus.classList.remove('hidden'); setTimeout(() => semStatus.classList.add('hidden'), 3000);
+                        }
+                    } catch(err) { alert(t('error-add-seminar', 'Eroare la adăugarea seminarului')); } finally { btn.disabled = false; btn.textContent = orig; }
+                };
+            }
+
+            const annForm = document.getElementById('announcementForm');
+            const annStatus = document.getElementById('announcementStatusMessage');
+            if (annForm) {
+                annForm.onsubmit = async (e) => {
+                    e.preventDefault();
+                    const btn = annForm.querySelector('button[type="submit"]');
+                    const orig = btn.textContent;
+                    try {
+                        btn.disabled = true; btn.textContent = "...";
+                        const d = {
+                            course: document.getElementById('announcementCourse').value,
+                            date: new Date(document.getElementById('announcementDate').value),
+                            location: document.getElementById('announcementLocation').value.trim(),
+                            description: document.getElementById('announcementDescription').value.trim(),
+                            createdAt: serverTimestamp()
+                        };
+                        await addDoc(collection(db, 'courseAnnouncements'), d);
+                        annForm.reset();
+                        if (annStatus) {
+                            annStatus.textContent = t('status-announcement-success', 'Anunț postat cu succes!'); annStatus.className = 'mb-6 p-4 rounded bg-green-100 text-green-700 text-center font-bold';
+                            annStatus.classList.remove('hidden'); setTimeout(() => annStatus.classList.add('hidden'), 3000);
+                        }
+                    } catch(err) { alert(t('error-add-announcement', 'Eroare la adăugarea anunțului')); } finally { btn.disabled = false; btn.textContent = orig; }
+                };
+            }
+        }
+
+        // --- FIREBASE INIT ---
+        function initializeFirebaseData() {
+            if (window.firebaseDataInitialized) return;
+            window.firebaseDataInitialized = true;
+
+            setupFormHandlers();
+
+            // Safety timeout
+            setTimeout(() => {
+                let changed = false;
+                if (!registrationsLoaded) { registrationsLoaded = true; changed = true; }
+                if (!examsLoaded) { examsLoaded = true; changed = true; }
+                if (!seminarRegistrationsLoaded) { seminarRegistrationsLoaded = true; changed = true; }
+                if (!seminarsLoaded) { seminarsLoaded = true; changed = true; }
+                if (!announcementsLoaded) { announcementsLoaded = true; changed = true; }
+                if (changed) filterData();
+            }, 5000);
+
+            // Listeners
+            try {
+                onSnapshot(collection(db, 'registrations'), (s) => {
+                    try {
+                        allRegistrations = sortByDate(s.docs.map(d => ({id: d.id, ...d.data()})), 'timestamp');
+                        registrationsLoaded = true; 
+                        filterData();
+                    } catch (e) { console.error("Error processing registrations:", e); }
+                }, (err) => { 
+                    console.error("Registrations listener failed:", err);
+                    registrationsLoaded = true; 
+                    filterData(); 
+                });
+
+                onSnapshot(collection(db, 'exams'), (s) => {
+                    try {
+                        allExams = sortByDate(s.docs.map(d => ({id: d.id, ...d.data()})), 'timestamp');
+                        examsLoaded = true; 
+                        filterData();
+                    } catch (e) { console.error("Error processing exams:", e); }
+                }, (err) => { 
+                    console.error("Exams listener failed:", err);
+                    examsLoaded = true; 
+                    filterData(); 
+                });
+
+                onSnapshot(collection(db, 'seminars'), (s) => {
+                    try {
+                        allSeminars = sortByDate(s.docs.map(d => ({id: d.id, ...d.data()})), 'startDate');
+                        seminarsMap = {}; 
+                        s.docs.forEach(d => {
+                            const data = d.data();
+                            seminarsMap[d.id] = data.title || "Seminar";
+                        });
+                        seminarsLoaded = true; 
+                        filterData();
+                    } catch (e) { console.error("Error processing seminars:", e); }
+                }, (err) => { 
+                    console.error("Seminars listener failed:", err);
+                    seminarsLoaded = true; 
+                    filterData(); 
+                });
+
+                onSnapshot(collection(db, 'seminarRegistrations'), (s) => {
+                    try {
+                        allSeminarRegistrations = sortByDate(s.docs.map(d => ({id: d.id, ...d.data()})), 'createdAt');
+                        seminarRegistrationsLoaded = true; 
+                        filterData();
+                    } catch (e) { console.error("Error processing seminar registrations:", e); }
+                }, (err) => { 
+                    console.error("Seminar registrations listener failed:", err);
+                    seminarRegistrationsLoaded = true; 
+                    filterData(); 
+                });
+
+                onSnapshot(collection(db, 'courseAnnouncements'), (s) => {
+                    try {
+                        allAnnouncements = sortByDate(s.docs.map(d => ({id: d.id, ...d.data()})), 'date');
+                        announcementsLoaded = true; 
+                        filterData();
+                    } catch (e) { console.error("Error processing announcements:", e); }
+                }, (err) => { 
+                    console.error("Announcements listener failed:", err);
+                    announcementsLoaded = true; 
+                    filterData(); 
+                });
+            } catch (e) { console.error("Firestore setup error:", e); }
+
+            // Search
+            const sInput = document.getElementById('searchInput');
+            if (sInput) sInput.addEventListener('input', filterData);
+
+            // Tabs
+            const setupTabs = (sel, key) => {
+                document.querySelectorAll(sel).forEach(tab => {
+                    tab.onclick = () => {
+                        document.querySelectorAll(sel).forEach(t => {
+                            t.classList.remove('active', 'bg-gradient-to-r', 'from-amber-600', 'to-orange-600', 'from-orange-600', 'to-red-600', 'text-white', 'shadow-lg');
+                        t.classList.add('bg-gray-100', 'text-gray-700');
+                    });
+                        const grad = sel.includes('exam') ? 'from-orange-600 to-red-600' : 'from-amber-600 to-orange-600';
+                        tab.classList.add('active', 'bg-gradient-to-r', ...grad.split(' '), 'text-white', 'shadow-lg');
+                    tab.classList.remove('bg-gray-100', 'text-gray-700');
+                        if (key === 'course') selectedCourse = tab.dataset[key];
+                        else {
+                            selectedExamCourse = tab.dataset[key];
+                            selectedExamInstrument = 'all';
+                            populateExamInstrumentFilter();
+                        }
+                    filterData();
+                    };
+                });
+            };
+            setupTabs('.course-tab', 'course');
+            setupTabs('.exam-course-tab', 'examCourse');
+            populateExamInstrumentFilter();
+            const examInstrumentFilter = document.getElementById('examInstrumentFilter');
+            if (examInstrumentFilter) {
+                examInstrumentFilter.addEventListener('change', () => {
+                    selectedExamInstrument = examInstrumentFilter.value;
+                    filterData();
+                });
+            }
+
+            renderTables();
+
+        }
+
+        // --- GLOBAL ACTIONS ---
+        async function deleteAdminDocument(collectionName, id, label = t('delete-label-item', 'elementul')) {
+            if (!id) return;
+            if (!confirm(formatTemplate('confirm-delete-admin-item', { label }, `Sigur ștergi ${label}?`))) return;
+
+            try {
+                await ensureAdminAction();
+                await deleteDoc(doc(db, collectionName, id));
+            } catch (error) {
+                console.error(`Delete failed for ${collectionName}/${id}:`, error);
+                alert(formatTemplate('error-delete-admin-item', { label }, `Nu am putut șterge ${label}. Reîncarcă pagina și încearcă din nou.`));
+            }
+        }
+
+        window.deleteRegistration = (id) => deleteAdminDocument('registrations', id, t('delete-label-registration', 'înregistrarea'));
+        window.deleteExam = (id) => deleteAdminDocument('exams', id, t('delete-label-exam', 'examenul'));
+        window.deleteSeminarRegistration = (id) => deleteAdminDocument('seminarRegistrations', id, t('delete-label-seminar-registration', 'înscrierea la seminar'));
+        window.deleteSeminar = (id) => deleteAdminDocument('seminars', id, t('delete-label-seminar', 'seminarul'));
+        window.deleteAnnouncement = (id) => deleteAdminDocument('courseAnnouncements', id, t('delete-label-announcement', 'anunțul'));
+
+        window.openMembershipWhatsApp = async (id) => {
+            const registration = allRegistrations.find((item) => item.id === id);
+            if (!registration) {
+                alert(t('membership-registration-not-found', 'Înregistrarea nu a fost găsită.'));
+                return;
+            }
+
+            const whatsappUrl = membershipHelpers.buildWhatsAppUrl(registration);
+            if (!whatsappUrl) {
+                alert(t('membership-not-enough-whatsapp-data', 'Nu există date suficiente pentru trimiterea mesajului pe WhatsApp.'));
+                return;
+            }
+
+            window.open(whatsappUrl, '_blank', 'noopener');
+
+            try {
+                await updateDoc(doc(db, 'registrations', id), {
+                    whatsappMessageOpenedAt: serverTimestamp()
+                });
+            } catch (error) {
+                console.warn('Nu am putut salva whatsappMessageOpenedAt:', error);
+            }
+        };
+
+        const galleryUploadForm = document.getElementById('galleryUploadForm');
+        const galleryImagesInput = document.getElementById('galleryImages');
+        const galleryFolderInput = document.getElementById('galleryFolder');
+        const galleryFilesInfo = document.getElementById('galleryFilesInfo');
+        const galleryFilesCount = document.getElementById('galleryFilesCount');
+        const galleryFolderName = document.getElementById('galleryFolderName');
+        const galleryStatusMessage = document.getElementById('galleryStatusMessage');
+        const galleryUploadBtn = document.getElementById('galleryUploadBtn');
+        const galleryUploadBtnText = document.getElementById('galleryUploadBtnText');
+        const galleryUploadProgress = document.getElementById('galleryUploadProgress');
+        const galleryUploadProgressLabel = document.getElementById('galleryUploadProgressLabel');
+        const galleryUploadProgressPercent = document.getElementById('galleryUploadProgressPercent');
+        const galleryUploadProgressBar = document.getElementById('galleryUploadProgressBar');
+        const galleryUploadProgressFile = document.getElementById('galleryUploadProgressFile');
+        const gallerySummaryTableBody = document.getElementById('gallerySummaryTableBody');
+        const galleryFilterCourse = document.getElementById('galleryFilterCourse');
+        const galleryFilterYear = document.getElementById('galleryFilterYear');
+
+        let allGalleryPhotos = [];
+        let galleryUnsubscribe = null;
+        let selectedFiles = [];
+
+        // Show gallery status message
+        function showGalleryStatus(message, type) {
+            galleryStatusMessage.textContent = message;
+            galleryStatusMessage.className = `mb-6 p-4 rounded-lg text-center font-medium ${
+                type === 'success' ? 'bg-green-100 text-green-700 border border-green-300' :
+                type === 'error' ? 'bg-red-100 text-red-700 border border-red-300' :
+                'bg-blue-100 text-blue-700 border border-blue-300'
+            }`;
+            galleryStatusMessage.classList.remove('hidden');
+        }
+
+        // Hide gallery status message
+        function hideGalleryStatus() {
+            galleryStatusMessage.classList.add('hidden');
+        }
+
+        function setGalleryUploadButtonText(text) {
+            if (galleryUploadBtnText) {
+                galleryUploadBtnText.textContent = text;
+            } else if (galleryUploadBtn) {
+                galleryUploadBtn.textContent = text;
+            }
+        }
+
+        function updateGalleryUploadProgress({ completedFiles, totalFiles, completedBytes, totalBytes, currentFileName }) {
+            if (!galleryUploadProgress) return;
+
+            const safeTotalBytes = Math.max(totalBytes || 0, 1);
+            const percent = Math.min(100, Math.max(0, Math.round((completedBytes / safeTotalBytes) * 100)));
+
+            galleryUploadProgress.classList.remove('hidden');
+            if (galleryUploadProgressLabel) {
+                galleryUploadProgressLabel.textContent = formatTemplate('gallery-upload-progress-label', {
+                    completed: completedFiles,
+                    total: totalFiles
+                }, `Se încarcă ${completedFiles}/${totalFiles} fotografii`);
+            }
+            if (galleryUploadProgressPercent) {
+                galleryUploadProgressPercent.textContent = `${percent}%`;
+            }
+            if (galleryUploadProgressBar) {
+                galleryUploadProgressBar.style.width = `${percent}%`;
+            }
+            if (galleryUploadProgressFile) {
+                galleryUploadProgressFile.textContent = currentFileName
+                    ? formatTemplate('gallery-current-file', { file: currentFileName }, `Fișier curent: ${currentFileName}`)
+                    : '';
+            }
+        }
+
+        function resetGalleryUploadProgress() {
+            if (!galleryUploadProgress) return;
+            galleryUploadProgress.classList.add('hidden');
+            if (galleryUploadProgressLabel) galleryUploadProgressLabel.textContent = t('gallery-upload-preparing', 'Pregătim încărcarea...');
+            if (galleryUploadProgressPercent) galleryUploadProgressPercent.textContent = '0%';
+            if (galleryUploadProgressBar) galleryUploadProgressBar.style.width = '0%';
+            if (galleryUploadProgressFile) galleryUploadProgressFile.textContent = '';
+        }
+
+        function uploadGalleryFile(storageRef, file, metadata, onProgress) {
+            return new Promise((resolve, reject) => {
+                const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+                uploadTask.on(
+                    'state_changed',
+                    (snapshot) => onProgress(snapshot.bytesTransferred, snapshot.totalBytes),
+                    reject,
+                    () => resolve(uploadTask.snapshot)
+                );
+            });
+        }
+
+        // Handle file selection (single/multiple files)
+        galleryImagesInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            if (files.length > 0) {
+                selectedFiles = files;
+                galleryFolderInput.value = ''; // Clear folder input
+                galleryFilesInfo.classList.remove('hidden');
+                galleryFilesCount.textContent = files.length;
+                galleryFolderName.textContent = '';
+            } else {
+                if (selectedFiles.length === 0) {
+                    galleryFilesInfo.classList.add('hidden');
+                }
+            }
+        });
+
+        // Handle folder selection
+        galleryFolderInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            if (files.length > 0) {
+                selectedFiles = files;
+                galleryImagesInput.value = ''; // Clear file input
+                galleryFilesInfo.classList.remove('hidden');
+                galleryFilesCount.textContent = files.length;
+                
+                // Try to get folder name from file path
+                if (files[0] && files[0].webkitRelativePath) {
+                    const folderPath = files[0].webkitRelativePath.split('/')[0];
+                    galleryFolderName.textContent = formatTemplate('gallery-folder-label-admin', { folder: folderPath }, `(Folder: ${folderPath})`);
+                } else {
+                    galleryFolderName.textContent = '';
+                }
+            } else {
+                if (selectedFiles.length === 0) {
+                    galleryFilesInfo.classList.add('hidden');
+                }
+            }
+        });
+
+        // Handle gallery upload form submission
+        galleryUploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideGalleryStatus();
+            resetGalleryUploadProgress();
+
+            const course = document.getElementById('galleryCourse').value;
+            const year = document.getElementById('galleryYear').value;
+            
+            // Get files from either input (files or folder)
+            const files = selectedFiles.length > 0 ? selectedFiles : Array.from(galleryImagesInput.files);
+
+            if (!course || !year) {
+                showGalleryStatus(window.i18n.t('error-select-course-year'), 'error');
+                return;
+            }
+
+            if (files.length === 0) {
+                showGalleryStatus(window.i18n.t('error-no-files'), 'error');
+                return;
+            }
+
+            // Validate file sizes (max 10MB each)
+            const maxSize = 10 * 1024 * 1024; // 10MB
+            const invalidFiles = files.filter(file => file.size > maxSize);
+            if (invalidFiles.length > 0) {
+                showGalleryStatus(`${window.i18n.t('error-file-size-limit').replace('{n}', invalidFiles.length)}`, 'error');
+                return;
+            }
+
+            const supportedImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            const supportedImageExtensions = /\.(jpe?g|png|webp)$/i;
+            const unsupportedFiles = files.filter((file) => {
+                return !supportedImageTypes.includes(file.type) && !supportedImageExtensions.test(file.name || '');
+            });
+            if (unsupportedFiles.length > 0) {
+                const sampleNames = unsupportedFiles.slice(0, 3).map((file) => file.name).join(', ');
+                showGalleryStatus(formatTemplate('error-unsupported-preview-format', { files: sampleNames }, `❌ Format neacceptat pentru preview: ${sampleNames}. Folosește JPG, PNG sau WEBP.`), 'error');
+                return;
+            }
+
+            // Disable submit button
+            galleryUploadBtn.disabled = true;
+            setGalleryUploadButtonText(`${window.i18n.t('status-sending')} ${files.length}...`);
+            const totalBytes = files.reduce((sum, file) => sum + file.size, 0);
+            let uploadedCount = 0;
+            let failedCount = 0;
+            let uploadedBytes = 0;
+            updateGalleryUploadProgress({
+                completedFiles: 0,
+                totalFiles: files.length,
+                completedBytes: 0,
+                totalBytes,
+                currentFileName: ''
+            });
+
+            try {
+                showGalleryStatus(`${window.i18n.t('uploading-photos-count').replace('{n}', files.length)}`, 'info');
+
+                // Upload each file
+                for (const file of files) {
+                    try {
+                        // Create storage reference: /gallery/{course}/{year}/{filename}
+                        const timestamp = Date.now();
+                        const fileName = `${timestamp}_${file.name}`;
+                        const storageRef = ref(storage, `gallery/${course}/${year}/${fileName}`);
+                        const metadata = {
+                            contentType: file.type || 'image/jpeg',
+                            cacheControl: 'public,max-age=31536000'
+                        };
+
+                        // Upload file
+                        await uploadGalleryFile(storageRef, file, metadata, (bytesTransferred) => {
+                            updateGalleryUploadProgress({
+                                completedFiles: uploadedCount + failedCount,
+                                totalFiles: files.length,
+                                completedBytes: uploadedBytes + bytesTransferred,
+                                totalBytes,
+                                currentFileName: file.name
+                            });
+                        });
+                        uploadedBytes += file.size;
+
+                        // Get download URL
+                        const downloadURL = await getDownloadURL(storageRef);
+
+                        // Save metadata to Firestore
+                        await addDoc(collection(db, 'gallery'), {
+                            course: course,
+                            year: parseInt(year),
+                            albumKey: `${course}_${year}`,
+                            folderPath: `gallery/${course}/${year}`,
+                            imageURL: downloadURL,
+                            storagePath: storageRef.fullPath,
+                            fileName: file.name,
+                            contentType: file.type || 'image/jpeg',
+                            createdAt: serverTimestamp(),
+                            uploadedAt: serverTimestamp(),
+                            fileSize: file.size
+                        });
+
+                        uploadedCount++;
+                        updateGalleryUploadProgress({
+                            completedFiles: uploadedCount + failedCount,
+                            totalFiles: files.length,
+                            completedBytes: uploadedBytes,
+                            totalBytes,
+                            currentFileName: file.name
+                        });
+                    } catch (error) {
+                        console.error('Error uploading file:', file.name, error);
+                        failedCount++;
+                        uploadedBytes += file.size;
+                        updateGalleryUploadProgress({
+                            completedFiles: uploadedCount + failedCount,
+                            totalFiles: files.length,
+                            completedBytes: uploadedBytes,
+                            totalBytes,
+                            currentFileName: file.name
+                        });
+                    }
+                }
+
+                if (uploadedCount > 0) {
+                    updateGalleryUploadProgress({
+                        completedFiles: uploadedCount + failedCount,
+                        totalFiles: files.length,
+                        completedBytes: totalBytes,
+                        totalBytes,
+                        currentFileName: ''
+                    });
+                    showGalleryStatus(`✅ ${window.i18n.t('upload-success-count').replace('{n}', uploadedCount)}${failedCount > 0 ? ` ${failedCount} ${window.i18n.t('failed')}.` : ''}`, 'success');
+                    galleryUploadForm.reset();
+                    galleryImagesInput.value = '';
+                    galleryFolderInput.value = '';
+                    selectedFiles = [];
+                    galleryFilesInfo.classList.add('hidden');
+                    galleryFolderName.textContent = '';
+                } else {
+                    showGalleryStatus(`❌ ${window.i18n.t('upload-error-all')}`, 'error');
+                }
+            } catch (error) {
+                console.error('Gallery upload error:', error);
+                showGalleryStatus(`❌ ${window.i18n.t('error')}: ${error.message}`, 'error');
+            } finally {
+                // Re-enable submit button
+                galleryUploadBtn.disabled = false;
+                setGalleryUploadButtonText(window.i18n.t('btn-upload-photos'));
+            }
+        });
+
+        // Load and display gallery photos
+        function loadGalleryPhotos() {
+            // Unsubscribe from previous listener
+            if (galleryUnsubscribe) {
+                galleryUnsubscribe();
+            }
+
+            // Create query - simplified to avoid index issues
+            let galleryQuery = query(
+                collection(db, 'gallery'),
+                orderBy('year', 'desc')
+            );
+
+            // Listen for real-time updates
+            galleryUnsubscribe = onSnapshot(galleryQuery, (snapshot) => {
+                allGalleryPhotos = [];
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if (data.imageURL && data.course && data.year) {
+                        allGalleryPhotos.push({
+                            id: doc.id,
+                            course: data.course,
+                            year: data.year,
+                            imageURL: data.imageURL,
+                            fileName: data.fileName || 'Unknown',
+                            uploadedAt: data.uploadedAt || null
+                        });
+                    }
+                });
+
+                // Populate year filter
+                const years = [...new Set(allGalleryPhotos.map(photo => photo.year))].sort((a, b) => b - a);
+                galleryFilterYear.innerHTML = `<option value="">${window.i18n.t('all-years')}</option>`;
+                years.forEach(year => {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    galleryFilterYear.appendChild(option);
+                });
+
+                // Apply filters and render
+                filterAndRenderGallery();
+            }, (error) => {
+                console.error('Error loading gallery photos:', error);
+                // Try simpler query without orderBy
+                try {
+                    const simpleQuery = query(collection(db, 'gallery'));
+                    galleryUnsubscribe = onSnapshot(simpleQuery, (snapshot) => {
+                        allGalleryPhotos = [];
+                        snapshot.forEach((doc) => {
+                            const data = doc.data();
+                            if (data.imageURL && data.course && data.year) {
+                                allGalleryPhotos.push({
+                                    id: doc.id,
+                                    course: data.course,
+                                    year: data.year,
+                                    imageURL: data.imageURL,
+                                    fileName: data.fileName || 'Unknown',
+                                    uploadedAt: data.uploadedAt || null
+                                });
+                            }
+                        });
+                        const years = [...new Set(allGalleryPhotos.map(photo => photo.year))].sort((a, b) => b - a);
+                        galleryFilterYear.innerHTML = `<option value="">${window.i18n.t('all-years')}</option>`;
+                        years.forEach(year => {
+                            const option = document.createElement('option');
+                            option.value = year;
+                            option.textContent = year;
+                            galleryFilterYear.appendChild(option);
+                        });
+                        filterAndRenderGallery();
+                    });
+                } catch (fallbackError) {
+                    console.error('Fallback query also failed:', fallbackError);
+                    gallerySummaryTableBody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-red-600">${window.i18n.t('error-loading-data')}</td></tr>`;
+                }
+            });
+        }
+
+        // Filter and render gallery photos summary
+        function filterAndRenderGallery() {
+            const selectedCourse = galleryFilterCourse.value;
+            const selectedYear = galleryFilterYear.value;
+
+            let filtered = allGalleryPhotos;
+
+            if (selectedCourse) {
+                filtered = filtered.filter(photo => photo.course === selectedCourse);
+            }
+
+            if (selectedYear) {
+                filtered = filtered.filter(photo => photo.year === parseInt(selectedYear));
+            }
+
+            renderGallerySummary(filtered);
+        }
+
+        // Render gallery photos summary as a table grouped by course and year
+        function renderGallerySummary(photos) {
+            if (photos.length === 0) {
+                gallerySummaryTableBody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-gray-500">${window.i18n.t('status-no-photos-filter')}</td></tr>`;
+                return;
+            }
+
+            // Group photos by course and year
+            const grouped = {};
+            photos.forEach(photo => {
+                const key = `${photo.course}_${photo.year}`;
+                if (!grouped[key]) {
+                    grouped[key] = {
+                        course: photo.course,
+                        year: photo.year,
+                        count: 0,
+                        photos: []
+                    };
+                }
+                grouped[key].count++;
+                grouped[key].photos.push(photo);
+            });
+
+            // Convert to array and sort by year (desc) then by course
+            const groups = Object.values(grouped).sort((a, b) => {
+                if (b.year !== a.year) {
+                    return b.year - a.year;
+                }
+                return a.course.localeCompare(b.course);
+            });
+
+            gallerySummaryTableBody.innerHTML = '';
+
+            groups.forEach(group => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">${esc(getCourseLabel(group.course))}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-500">${group.year}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-semibold text-amber-600">${group.count} ${group.count === 1 ? window.i18n.t('unit-photo') : window.i18n.t('unit-photos')}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                        <button 
+                            class="delete-gallery-group text-red-600 hover:text-red-800 font-medium"
+                            data-course="${group.course}"
+                            data-year="${group.year}"
+                        >
+                            ${window.i18n.t("delete-all")}
+                        </button>
+                    </td>
+                `;
+                gallerySummaryTableBody.appendChild(row);
+            });
+
+            // Add delete event listeners for group deletion
+            document.querySelectorAll('.delete-gallery-group').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Use currentTarget to get the button, not the clicked element
+                    const button = e.currentTarget;
+                    const course = button.getAttribute('data-course');
+                    const year = button.getAttribute('data-year');
+
+                    // Double confirmation for safety
+                    if (!confirm(window.i18n.t('confirm-delete-gallery-group').replace('{course}', course).replace('{year}', year))) {
+                        return;
+                    }
+
+                    // Show loading state
+                    const originalText = button.textContent;
+                    button.disabled = true;
+                    button.textContent = window.i18n.t('status-deleting');
+                    button.style.opacity = '0.6';
+                    button.style.cursor = 'not-allowed';
+
+                    try {
+                        await ensureAdminAction();
+
+                        // Find all photos for this course and year
+                        const photosToDelete = allGalleryPhotos.filter(photo => 
+                            photo.course === course && photo.year === parseInt(year)
+                        );
+
+                        if (photosToDelete.length === 0) {
+                            showGalleryStatus(t('status-no-photos-delete', 'ℹ️ Nu există fotografii de șters pentru acest curs și an.'), 'info');
+                            button.disabled = false;
+                            button.textContent = originalText;
+                            button.style.opacity = '1';
+                            return;
+                        }
+
+                        let deletedCount = 0;
+                        let failedCount = 0;
+                        const totalPhotos = photosToDelete.length;
+
+                        // Show progress
+                        const deleteUnit = totalPhotos === 1 ? window.i18n.t('unit-photo') : window.i18n.t('unit-photos');
+                        showGalleryStatus(formatTemplate('status-deleting-count', { n: totalPhotos, unit: deleteUnit }, `⏳ Se șterg ${totalPhotos} ${deleteUnit}...`), 'info');
+
+                        // Delete photos one by one
+                        for (let i = 0; i < photosToDelete.length; i++) {
+                            const photo = photosToDelete[i];
+                            try {
+                                // Delete from Firestore first
+                                await deleteDoc(doc(db, 'gallery', photo.id));
+
+                                // Extract storage path from Firebase Storage URL and delete from Storage
+                                // URL format: https://firebasestorage.googleapis.com/v0/b/BUCKET/o/PATH?alt=media&token=...
+                                if (photo.imageURL && photo.imageURL.includes('firebasestorage.googleapis.com')) {
+                                    try {
+                                        const url = new URL(photo.imageURL);
+                                        const pathMatch = url.pathname.match(/\/o\/(.+)/);
+                                        if (pathMatch) {
+                                            // Decode the path (it's URL encoded)
+                                            let storagePath = decodeURIComponent(pathMatch[1]);
+                                            
+                                            // Remove any query parameters that might be in the path
+                                            storagePath = storagePath.split('?')[0];
+                                            
+                                            try {
+                                                const imageRef = ref(storage, storagePath);
+                                                await deleteObject(imageRef);
+                                            } catch (storageError) {
+                                                console.warn('Could not delete from storage:', storagePath, storageError);
+                                                // Continue even if storage delete fails - Firestore is already deleted
+                                            }
+                                        } else {
+                                            console.warn('Could not extract storage path from URL:', photo.imageURL);
+                                        }
+                                    } catch (urlError) {
+                                        console.warn('Could not parse image URL:', photo.imageURL, urlError);
+                                    }
+                                } else {
+                                    console.warn('Image URL is not a Firebase Storage URL:', photo.imageURL);
+                                }
+
+                                deletedCount++;
+                                
+                                // Update progress
+                                if ((i + 1) % 10 === 0 || i === photosToDelete.length - 1) {
+                                const progressUnit = deletedCount === 1 ? window.i18n.t('unit-photo-deleted') : window.i18n.t('unit-photos-deleted');
+                                showGalleryStatus(window.i18n.t('status-deleting-progress').replace('{count}', deletedCount).replace('{total}', totalPhotos).replace('{unit}', progressUnit), 'info');
+                                }
+                            } catch (error) {
+                                console.error('Error deleting photo:', photo.id, error);
+                                failedCount++;
+                            }
+                        }
+
+                        // Show final result
+                        if (deletedCount > 0) {
+                        const finalUnit = deletedCount === 1 ? window.i18n.t('status-delete-success-unit') : window.i18n.t('status-delete-success-plural');
+                        const failedUnit = failedCount === 1 ? window.i18n.t('status-delete-failed-unit') : window.i18n.t('status-delete-failed-plural');
+                        const failedMessage = failedCount > 0 ? ` ${failedCount} ${failedUnit}.` : '';
+                        showGalleryStatus(`✅ ${deletedCount} ${finalUnit}${failedMessage}`, 'success');
+                            setTimeout(() => hideGalleryStatus(), 5000);
+                        } else {
+                        showGalleryStatus(`❌ ${window.i18n.t('photos-deleted-error')}`, 'error');
+                        }
+                    } catch (error) {
+                        console.error('Error deleting photos:', error);
+                    showGalleryStatus(`${window.i18n.t('error-delete-photos')} ${error.message}`, 'error');
+                    } finally {
+                        // Reset button state
+                        button.disabled = false;
+                        button.textContent = originalText;
+                        button.style.opacity = '1';
+                        button.style.cursor = 'pointer';
+                    }
+                });
+            });
+            
+        }
+
+        // Gallery filter event listeners
+        galleryFilterCourse.addEventListener('change', filterAndRenderGallery);
+        galleryFilterYear.addEventListener('change', filterAndRenderGallery);
+
+        window.addEventListener('mho:language-change', () => {
+            filterData();
+            filterAndRenderGallery();
+            resetGalleryUploadProgress();
+            if (selectedFiles.length > 0 && galleryFilesCount) {
+                galleryFilesCount.textContent = selectedFiles.length;
+            }
+        });
+
+        // Initialize gallery when authenticated
+        function initializeGallery() {
+            loadGalleryPhotos();
+        }
+
+        // --- INITIALIZATION ---
+        onAuthStateChanged(auth, async (user) => {
+            if (!user || adminInitialized) {
+                return;
+            }
+
+            const { allowed } = await requireAdminAccess();
+            if (!allowed) {
+                return;
+            }
+
+            adminInitialized = true;
+            if (adminDashboard) adminDashboard.classList.remove('hidden');
+            initializeFirebaseData();
+            initializeGallery();
+        });
+        }).catch((error) => {
+            console.error('Failed to initialize admin dashboard:', error);
+        });
+    </script>
+    <script src="posthog-analytics.js?v=20260530-posthog"></script>
+    <script src="mobile-menu.js?v=20260616-home-redirect"></script>
+</body>
+</html>

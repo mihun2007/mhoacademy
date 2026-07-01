@@ -1,0 +1,376 @@
+                    <a href="admin-coarde.html" class="bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg p-6 hover:from-green-600 hover:to-emerald-600 transition shadow-lg hover:shadow-xl">
+                        <div class="text-4xl mb-3">🎻</div>
+                        <h4 class="text-xl font-bold mb-2">Coarde</h4>
+                        <p class="text-green-100 text-sm">Panou pentru profesorii de Coarde</p>
+                    </a>
+                    <a href="admin-aerofone.html" class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg p-6 hover:from-blue-600 hover:to-cyan-600 transition shadow-lg hover:shadow-xl">
+                        <div class="text-4xl mb-3">🎺</div>
+                        <h4 class="text-xl font-bold mb-2">Aerofone</h4>
+                        <p class="text-blue-100 text-sm">Panou pentru profesorii de Aerofone</p>
+                    </a>
+                    <a href="admin-dirijor.html" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg p-6 hover:from-purple-600 hover:to-pink-600 transition shadow-lg hover:shadow-xl">
+                        <div class="text-4xl mb-3">👨‍🎤</div>
+                        <h4 class="text-xl font-bold mb-2">Dirijor</h4>
+                        <p class="text-purple-100 text-sm">Panou pentru profesorii de Dirijor</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex flex-col md:flex-row gap-4">
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    placeholder="Caută după nume sau curs..."
+                    class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                >
+                <div class="flex items-center text-sm text-gray-600">
+                    <span id="statusIndicator" class="inline-block w-3 h-3 rounded-full bg-green-500 mr-2 animate-pulse"></span>
+                    <span id="statusText">Sincronizare activă</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Înregistrări</h3>
+                <p class="text-3xl font-bold text-amber-600" id="totalRegistrations">0</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Total Examene</h3>
+                <p class="text-3xl font-bold text-orange-600" id="totalExams">0</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Înregistrări Seminare</h3>
+                <p class="text-3xl font-bold text-purple-600" id="totalSeminarRegistrations">0</p>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ÎNREGISTRĂRI STUDENȚI SECTION -->
+        <!-- ============================================ -->
+        <div class="mb-12">
+            <div class="bg-gradient-to-r from-amber-500 to-orange-500 rounded-t-xl p-6 mb-0">
+                <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <span class="text-4xl">👥</span>
+                    <span>Înregistrări Studenți</span>
+                </h2>
+                <p class="text-amber-100 mt-2">Vizualizați și gestionați înregistrările studenților la cursuri</p>
+            </div>
+
+        <!-- Student Registrations Section -->
+        <div class="bg-white rounded-b-xl shadow-lg p-6 mb-8 border-t-0 border-l-4 border-amber-500">
+            <!-- Course Filter Tabs -->
+            <div class="mb-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Înregistrări Studenți pe Curs</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button 
+                        data-course="all" 
+                        class="course-tab active px-6 py-2 rounded-lg font-semibold transition bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-lg"
+                    >
+                        Toate Cursurile
+                    </button>
+                    <button 
+                        data-course="ORNI" 
+                        class="course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-amber-100 hover:text-amber-700"
+                    >
+                        🎹 ORNI
+                    </button>
+                    <button 
+                        data-course="Coarde" 
+                        class="course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-green-100 hover:text-green-700"
+                    >
+                        🎻 Coarde
+                    </button>
+                    <button 
+                        data-course="Aerofone" 
+                        class="course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-700"
+                    >
+                        🎺 Aerofone
+                    </button>
+                    <button 
+                        data-course="Dirijor" 
+                        class="course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700"
+                    >
+                        👨‍🎤 Dirijor
+                    </button>
+                </div>
+            </div>
+
+            <!-- Registrations Table -->
+            <div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-6">
+                    <span id="registrationsTitle">Toate Înregistrările Studenților</span>
+                    <span class="text-lg font-normal text-gray-500 ml-2" id="registrationsCount">(0)</span>
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-amber-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Nume</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Data Nașterii</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Biserică</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Pastor</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Curs</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Înregistrat</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Acțiuni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registrationsTableBody" class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td colspan="7" class="px-6 py-4 text-center text-gray-500"><span data-i18n="loading-registrations">Se încarcă înregistrările...</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- EXAMENE SECTION -->
+        <!-- ============================================ -->
+        <div class="mb-12">
+            <div class="bg-gradient-to-r from-orange-500 to-red-500 rounded-t-xl p-6 mb-0">
+                <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <span class="text-4xl">📝</span>
+                    <span>Secțiunea Examene</span>
+                </h2>
+                <p class="text-orange-100 mt-2">Gestionați trimiterile de examene de la studenți</p>
+            </div>
+
+        <!-- Exams Section -->
+        <div class="bg-white rounded-b-xl shadow-lg p-6 mb-8 border-t-0 border-l-4 border-orange-500">
+            <!-- Course Filter Tabs for Exams -->
+            <div class="mb-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Trimiteri Examene pe Curs</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button 
+                        data-exam-course="all" 
+                        class="exam-course-tab active px-6 py-2 rounded-lg font-semibold transition bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-lg"
+                    >
+                        Toate Cursurile
+                    </button>
+                    <button 
+                        data-exam-course="ORNI" 
+                        class="exam-course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-amber-100 hover:text-amber-700"
+                    >
+                        🎹 ORNI
+                    </button>
+                    <button 
+                        data-exam-course="Coarde" 
+                        class="exam-course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-green-100 hover:text-green-700"
+                    >
+                        🎻 Coarde
+                    </button>
+                    <button 
+                        data-exam-course="Aerofone" 
+                        class="exam-course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-700"
+                    >
+                        🎺 Aerofone
+                    </button>
+                    <button 
+                        data-exam-course="Dirijor" 
+                        class="exam-course-tab px-6 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-purple-100 hover:text-purple-700"
+                    >
+                        👨‍🎤 Dirijor
+                    </button>
+                </div>
+            </div>
+
+            <!-- Exams Table -->
+            <div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-6">
+                    <span id="examsTitle">Toate Trimiterile de Examene</span>
+                    <span class="text-lg font-normal text-gray-500 ml-2" id="examsCount">(0)</span>
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-orange-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Nume</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Curs</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Grupă</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Titlu Examen</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Fișier</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Video/Audio Interpretare</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Trimis</th>
+<!-- Copied from admin.html -->
+
+    
+
+    <script type="module">
+        import { getApp, getApps, initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+        import { getFirestore, collection, query, onSnapshot, orderBy, doc, deleteDoc, addDoc, serverTimestamp, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
+
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyAV0_Buy_KKD4TSe-1IpByCVoZFoRJQaNE",
+            authDomain: "mho-music-academy.firebaseapp.com",
+            projectId: "mho-music-academy",
+            storageBucket: "mho-music-academy.firebasestorage.app",
+            messagingSenderId: "705322739069",
+            appId: "1:705322739069:web:422b6fd0c7a08ab8921814",
+            measurementId: "G-CF5HDVT6MK"
+        };
+
+
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+        const COURSE_TYPE = "ORNI";
+
+        const esc = (value) => window.SafeDOM.escapeHTML(value);
+        const safeLink = (value) => window.SafeDOM.safeURL(value);
+
+        function formatDate(timestamp) {
+            if (!timestamp) return '-';
+            try {
+                const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+                if (isNaN(date.getTime())) return '-';
+                return date.toLocaleDateString(window.i18n ? (window.i18n.getLanguage() === 'ru' ? 'ru-RU' : 'ro-RO') : 'ro-RO', { 
+                    year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+            } catch (e) { return '-'; }
+        }
+
+        const registrationsTableBody = document.getElementById('registrationsTableBody');
+        const totalRegistrations = document.getElementById('totalRegistrations');
+        const groupFilter = document.getElementById('groupFilter');
+        let currentCourseData = [];
+
+        function renderTable(data) {
+            if (!registrationsTableBody) return;
+            if (data.length === 0) {
+                registrationsTableBody.innerHTML = `<tr><td colspan="10" class="px-8 py-10 text-center text-gray-500 text-xl italic">${window.i18n ? window.i18n.t('status-no-registrations') : 'Nu s-au găsit înregistrări.'}</td></tr>`;
+                return;
+            }
+            registrationsTableBody.innerHTML = data.map(reg => `
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-8 py-6 whitespace-nowrap text-lg font-semibold text-gray-900">${esc(reg.firstName)} ${esc(reg.lastName)}</td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-600">${formatDate(reg.birthDate)}</td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-600">${esc(reg.church || '-')}</td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-600">${esc(reg.pastorName || '-')}</td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-600">${esc(reg.pastorPhone || '-')}</td>
+                    <td class="px-8 py-6 whitespace-nowrap">
+                        <span class="px-4 py-2 text-sm font-bold rounded-full bg-amber-100 text-amber-800">${esc(reg.courseType || COURSE_TYPE)}</span>
+                    </td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-600">
+                        <span class="px-3 py-1 rounded-lg ${ (reg.group || reg.studentGroup) ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-400 italic' }">
+                            ${esc(reg.group || reg.studentGroup || 'Nicio grupă')}
+                        </span>
+                    </td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-600">${(reg.isChurchMember || reg.dirijorIsMember || reg.isMember) ? "Da" : "Nu"}</td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base text-gray-500">${formatDate(reg.timestamp || reg.createdAt)}</td>
+                    <td class="px-8 py-6 whitespace-nowrap text-base font-bold">
+                        <button onclick="deleteDocItem('registrations', '${esc(reg.id)}')" class="text-red-600 hover:text-red-900 bg-red-50 px-4 py-2 rounded-lg transition-colors">${window.i18n ? window.i18n.t('btn-delete') : 'Șterge'}</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterData() {
+            if (!groupFilter) return;
+            const selectedGroup = groupFilter.value;
+            let filtered = currentCourseData;
+            if (selectedGroup !== 'all') {
+                if (selectedGroup === 'none') {
+                    filtered = currentCourseData.filter(reg => !reg.group && !reg.studentGroup);
+                } else {
+                    filtered = currentCourseData.filter(reg => reg.group === selectedGroup || reg.studentGroup === selectedGroup);
+                }
+            }
+            renderTable(filtered);
+        }
+
+        if (groupFilter) groupFilter.addEventListener('change', filterData);
+
+        const q = query(collection(db, 'registrations'), orderBy('timestamp', 'desc'));
+        onSnapshot(q, (snapshot) => {
+            const allData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            const courseData = allData.filter(reg => {
+                const course = (reg.courseType || reg.course || reg.selectedCourse || reg.instrument || '').toUpperCase();
+                return course.includes(COURSE_TYPE);
+            });
+            if (totalRegistrations) totalRegistrations.textContent = courseData.length;
+            currentCourseData = courseData;
+            filterData();
+        });
+
+        window.deleteDocItem = async (coll, id) => {
+            if (confirm('Sigur doriți să ștergeți?')) {
+                try {
+                    await deleteDoc(doc(db, coll, id));
+                } catch (e) { console.error(e); }
+            }
+        };
+    
+        window.exportToExcel = function() {
+            if (!currentCourseData || currentCourseData.length === 0) {
+                alert("Nu există date de exportat!");
+                return;
+            }
+
+            try {
+                const headers = [
+                    "Nume", 
+                    "Prenume", 
+                    "Data Nașterii", 
+                    "Biserică", 
+                    "Pastor", 
+                    "Tel. Pastor",
+                    "Curs", 
+                    "Grupă",
+                    "Membru",
+                    "Data Înregistrării",
+                    "Email",
+                    "Telefon",
+                    "Oraș",
+                    "Note"
+                ];
+
+                let csvContent = "\uFEFF"; 
+                csvContent += headers.join(";") + "\n";
+
+                currentCourseData.forEach(r => {
+                    const row = [
+                        r.lastName || "",
+                        r.firstName || "",
+                        r.birthDate || "",
+                        r.church || "",
+                        r.pastorName || "",
+                        r.pastorPhone || "",
+                        r.courseType || COURSE_TYPE,
+                        r.group || r.studentGroup || "",
+                        (r.isChurchMember || r.dirijorIsMember || r.isMember) ? "Da" : "Nu",
+                        formatDate(r.timestamp || r.createdAt),
+                        r.email || "",
+                        r.phone || "",
+                        r.city || "",
+                        (r.notes || "").replace(/(\r\n|\n|\r|;)/gm, " ")
+                    ];
+                    const escapedRow = row.map(val => `"${String(val).replace(/"/g, '""')}"`);
+                    csvContent += escapedRow.join(";") + "\n";
+                });
+
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                const fileName = `Inregistrari_${COURSE_TYPE}_${new Date().toISOString().split('T')[0]}.csv`;
+                
+                link.setAttribute("href", url);
+                link.setAttribute("download", fileName);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (error) {
+                console.error("Export failed:", error);
+                alert("Eroare la export!");
+            }
+        };
+</script>

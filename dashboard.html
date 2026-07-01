@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page-title-dashboard">Dashboard Elev - MHO Music Academy</title>
+    <meta name="description" content="Dashboard-ul elevului MHO Music Academy cu inscrieri, examene, materiale si actiuni rapide." data-i18n-content="meta-desc-dashboard">
+    <link rel="icon" type="image/png" href="Logo MHO Academy.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="mobile.css?v=20260701-custom-group-picker">
+    <link rel="stylesheet" href="glass-theme.css?v=20260602-cache-fix">
+    <link rel="stylesheet" href="public-glass-pages.css?v=20260616-glass-transparency">
+    <script src="i18n.js?v=20260701-dashboard-redesign"></script>
+    <script src="safe-dom.js"></script>
+    <script src="exam-config.js"></script>
+    <script src="firebase-shared.js?v=20260602-teacher-allowlist"></script>
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+        }
+        .dashboard-shell {
+            max-width: 1180px;
+        }
+        .dashboard-hero {
+            border-radius: 1.35rem;
+            background: linear-gradient(135deg, rgba(255,255,255,.28), rgba(189,216,233,.12));
+            border: 1px solid rgba(255,255,255,.42);
+            box-shadow: 0 20px 55px rgba(0, 29, 57, .13);
+            backdrop-filter: blur(28px) saturate(1.25);
+            -webkit-backdrop-filter: blur(28px) saturate(1.25);
+        }
+        .dashboard-panel,
+        .dashboard-card,
+        .dashboard-status-card {
+            border-radius: 1.15rem;
+            background: rgba(255,255,255,.24);
+            border: 1px solid rgba(255,255,255,.42);
+            box-shadow: 0 14px 36px rgba(0, 29, 57, .09);
+            backdrop-filter: blur(24px) saturate(1.2);
+            -webkit-backdrop-filter: blur(24px) saturate(1.2);
+        }
+        .dashboard-stat {
+            border-radius: 1rem;
+            background: rgba(255,255,255,.22);
+            border: 1px solid rgba(255,255,255,.42);
+            min-height: 7rem;
+            backdrop-filter: blur(22px) saturate(1.2);
+            -webkit-backdrop-filter: blur(22px) saturate(1.2);
+        }
+        .dashboard-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.65rem;
+            padding: .72rem 1rem;
+            border-radius: .85rem;
+            font-weight: 900;
+            text-decoration: none;
+            color: #fff;
+            background: linear-gradient(135deg, #0A4174, #4E8EA2);
+            box-shadow: 0 12px 24px rgba(10,65,116,.18);
+        }
+        .dashboard-action.secondary {
+            color: #102943;
+            background: rgba(255,255,255,.32);
+            border: 1px solid rgba(255,255,255,.44);
+            box-shadow: none;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+        .dashboard-list {
+            display: grid;
+            gap: .85rem;
+        }
+        .dashboard-row {
+            border-radius: .95rem;
+            background: rgba(255,255,255,.28);
+            border: 1px solid rgba(255,255,255,.48);
+            padding: .95rem;
+            backdrop-filter: blur(18px) saturate(1.15);
+            -webkit-backdrop-filter: blur(18px) saturate(1.15);
+        }
+        .dashboard-badge {
+            display: inline-flex;
+            align-items: center;
+            align-self: flex-start;
+            min-height: 2rem;
+            padding: .35rem .75rem;
+            border-radius: 999px;
+            font-size: .82rem;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+        @media (max-width: 640px) {
+            .dashboard-shell {
+                padding-inline: .85rem;
+                padding-top: 1rem;
+                padding-bottom: 1.25rem;
+            }
+            .dashboard-hero {
+                padding: 1.35rem 1.2rem !important;
+                margin-bottom: 1rem !important;
+            }
+            .dashboard-hero h1 {
+                font-size: clamp(1.7rem, 8vw, 2.35rem) !important;
+                line-height: 1.08 !important;
+                letter-spacing: 0 !important;
+            }
+            .dashboard-hero p {
+                font-size: .98rem !important;
+                line-height: 1.5 !important;
+            }
+            .dashboard-hero .dashboard-action {
+                min-height: 2.55rem;
+                padding: .62rem .85rem;
+                border-radius: .75rem;
+                font-size: .95rem;
+            }
+            .dashboard-hero .grid {
+                gap: 1rem !important;
+            }
+            .dashboard-shell > section.grid.gap-4 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: .7rem !important;
+                margin-bottom: 1rem !important;
+            }
+            .dashboard-stat {
+                min-height: 5.6rem;
+                padding: .9rem !important;
+                border-radius: .9rem;
+            }
+            .dashboard-stat p:first-child {
+                font-size: .68rem !important;
+                letter-spacing: .14em !important;
+            }
+            .dashboard-stat p:last-child {
+                margin-top: .3rem !important;
+                font-size: 2.1rem !important;
+                line-height: 1 !important;
+            }
+            .dashboard-panel {
+                padding: 1rem !important;
+                border-radius: .95rem !important;
+            }
+            .dashboard-panel h2 {
+                font-size: 1.45rem !important;
+                line-height: 1.12 !important;
+            }
+            .dashboard-panel p {
+                font-size: .92rem;
+            }
+            .dashboard-card {
+                padding: 1rem !important;
+                border-radius: .9rem !important;
+            }
+            .dashboard-card h3 {
+                font-size: 1.05rem !important;
+                line-height: 1.15 !important;
+            }
+            .dashboard-card p {
+                font-size: .82rem !important;
+                line-height: 1.35 !important;
+            }
+            .dashboard-row {
+                padding: .85rem !important;
+                border-radius: .85rem !important;
+            }
+            .dashboard-row h3 {
+                font-size: 1rem !important;
+            }
+            .dashboard-badge {
+                min-height: 1.75rem;
+                padding: .25rem .58rem;
+                font-size: .76rem;
+            }
+            main section.grid.gap-6 {
+                gap: 1rem !important;
+            }
+            .dashboard-shell {
+                padding-inline: .85rem;
+            }
+            .dashboard-hero,
+            .dashboard-panel {
+                border-radius: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="public-glass-page min-h-screen">
+    <nav class="public-glass-nav text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="dashboard.html" class="text-lg font-bold">🎵 MHO Music Academy</a>
+                <div class="hidden md:flex space-x-4 items-center">
+                    <a href="dashboard.html" class="public-nav-link public-nav-link-active px-4 py-2 rounded-full transition" data-i18n="nav-dashboard">Dashboard</a>
+                    <a href="materiale.html" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-materials">Materiale</a>
+                    <a href="exam.html" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-exam">Examen</a>
+                    <a href="noutati.html" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-news">Noutăți</a>
+                    <a href="profile.html" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-profile">Profil</a>
+                    <a href="admin.html" class="public-nav-link px-4 py-2 rounded-full transition hidden" data-admin-link="true" data-i18n="nav-admin">Admin</a>
+                    <button id="logoutBtn" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-logout">Deconectare</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="public-page-shell dashboard-shell mx-auto px-4 py-10">
+        <section class="dashboard-hero p-6 md:p-9 mb-6">
+            <div class="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+                <div>
+                    <p class="text-sm font-black uppercase tracking-[0.18em] text-[#0A4174]" data-i18n="dashboard-kicker">Platforma elevului</p>
+                    <h1 class="mt-3 text-3xl md:text-5xl font-black text-gray-900 tracking-tight">
+                        <span data-i18n="dashboard-greeting">Bine ai venit</span>, <span id="studentName">...</span>
+                    </h1>
+                    <p class="mt-4 max-w-2xl text-base md:text-lg font-semibold text-gray-650" data-i18n="dashboard-intro">Aici vezi ce ai de făcut la cursuri: înscrieri, examene, materiale și noutăți importante.</p>
+                </div>
+                <div class="flex flex-col sm:flex-row lg:flex-col gap-3 lg:min-w-[13rem]">
+                    <a href="exam.html" class="dashboard-action" data-i18n="dashboard-action-exam">Mergi la examen</a>
+                    <a href="materiale.html" class="dashboard-action secondary" data-i18n="dashboard-action-materials">Vezi materiale</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid gap-4 grid-cols-2 md:grid-cols-4 mb-6">
+            <div class="dashboard-stat p-5">
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-gray-500" data-i18n="dashboard-stat-courses">Cursuri</p>
+                <p id="courseCount" class="mt-2 text-4xl font-black text-gray-900">0</p>
+            </div>
+            <div class="dashboard-stat p-5">
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-gray-500" data-i18n="dashboard-stat-required">Examene necesare</p>
+                <p id="requiredCount" class="mt-2 text-4xl font-black text-gray-900">0</p>
+            </div>
+            <div class="dashboard-stat p-5">
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-gray-500" data-i18n="dashboard-stat-submitted">Trimise</p>
+                <p id="submittedCount" class="mt-2 text-4xl font-black text-gray-900">0</p>
+            </div>
+            <div class="dashboard-stat p-5">
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-gray-500" data-i18n="dashboard-stat-reviewed">Controlate</p>
+                <p id="reviewedCount" class="mt-2 text-4xl font-black text-gray-900">0</p>
+            </div>
+        </section>
+
+        <section class="grid gap-6 lg:grid-cols-[1.4fr_.6fr] lg:items-start mb-6">
+            <div class="dashboard-panel p-5 md:p-6">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-black text-gray-900" data-i18n="dashboard-exams-title">Examenele mele</h2>
+                        <p class="text-gray-600 font-semibold" data-i18n="dashboard-exams-desc">Urmărește ce examene lipsesc, ce ai trimis și ce a fost controlat.</p>
+                    </div>
+                    <a href="exam.html" class="dashboard-action secondary shrink-0" data-i18n="dashboard-open-exams">Deschide examene</a>
+                </div>
+                <div id="examStatusList" class="dashboard-list">
+                    <div class="dashboard-row text-center text-gray-500 font-bold" data-i18n="dashboard-loading">Se încarcă...</div>
+                </div>
+            </div>
+
+            <div class="dashboard-panel p-5 md:p-6">
+                <h2 class="text-2xl font-black text-gray-900 mb-4" data-i18n="dashboard-courses-title">Cursurile mele</h2>
+                <div id="courseList" class="dashboard-list">
+                    <div class="dashboard-row text-center text-gray-500 font-bold" data-i18n="dashboard-loading">Se încarcă...</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-6">
+            <div class="mb-4">
+                <h2 class="text-2xl font-black text-gray-900" data-i18n="dashboard-quick-title">Acțiuni rapide</h2>
+                <p class="text-gray-600 font-semibold" data-i18n="dashboard-quick-desc">Deschide rapid secțiunile de care ai nevoie.</p>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <a href="materiale.html" class="dashboard-card p-5 text-gray-900 no-underline">
+                    <p class="text-xs font-black uppercase tracking-[0.18em] text-[#0A4174]" data-i18n="nav-materials">Materiale</p>
+                    <h3 class="mt-2 text-xl font-black" data-i18n="dashboard-materials-title">Materiale de curs</h3>
+                    <p class="mt-2 text-sm font-semibold text-gray-600" data-i18n="dashboard-materials-desc">Deschide teoria, solfegiul și materialele încărcate.</p>
+                </a>
+                <a href="noutati.html" class="dashboard-card p-5 text-gray-900 no-underline">
+                    <p class="text-xs font-black uppercase tracking-[0.18em] text-[#0A4174]" data-i18n="nav-news">Noutăți</p>
+                    <h3 class="mt-2 text-xl font-black" data-i18n="dashboard-news-title">Noutăți și seminare</h3>
+                    <p class="mt-2 text-sm font-semibold text-gray-600" data-i18n="dashboard-news-desc">Vezi anunțuri importante pentru cursuri.</p>
+                </a>
+                <a href="profile.html" class="dashboard-card p-5 text-gray-900 no-underline">
+                    <p class="text-xs font-black uppercase tracking-[0.18em] text-[#0A4174]" data-i18n="nav-profile">Profil</p>
+                    <h3 class="mt-2 text-xl font-black" data-i18n="dashboard-profile-title">Datele mele</h3>
+                    <p class="mt-2 text-sm font-semibold text-gray-600" data-i18n="dashboard-profile-desc">Schimbă numele sau fotografia de profil.</p>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <div class="mb-4">
+                <h2 class="text-2xl font-black text-gray-900" data-i18n="dashboard-contacts-title">Contacte</h2>
+                <p class="text-gray-600 font-semibold" data-i18n="dashboard-contacts-desc">Sună profesorul responsabil de cursul tău.</p>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <a href="tel:+37369597497" class="dashboard-card p-5 text-gray-900 no-underline">
+                    <p class="text-xs font-black uppercase tracking-[0.18em] text-[#0A4174]" data-i18n="footer-contact-title">Contact</p>
+                    <h3 class="mt-2 text-xl font-black" data-i18n="dashboard-support-title">Ajutor tehnic</h3>
+                    <p class="mt-2 text-sm font-semibold text-gray-600">+373 69 597 497</p>
+                </a>
+                <a href="tel:+37369430494" class="dashboard-card p-5 text-gray-900 no-underline">
+                    <p class="text-xs font-black uppercase tracking-[0.18em] text-[#0A4174]">ORNI</p>
+                    <h3 class="mt-2 text-xl font-black">Oleg Șarcov</h3>
+                    <p class="mt-2 text-sm font-semibold text-gray-600">+373 69 430 494</p>
+                    <p class="mt-1 text-sm font-semibold text-gray-600">răspunzator de cursurile ORNI</p>
+                </a>
+                <a href="tel:+37369247568" class="dashboard-card p-5 text-gray-900 no-underline">
+                    <p class="text-xs font-black uppercase tracking-[0.18em] text-[#0A4174]">Dirijor</p>
+                    <h3 class="mt-2 text-xl font-black">Daniel Damian</h3>
+                    <p class="mt-2 text-sm font-semibold text-gray-600">+373 69 247 568</p>
+                    <p class="mt-1 text-sm font-semibold text-gray-600">răspunzator cursurile de dirijor</p>
+                </a>
+                <a href="tel:+37369343678" class="dashboard-card p-5 text-gray-900 no-underline">
+                    <p class="text-xs font-black uppercase tracking-[0.18em] text-[#0A4174]">Aerofone</p>
+                    <h3 class="mt-2 text-xl font-black">Sergiu Bazi</h3>
+                    <p class="mt-2 text-sm font-semibold text-gray-600">+373 69 343 678</p>
+                    <p class="mt-1 text-sm font-semibold text-gray-600">răspunzator cursurile Aerofone</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <script type="module">
+        const state = {
+            user: null,
+            profile: null,
+            registrations: [],
+            exams: [],
+            assignments: [],
+        };
+
+        const els = {
+            studentName: document.getElementById('studentName'),
+            courseCount: document.getElementById('courseCount'),
+            requiredCount: document.getElementById('requiredCount'),
+            submittedCount: document.getElementById('submittedCount'),
+            reviewedCount: document.getElementById('reviewedCount'),
+            examStatusList: document.getElementById('examStatusList'),
+            courseList: document.getElementById('courseList'),
+            logoutBtn: document.getElementById('logoutBtn'),
+        };
+
+        function t(key, fallback) {
+            const translated = window.i18n?.t?.(key);
+            return translated && translated !== key ? translated : fallback;
+        }
+
+        function esc(value) {
+            return window.SafeDOM?.escapeHTML ? window.SafeDOM.escapeHTML(value) : String(value ?? '').replace(/[&<>"']/g, (char) => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;',
+            }[char]));
+        }
+
+        function normalize(value) {
+            return String(value || '').trim().toLowerCase();
+        }
+
+        function courseLabel(course) {
+            const key = normalize(course);
+            const labels = {
+                orni: t('course-orni', 'ORNI'),
+                coarde: t('course-strings', 'Viori / Coarde'),
+                aerofone: t('course-aerophones', 'Aerofone'),
+                dirijor: t('course-conductor', 'Dirijor de cor'),
+            };
+            return labels[key] || course || t('common-course', 'Curs');
+        }
+
+        function examIsTheory(exam) {
+            return exam.submissionType === 'theory' || normalize(exam.instrument) === 'teorie' || normalize(exam.instrumentSlug).includes('teorie');
+        }
+
+        function inferInstrumentSlug(registration) {
+            if (registration.instrumentSlug) return registration.instrumentSlug;
+            const course = registration.courseType || registration.course || '';
+            const instrumentName = normalize(registration.instrument || registration.voice || registration.selectedInstrument || '');
+            const items = window.MHO_EXAM_HELPERS?.instrumentsForCourse?.(course) || [];
+            return items.find((item) => normalize(item.instrument) === instrumentName || normalize(item.slug) === instrumentName)?.slug || '';
+        }
+
+        function groupMatches(requiredGroup, examGroup) {
+            const required = normalize(requiredGroup);
+            const submitted = normalize(examGroup);
+            if (!required || !submitted) return false;
+            return submitted.includes(required) || required.includes(submitted);
+        }
+
+        function examMatchesRequirement(exam, requirement, requireGroupMatch = false) {
+            if (normalize(exam.course || exam.courseType) !== normalize(requirement.course)) return false;
+            if (requirement.type === 'theory' ? !examIsTheory(exam) : examIsTheory(exam)) return false;
+            if (requirement.type === 'practice' && requirement.instrumentSlug && normalize(exam.instrumentSlug) !== normalize(requirement.instrumentSlug)) return false;
+            return !requireGroupMatch || groupMatches(requirement.group, exam.session || exam.group || '');
+        }
+
+        function buildRequirements() {
+            const unique = new Map();
+            state.registrations.forEach((registration) => {
+                const course = registration.courseType || registration.course || '';
+                if (!course) return;
+                const group = registration.studentGroup || registration.group || '';
+                const instrumentSlug = inferInstrumentSlug(registration);
+                const instrument = registration.instrument || registration.voice || '';
+                const key = `${normalize(course)}|${normalize(group)}|${normalize(instrumentSlug)}`;
+                if (!unique.has(key)) unique.set(key, { course, group, instrumentSlug, instrument });
+            });
+
+            const requirements = [];
+            unique.forEach((item) => {
+                requirements.push({
+                    ...item,
+                    type: 'theory',
+                    title: `${t('download-exam-title', 'Examen de teorie')} - ${courseLabel(item.course)}`,
+                    actionHref: `exam/teorie-${normalize(item.course)}.html`,
+                });
+                requirements.push({
+                    ...item,
+                    type: 'practice',
+                    title: `${t('common-practice', 'Interpretare')} - ${item.instrument || courseLabel(item.course)}`,
+                    actionHref: 'exam.html',
+                });
+            });
+
+            return requirements.map((requirement) => {
+                const exam = state.exams.find((item) => examMatchesRequirement(item, requirement, true)) ||
+                    state.exams.find((item) => examMatchesRequirement(item, requirement, false));
+                return {
+                    ...requirement,
+                    exam,
+                    status: !exam ? 'missing' : (exam.reviewed === true || exam.status === 'reviewed' ? 'reviewed' : 'submitted'),
+                };
+            });
+        }
+
+        function formatDate(value) {
+            const date = value?.toDate ? value.toDate() : new Date(value || 0);
+            if (Number.isNaN(date.getTime()) || date.getTime() === 0) return '-';
+            return date.toLocaleDateString(window.i18n?.getLanguage?.() === 'ru' ? 'ru-RU' : 'ro-RO');
+        }
+
+        function render() {
+            const profileName = state.profile?.name || [state.profile?.firstName, state.profile?.lastName].filter(Boolean).join(' ');
+            els.studentName.textContent = profileName || state.user?.displayName || state.user?.email?.split('@')[0] || t('profile-role-student', 'Elev');
+
+            const requirements = buildRequirements();
+            const submitted = requirements.filter((item) => item.status === 'submitted' || item.status === 'reviewed').length;
+            const reviewed = requirements.filter((item) => item.status === 'reviewed').length;
+
+            els.courseCount.textContent = String(new Set(state.registrations.map((item) => normalize(item.courseType || item.course)).filter(Boolean)).size);
+            els.requiredCount.textContent = String(requirements.length);
+            els.submittedCount.textContent = String(submitted);
+            els.reviewedCount.textContent = String(reviewed);
+
+            renderCourses();
+            renderExams(requirements);
+        }
+
+        function renderCourses() {
+            if (!state.registrations.length) {
+                els.courseList.innerHTML = `<div class="dashboard-row text-center text-gray-600 font-bold">${t('dashboard-no-courses', 'Nu ai încă înscrieri active pe contul tău.')}</div><a class="dashboard-action" href="register.html">${t('student-widget-register', 'Înscrie-te la un curs')}</a>`;
+                return;
+            }
+
+            const rows = state.registrations.map((registration) => {
+                const course = registration.courseType || registration.course || '';
+                const group = registration.studentGroup || registration.group || '';
+                const instrument = registration.instrument || registration.voice || registration.selectedInstrument || '';
+                const details = [instrument, group].filter(Boolean).join(' / ');
+                return `
+                    <div class="dashboard-row">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="min-w-0">
+                                <h3 class="text-lg font-black text-gray-900">${esc(courseLabel(course))}</h3>
+                                <p class="mt-1 text-sm font-bold text-gray-600">${esc(details || t('dashboard-course-active', 'Înscriere activă'))}</p>
+                            </div>
+                            <span class="dashboard-badge bg-sky-100 text-sky-800">${t('dashboard-active', 'Activ')}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            els.courseList.innerHTML = rows;
+        }
+
+        function renderExams(requirements) {
+            const extraExams = state.exams.filter((exam) => !requirements.some((requirement) => requirement.exam?.id === exam.id));
+            if (!requirements.length && !extraExams.length) {
+                els.examStatusList.innerHTML = `<div class="dashboard-row text-center text-gray-600 font-bold">${t('dashboard-no-exams', 'Nu avem încă examene legate de contul tău.')}</div>`;
+                return;
+            }
+
+            const requirementRows = requirements.map((item) => {
+                const isMissing = item.status === 'missing';
+                const isReviewed = item.status === 'reviewed';
+                const badgeClass = isReviewed ? 'bg-green-100 text-green-800' : isMissing ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800';
+                const badge = isReviewed ? t('profile-status-reviewed', 'Controlat') : isMissing ? t('profile-status-missing', 'De dat') : t('profile-status-pending', 'În așteptare');
+                const meta = [courseLabel(item.course), item.type === 'theory' ? t('common-theory', 'Teorie') : t('common-practice', 'Interpretare'), item.group].filter(Boolean).join(' / ');
+                return `
+                    <div class="dashboard-row">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                            <div class="min-w-0">
+                                <p class="text-xs font-black uppercase tracking-[0.16em] text-[#0A4174]">${esc(meta)}</p>
+                                <h3 class="mt-1 text-lg font-black text-gray-900">${esc(item.title)}</h3>
+                                <p class="mt-1 text-sm font-bold text-gray-600">${isMissing ? t('profile-must-submit', 'Trebuie trimis examenul.') : `${t('profile-sent', 'Trimis')}: ${esc(formatDate(item.exam.timestamp || item.exam.createdAt))}`}</p>
+                            </div>
+                            <span class="dashboard-badge ${badgeClass}">${badge}</span>
+                        </div>
+                        ${isMissing ? `<a class="dashboard-action secondary mt-3" href="${esc(item.actionHref)}">${t('profile-go-exam', 'Mergi la examen')}</a>` : ''}
+                    </div>
+                `;
+            }).join('');
+
+            const extraRows = extraExams.map((exam) => {
+                const reviewed = exam.reviewed === true || exam.status === 'reviewed';
+                return `
+                    <div class="dashboard-row">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                            <div class="min-w-0">
+                                <p class="text-xs font-black uppercase tracking-[0.16em] text-[#0A4174]">${esc([exam.courseLabel || exam.course, exam.instrument, exam.session || exam.group].filter(Boolean).join(' / '))}</p>
+                                <h3 class="mt-1 text-lg font-black text-gray-900">${esc(exam.examTitle || exam.title || t('profile-submitted-exam', 'Examen trimis'))}</h3>
+                                <p class="mt-1 text-sm font-bold text-gray-600">${t('profile-sent', 'Trimis')}: ${esc(formatDate(exam.timestamp || exam.createdAt))}</p>
+                            </div>
+                            <span class="dashboard-badge ${reviewed ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}">${reviewed ? t('profile-status-reviewed', 'Controlat') : t('profile-status-pending', 'În așteptare')}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            els.examStatusList.innerHTML = requirementRows + extraRows;
+        }
+
+        window.FirebaseSharedReady.then(async (shared) => {
+            const {
+                auth,
+                db,
+                onAuthStateChanged,
+                signOut,
+                getUserProfile,
+                userHasAdminAccess,
+                updatePresence,
+            } = shared;
+            const {
+                collection,
+                onSnapshot,
+                query,
+                where,
+            } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+
+            const unsubscribers = [];
+            function stopListeners() {
+                while (unsubscribers.length) {
+                    const unsubscribe = unsubscribers.pop();
+                    if (typeof unsubscribe === 'function') unsubscribe();
+                }
+            }
+
+            onAuthStateChanged(auth, async (user) => {
+                stopListeners();
+                if (!user) {
+                    window.location.replace('login.html?redirect=dashboard.html');
+                    return;
+                }
+                state.user = user;
+                state.profile = await getUserProfile(user.uid);
+                await updatePresence(true, user).catch(() => {});
+                render();
+
+                unsubscribers.push(onSnapshot(query(collection(db, 'registrations'), where('userId', '==', user.uid)), (snapshot) => {
+                    state.registrations = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+                    render();
+                }));
+                unsubscribers.push(onSnapshot(query(collection(db, 'exams'), where('userId', '==', user.uid)), (snapshot) => {
+                    state.exams = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+                    state.exams.sort((a, b) => {
+                        const ad = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(a.timestamp || a.createdAt || 0);
+                        const bd = b.timestamp?.toDate ? b.timestamp.toDate() : new Date(b.timestamp || b.createdAt || 0);
+                        return bd - ad;
+                    });
+                    render();
+                }));
+                unsubscribers.push(onSnapshot(query(collection(db, 'examAssignments')), (snapshot) => {
+                    state.assignments = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+                    render();
+                }));
+            });
+
+            window.addEventListener('mho:language-change', render);
+            window.addEventListener('pagehide', () => {
+                stopListeners();
+                if (auth.currentUser) updatePresence(false, auth.currentUser).catch(() => {});
+            });
+            els.logoutBtn?.addEventListener('click', async () => {
+                if (auth.currentUser) await updatePresence(false, auth.currentUser).catch(() => {});
+                await signOut(auth);
+                window.location.href = 'index.html';
+            });
+        }).catch((error) => {
+            console.error('Dashboard bootstrap failed:', error);
+            els.examStatusList.innerHTML = `<div class="dashboard-row text-center text-red-600 font-bold">${t('dashboard-load-error', 'Nu am putut încărca dashboard-ul.')}</div>`;
+        });
+    </script>
+    <script src="posthog-analytics.js?v=20260530-posthog"></script>
+    <script src="mobile-menu.js?v=20260616-home-redirect"></script>
+    <script src="public-auth.js?v=20260602-teacher-allowlist"></script>
+</body>
+</html>
