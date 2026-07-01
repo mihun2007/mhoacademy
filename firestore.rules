@@ -1,0 +1,158 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function userProfile() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function profileHasRole(roleName) {
+      return userProfile().role == roleName ||
+        (userProfile().roles is list && userProfile().roles.hasAny([roleName]));
+    }
+
+    function isTeacherEmail() {
+      return isSignedIn() && request.auth.token.email in [
+        'pavlik.pirau@mail.ru',
+        'nichitapalka@gmail.com',
+        'sarkovavita@gmail.com',
+        '0607elena1999@gmail.com',
+        'akkordion0404@gmail.com',
+        'pavelmanaf0@gmail.com',
+        'meradji.ser09@gmail.com',
+        'costas.christina95@gmail.com'
+      ];
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.admin == true ||
+        request.auth.token.teacher == true ||
+        isTeacherEmail() ||
+        userProfile().isAdmin == true ||
+        userProfile().isTeacher == true ||
+        profileHasRole('admin') ||
+        profileHasRole('teacher')
+      );
+    }
+
+    function isTokenVerificationRegistrationUpdate() {
+      return resource.data.verificationToken is string &&
+        resource.data.verificationToken.size() > 20 &&
+        resource.data.membershipStatus == 'pending' &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['membershipStatus', 'verifiedAt']) &&
+        (request.resource.data.membershipStatus == 'confirmed' ||
+         request.resource.data.membershipStatus == 'rejected');
+    }
+
+    function isPublicMembershipVerificationStatusUpdate() {
+      return resource.data.token is string &&
+        resource.data.token.size() > 20 &&
+        resource.data.status == 'pending' &&
+        request.resource.data.token == resource.data.token &&
+        request.resource.data.registrationId == resource.data.registrationId &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'verifiedAt']) &&
+        (request.resource.data.status == 'confirmed' ||
+         request.resource.data.status == 'rejected');
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow create: if isSignedIn() && request.auth.uid == userId;
+      allow update: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    match /presence/{userId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn() && request.auth.uid == userId;
+      allow delete: if isAdmin();
+    }
+
+    match /gallery/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /registrations/{documentId} {
+      allow create: if true;
+      allow read: if isAdmin() ||
+        (isSignedIn() && (
+          resource.data.userId == request.auth.uid ||
+          resource.data.email == request.auth.token.email
+        ));
+      allow update: if isAdmin() || isTokenVerificationRegistrationUpdate();
+      allow delete: if isAdmin();
+    }
+
+    match /studentDirectory/{documentId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /membershipVerifications/{token} {
+      allow create: if true;
+      allow get: if true;
+      allow list: if false;
+      allow update: if isAdmin() || isPublicMembershipVerificationStatusUpdate();
+      allow delete: if isAdmin();
+    }
+
+    match /exams/{documentId} {
+      allow create: if true;
+      allow read: if isAdmin() ||
+        (isSignedIn() && (
+          resource.data.userId == request.auth.uid ||
+          resource.data.email == request.auth.token.email
+        ));
+      allow update, delete: if isAdmin();
+    }
+
+    match /seminars/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /seminarRegistrations/{documentId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /theory_exams/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /theory_exam_submissions/{documentId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /courseMaterials/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /examAssignments/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /courseAnnouncements/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /announcements/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /examFiles/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

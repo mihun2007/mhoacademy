@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Muzical - MHO Music Academy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=20260602-cache-fix">
+    <style>
+        /* Exam Muzical specific styles */
+        .exam-muzical-page {
+            background: linear-gradient(135deg, var(--accent-cream) 0%, var(--white) 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: var(--text-medium);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .exam-form {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-medium);
+            border: 2px solid var(--border-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exam-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--secondary-blue) 100%);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(214, 158, 46, 0.1);
+        }
+
+        .file-upload-container {
+            border: 2px dashed var(--border-light);
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+
+        .file-upload-container:hover {
+            border-color: var(--primary-gold);
+            background: rgba(214, 158, 46, 0.05);
+        }
+
+        .file-upload-container.dragover {
+            border-color: var(--primary-gold);
+            background: rgba(214, 158, 46, 0.1);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            color: var(--text-dark);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .upload-hint {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .accepted-formats {
+            background: var(--accent-cream);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .accepted-formats h4 {
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .format-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .format-tag {
+            background: var(--white);
+            color: var(--primary-gold);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid var(--primary-gold);
+        }
+
+        .file-preview {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--white);
+            border-radius: 12px;
+            border: 2px solid var(--border-light);
+        }
+
+        .file-preview h4 {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .file-preview h4::before {
+            content: '🎵';
+            font-size: 1.2rem;
+        }
+
+        .file-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--accent-cream);
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+        }
+
+        .file-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .file-name {
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .file-size {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .remove-file {
+            background: #fed7d7;
+            color: var(--error-red);
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .remove-file:hover {
+            background: #feb2b2;
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--success-green) 0%, #2f855a 100%);
+            color: var(--white);
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-medium);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-large);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-message {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .status-message.success {
+            background: var(--success-green);
+            color: var(--white);
+        }
+
+        .status-message.error {
+            background: var(--error-red);
+            color: var(--white);
+        }
+
+        .status-message.info {
+            background: var(--secondary-blue);
+            color: var(--white);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .exam-form {
+                padding: 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .submit-btn {
+                width: 100%;
+                padding: 1rem 2rem;
+            }
+
+            .file-info {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="mobile.css?v=20260701-custom-group-picker">
+    <link rel="stylesheet" href="glass-theme.css?v=20260602-cache-fix">
+    <script src="i18n.js?v=20260603-bilingual-membership"></script>
+</head>
+<body class="exam-muzical-page">
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h2>MHO Music Academy</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link" data-i18n="nav-home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="register.html" class="nav-link" data-i18n="nav-register">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="exam.html" class="nav-link" data-i18n="nav-exam">Exam</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="exam-muzical.html" class="nav-link active" data-i18n="nav-exam-muzical">Examen Muzical</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-header">
+                <h1 data-i18n="exam-muzical-title">🎵 Examen Muzical</h1>
+                <p data-i18n="exam-muzical-desc">Încarcă înregistrarea ta muzicală pentru evaluare</p>
+            </div>
+
+            <form id="examMuzicalForm" class="exam-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName" data-i18n="label-first-name">Prenume *</label>
+                        <input type="text" id="firstName" required placeholder="Introdu prenumele tău" data-i18n="placeholder-first-name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lastName" data-i18n="label-last-name">Nume *</label>
+                        <input type="text" id="lastName" required placeholder="Introdu numele tău" data-i18n="placeholder-last-name">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="course" data-i18n="label-course">Curs *</label>
+                        <select id="course" required>
+                            <option value="" data-i18n="select-course">Selectează cursul</option>
+                            <option value="ORNI">ORNI</option>
+                            <option value="Instrumente cu coarde" data-i18n="strings-title">Instrumente cu coarde</option>
+                            <option value="Instrumente aerofone" data-i18n="aerophones-title">Instrumente aerofone</option>
+                            <option value="Dirijor de Cor" data-i18n="conductor-title">Dirijor de Cor</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="group" data-i18n="label-group">Grup *</label>
+                        <select id="group" required>
+                            <option value="" data-i18n="select-group">Selectează grupul</option>
+                            <option value="G">G</option>
+                            <option value="B">B</option>
+                            <option value="V">V</option>
+                            <option value="A">A</option>
+                            <option value="Armonie" data-i18n="group-harmony">Armonie</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="label-upload-exam">Încarcă înregistrarea ta muzicală *</label>
+                    <div class="file-upload-container" id="fileUploadContainer">
+                        <div class="upload-icon">🎵</div>
+                        <div class="upload-text" data-i18n="upload-exam-hint">Click pentru a încărca sau trage și plasează</div>
+                        <div class="upload-hint" data-i18n="upload-exam-subhint">Încarcă fișierul tău audio/video</div>
+                        <input type="file" id="audioFile" class="file-input" accept=".mp4,.mov,.mp3,.wav" required>
+                        
+                        <div class="accepted-formats">
+                            <h4 data-i18n="accepted-formats-label">Formate acceptate:</h4>
+                            <div class="format-list">
+                                <span class="format-tag">MP4</span>
+                                <span class="format-tag">MOV</span>
+                                <span class="format-tag">MP3</span>
+                                <span class="format-tag">WAV</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="filePreview" class="file-preview" style="display: none;">
+                        <h4 data-i18n="selected-file-label">Fișier selectat:</h4>
+                        <div class="file-info">
+                            <div class="file-details">
+                                <span class="file-name" id="fileName"></span>
+                                <span class="file-size" id="fileSize"></span>
+                            </div>
+                            <button type="button" class="remove-file" onclick="removeFile()" data-i18n="btn-remove-file">Elimină</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span class="btn-text" data-i18n="btn-submit-exam">Trimite Examenul</span>
+                    </button>
+                    <div id="statusMessage" class="status-message"></div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MHO Music Academy</h3>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer-links-title">Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" data-i18n="nav-home">Home</a></li>
+                        <li><a href="register.html" data-i18n="nav-register">Register</a></li>
+                        <li><a href="exam.html" data-i18n="nav-exam">Exam</a></li>
+                        <li><a href="exam-muzical.html" data-i18n="nav-exam-muzical">Examen Muzical</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer-contact-title">Contact</h4>
+                    <p data-i18n="footer-contact-phone">Phone: +373 69 956 831</p>
+                    <p data-i18n="footer-exam-q">Phone: +373 69 597 497 - dacă aveți întrebări cu privire la înregistrări</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MHO Music Academy. <span data-i18n="footer-rights">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Configuration
+        const GOOGLE_SCRIPT_URL = "";
+
+        // Utility functions
+        const el = (id) => document.getElementById(id);
+
+        function showStatus(message, type = 'info') {
+            const status = el("statusMessage");
+            status.textContent = message;
+            status.className = `status-message ${type}`;
+            status.style.display = 'block';
+        }
+
+        function hideStatus() {
+            el("statusMessage").style.display = 'none';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function convertFileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    // Remove the data URL prefix (e.g., "data:audio/mp3;base64,")
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.onerror = () => reject(new Error('Failed to read file'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // File handling
+        function handleFile(file) {
+            if (!file) return;
+            
+            // Validate file type
+            const allowedTypes = ['video/mp4', 'video/quicktime', 'audio/mpeg', 'audio/wav'];
+            if (!allowedTypes.includes(file.type)) {
+                showStatus(window.i18n.t('error-invalid-file-type'), 'error');
+                return;
+            }
+            
+            // Display file info
+            el("filePreview").style.display = 'block';
+            el("fileName").textContent = file.name;
+            el("fileSize").textContent = formatFileSize(file.size);
+            
+            hideStatus();
+        }
+
+        window.removeFile = function() {
+            el("audioFile").value = '';
+            el("filePreview").style.display = 'none';
+        };
+
+        // Main initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            const examForm = el('examMuzicalForm');
+            const fileUploadContainer = el('fileUploadContainer');
+            const audioFileInput = el('audioFile');
+            const submitBtn = el('submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+
+            // File upload handling
+            fileUploadContainer.addEventListener('click', () => audioFileInput.click());
+            
+            fileUploadContainer.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                fileUploadContainer.classList.add('dragover');
+            });
+            
+            fileUploadContainer.addEventListener('dragleave', () => {
+                fileUploadContainer.classList.remove('dragover');
+            });
+            
+            fileUploadContainer.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileUploadContainer.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    audioFileInput.files = files;
+                    handleFile(files[0]);
+                }
+            });
+            
+            audioFileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFile(e.target.files[0]);
+                }
+            });
+
+            // Form submission
+            examForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                submitBtn.disabled = true;
+                btnText.textContent = window.i18n.t('status-sending');
+                hideStatus();
+                
+                try {
+                    // Get form data
+                    const firstName = el('firstName').value.trim();
+                    const lastName = el('lastName').value.trim();
+                    const course = el('course').value;
+                    const group = el('group').value;
+                    const file = el('audioFile').files[0];
+
+                    // Validate required fields
+                    if (!firstName || !lastName || !course || !group) {
+                        throw new Error(window.i18n.t('error-required-fields'));
+                    }
+
+                    if (!file) {
+                        throw new Error(window.i18n.t('error-no-file'));
+                    }
+
+                    showStatus(window.i18n.t('status-converting'), 'info');
+
+                    // Convert file to Base64
+                    const fileContent = await convertFileToBase64(file);
+
+                    showStatus(window.i18n.t('status-sending-server'), 'info');
+
+                    // Create payload
+                    const payload = {
+                        firstName: firstName,
+                        lastName: lastName,
+                        course: course,
+                        group: group,
+                        fileName: file.name,
+                        fileType: file.type || "application/octet-stream",
+                        fileContent: fileContent
+                    };
+
+                    // Send to Google Apps Script
+                    const response = await fetch(function doPost(e) {
+  try {
+    // Parse the JSON payload from the form
+    const data = JSON.parse(e.postData.contents);
+    
+    // Extract all the data fields
+    const firstName = data.firstName;
+    const lastName = data.lastName;
+    const course = data.course;
+    const group = data.group;
+    const fileName = data.fileName;
+    const fileType = data.fileType;
+    const fileContent = data.fileContent;
+    
+    // Validate required fields
+    if (!firstName || !lastName || !course || !group || !fileName || !fileContent) {
+      throw new Error("Missing required fields");
+    }
+    
+    // Google Drive and Sheets IDs
+    const DRIVE_FOLDER_ID = "1WihXw5WnaGJ7ylMxLXNzf5QQOauwab16";
+    const SPREADSHEET_ID = "1WihXw5WnaGJ7ylMxLXNzf5QQOauwab16";
+    
+    // 1. UPLOAD FILE TO GOOGLE DRIVE
+    const mainFolder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
+    
+    // Create subfolder for the group if it doesn't exist
+    let groupFolder;
+    try {
+      const groupFolders = mainFolder.getFoldersByName(group);
+      if (groupFolders.hasNext()) {
+        groupFolder = groupFolders.next();
+      } else {
+        groupFolder = mainFolder.createFolder(group);
+      }
+    } catch (error) {
+      groupFolder = mainFolder.createFolder(group);
+    }
+    
+    // Create blob from base64 content and upload file
+    const blob = Utilities.newBlob(Utilities.base64Decode(fileContent), fileType, fileName);
+    const uploadedFile = groupFolder.createFile(blob);
+    
+    // Get the file URL for reference
+    const fileUrl = uploadedFile.getUrl();
+    
+    // 2. SAVE DATA TO GOOGLE SHEETS
+    const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+    let sheet = spreadsheet.getSheetByName("Examen Muzical");
+    
+    // Create the sheet if it doesn't exist
+    if (!sheet) {
+      sheet = spreadsheet.insertSheet("Examen Muzical");
+      // Set headers
+      sheet.getRange(1, 1, 1, 8).setValues([
+        ["Timestamp", "First Name", "Last Name", "Course", "Group", "File Name", "File Type", "File URL"]
+      ]);
+      // Style headers
+      sheet.getRange(1, 1, 1, 8).setBackground("#4285f4").setFontColor("white").setFontWeight("bold");
+    }
+    
+    // Add the new exam submission
+    const timestamp = new Date();
+    sheet.appendRow([
+      timestamp,
+      firstName,
+      lastName,
+      course,
+      group,
+      fileName,
+      fileType,
+      fileUrl
+    ]);
+    
+    // Auto-resize columns for better readability
+    sheet.autoResizeColumns(1, 8);
+    
+    // 3. RETURN SUCCESS RESPONSE
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        status: "success",
+        message: "Examen trimis cu succes!",
+        fileUrl: fileUrl,
+        timestamp: timestamp.toISOString()
+      }))
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeader("Access-Control-Allow-Origin", "*")
+      .setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+      .setHeader("Access-Control-Allow-Headers", "Content-Type");
+      
+  } catch (error) {
+    console.error("Error in doPost:", error);
+    
+    // Return error response
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        status: "error",
+        message: "Eroare la trimiterea examenului: " + error.toString()
+      }))
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeader("Access-Control-Allow-Origin", "*")
+      .setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+      .setHeader("Access-Control-Allow-Headers", "Content-Type");
+  }
+}, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json().catch(() => ({}));
+                    
+                    if (!response.ok || result.status !== 'success') {
+                        throw new Error(result.message || window.i18n.t('error-submit-failed'));
+                    }
+
+                    // Success!
+                    showStatus(window.i18n.t('status-exam-success'), 'success');
+                    examForm.reset();
+                    el("filePreview").style.display = 'none';
+                } catch (error) {
+                    console.error('Error submitting exam:', error);
+                    showStatus(`${window.i18n.t('error')}: ${error.message}. ${window.i18n.t('try-again')}`, 'error');
+                } finally {
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    btnText.textContent = window.i18n.t('btn-submit-exam');
+                }
+            });
+        });
+    </script>
+    <script src="firebase-shared.js?v=20260602-teacher-allowlist"></script>
+    <script src="posthog-analytics.js?v=20260530-posthog"></script>
+    <script src="mobile-menu.js?v=20260616-home-redirect"></script>
+    <script src="public-auth.js?v=20260602-teacher-allowlist"></script>
+</body>
+</html>

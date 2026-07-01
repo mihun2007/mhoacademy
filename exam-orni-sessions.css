@@ -1,0 +1,167 @@
+.orni-session-card {
+  min-height: 15.5rem;
+  gap: .9rem;
+}
+
+.theory-section-card {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 8.25rem;
+  padding: 1.6rem 1.9rem;
+  border-radius: 1.35rem;
+  background: linear-gradient(145deg, rgba(255, 245, 212, .74), rgba(125, 206, 220, .34) 48%, rgba(255, 255, 255, .34));
+  border: 1px solid rgba(255, 255, 255, .68);
+  box-shadow: 0 22px 55px rgba(0, 28, 56, .22), inset 0 1px 0 rgba(255, 255, 255, .72);
+  color: #102943 !important;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.theory-section-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 28px 68px rgba(0, 28, 56, .28), inset 0 1px 0 rgba(255, 255, 255, .8);
+}
+
+.theory-section-card h4,
+.theory-section-card p,
+.theory-section-card span {
+  color: #102943 !important;
+}
+
+.theory-section-card .theory-section-action {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding: .85rem 1.25rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .62);
+  border: 1px solid rgba(255, 255, 255, .78);
+  font-weight: 900;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .74), 0 12px 24px rgba(0, 28, 56, .13);
+}
+
+.orni-session-card .session-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .65rem;
+  margin-top: .35rem;
+}
+
+.orni-session-card .session-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: .75rem .65rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, .48);
+  border: 1px solid rgba(255, 255, 255, .7);
+  color: #102943 !important;
+  font-weight: 900;
+  font-size: .98rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .64), 0 10px 22px rgba(0, 28, 56, .12);
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.orni-session-card .session-link:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, .7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .78), 0 14px 28px rgba(0, 28, 56, .18);
+}
+
+.orni-teacher-contacts {
+  margin-top: .8rem;
+  padding-top: .85rem;
+  border-top: 1px solid rgba(255, 255, 255, .56);
+}
+
+.orni-teacher-contacts-title {
+  margin: 0 0 .55rem !important;
+  font-size: .72rem !important;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  font-weight: 950;
+  color: #0b5ed7 !important;
+}
+
+.orni-teacher-contact-list {
+  display: grid;
+  gap: .55rem;
+}
+
+.orni-teacher-contact {
+  display: grid;
+  gap: .4rem;
+  padding: .72rem;
+  border-radius: .95rem;
+  background: rgba(255, 255, 255, .38);
+  border: 1px solid rgba(255, 255, 255, .58);
+}
+
+.orni-teacher-contact strong {
+  color: #102943 !important;
+  font-size: .95rem;
+  line-height: 1.2;
+}
+
+.orni-teacher-contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+}
+
+.orni-teacher-contact-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.35rem;
+  padding: .55rem .7rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .68);
+  color: #102943 !important;
+  font-size: .88rem;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 8px 16px rgba(0, 28, 56, .1);
+}
+
+.orni-teacher-contact-actions a:first-child {
+  background: linear-gradient(135deg, rgba(40, 200, 95, .92), rgba(18, 132, 67, .92));
+  color: #fff !important;
+}
+
+.orni-teacher-contact-actions a:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+.theory-section-card-with-contacts {
+  align-items: flex-start;
+}
+
+@media (max-width: 560px) {
+  .theory-section-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .theory-section-card .theory-section-action {
+    width: 100%;
+  }
+
+  .orni-session-card {
+    min-height: 17rem;
+  }
+
+  .orni-session-card .session-links {
+    grid-template-columns: 1fr;
+  }
+
+  .orni-teacher-contact-actions a {
+    flex: 1 1 100%;
+  }
+}

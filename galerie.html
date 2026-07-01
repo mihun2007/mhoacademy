@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page-title-gallery">Galerie Foto - MHO Music Academy</title>
+    <meta name="description" data-i18n-content="meta-desc-gallery" content="Explorează galeria foto MHO Music Academy cu imagini din cursuri, seminare și evenimente.">
+    <meta property="og:title" data-i18n-content="meta-og-title-gallery" content="Galerie foto - MHO Music Academy">
+    <meta property="og:description" data-i18n-content="meta-og-desc-gallery" content="Imagini din cursurile, seminarele și evenimentele MHO Music Academy.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="Logo MHO Academy.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="Logo MHO Academy.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            border-radius: 24px;
+        }
+        .image-card {
+            aspect-ratio: 1;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(217, 119, 6, 0.12);
+            background:
+                linear-gradient(135deg, rgba(251, 191, 36, 0.14), rgba(249, 115, 22, 0.08)),
+                #f8fafc;
+        }
+        .image-card:hover {
+            transform: scale(1.02);
+            z-index: 10;
+        }
+        .image-card:hover img {
+            filter: brightness(0.8) scale(1.1);
+        }
+        .lightbox {
+            display: none;
+            backdrop-filter: blur(12px);
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        .gallery-img {
+            opacity: 0;
+            transition: opacity 0.35s ease, transform 0.5s ease;
+        }
+        .gallery-img.loaded {
+            opacity: 1;
+        }
+        .gallery-placeholder {
+            background: linear-gradient(110deg, #f3f4f6 8%, #fff7ed 18%, #f3f4f6 33%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s linear infinite;
+        }
+        .image-card.broken .gallery-placeholder {
+            animation: none;
+            background: #fff7ed;
+        }
+        .image-card.broken .broken-message {
+            opacity: 1;
+        }
+        .album-card {
+            min-height: 260px;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+        .album-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 50px rgba(146, 64, 14, 0.16);
+        }
+        .album-cover-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 6px;
+            height: 180px;
+        }
+        .album-cover-grid > :first-child {
+            grid-row: span 2;
+        }
+        @keyframes shimmer {
+            to { background-position-x: -200%; }
+        }
+    </style>
+    <script src="safe-dom.js"></script>
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="glass-theme.css">
+    <link rel="stylesheet" href="public-glass-pages.css">
+    <style>
+        .gallery-page {
+            color: #e7f2fb;
+        }
+
+        .gallery-page main h1,
+        .gallery-page main h2,
+        .gallery-page main h3,
+        .gallery-page main p,
+        .gallery-page main span:not(.text-white),
+        .gallery-page main button:not(.text-white) {
+            color: #e7f2fb;
+        }
+
+        .gallery-page .text-gray-900,
+        .gallery-page .text-gray-800,
+        .gallery-page .text-gray-700,
+        .gallery-page .text-gray-600,
+        .gallery-page .text-gray-500,
+        .gallery-page .text-gray-400 {
+            color: #d8e9f4 !important;
+        }
+
+        .gallery-page .bg-white\/80,
+        .gallery-page .bg-white\/85,
+        .gallery-page .bg-white {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(189, 216, 233, 0.1)) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow:
+                0 26px 78px rgba(0, 29, 57, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.34) !important;
+            backdrop-filter: blur(30px) saturate(1.18);
+            -webkit-backdrop-filter: blur(30px) saturate(1.18);
+        }
+
+        .gallery-page .bg-white\/80 p,
+        .gallery-page .bg-white\/85 p,
+        .gallery-page .bg-white p,
+        .gallery-page .bg-white\/80 h2,
+        .gallery-page .bg-white\/85 h2,
+        .gallery-page .bg-white h2,
+        .gallery-page .bg-white\/80 h3,
+        .gallery-page .bg-white\/85 h3,
+        .gallery-page .bg-white h3,
+        .gallery-page .bg-white\/80 span,
+        .gallery-page .bg-white\/85 span,
+        .gallery-page .bg-white span,
+        .gallery-page .bg-white\/80 button,
+        .gallery-page .bg-white\/85 button,
+        .gallery-page .bg-white button {
+            color: #102943 !important;
+        }
+
+        .gallery-page #loadingState p {
+            color: #d8e9f4 !important;
+        }
+
+        .gallery-page .public-glass-card,
+        .gallery-page #emptyState {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-page .public-glass-card::before,
+        .gallery-page #emptyState::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(130deg, rgba(255, 255, 255, 0.3), transparent 34%, rgba(255, 255, 255, 0.07));
+            opacity: 0.85;
+            pointer-events: none;
+        }
+
+        .gallery-page .public-glass-card > *,
+        .gallery-page #emptyState > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .gallery-page #emptyState {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(189, 216, 233, 0.12)) !important;
+        }
+
+        .gallery-page #emptyState h3,
+        .gallery-page #emptyState p,
+        .gallery-page #albumViewHeader h2,
+        .gallery-page #albumViewHeader p {
+            color: #f3fbff !important;
+        }
+
+        .gallery-page .album-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(189, 216, 233, 0.1)) !important;
+            border-color: rgba(255, 255, 255, 0.28) !important;
+        }
+
+        .gallery-page .album-card h2,
+        .gallery-page .album-card p,
+        .gallery-page .album-card span {
+            color: #f3fbff !important;
+        }
+
+        .gallery-page .public-glass-card p,
+        .gallery-page .public-glass-card span,
+        .gallery-page .public-glass-card button,
+        .gallery-page .public-glass-card h2,
+        .gallery-page .public-glass-card h3 {
+            color: #f3fbff !important;
+        }
+
+        .gallery-page .public-glass-card .text-amber-600 {
+            color: #dceef9 !important;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+        }
+
+        .gallery-page #backToAlbums {
+            color: #f3fbff !important;
+            background: rgba(189, 216, 233, 0.16) !important;
+            border-color: rgba(255, 255, 255, 0.26) !important;
+        }
+
+        .gallery-page footer {
+            background: rgba(0, 29, 57, 0.52) !important;
+            border-color: rgba(123, 189, 232, 0.16) !important;
+        }
+
+        .gallery-page footer p {
+            color: #c9dff0 !important;
+        }
+    </style>
+    <script src="i18n.js?v=20260602-exam-ru"></script>
+</head>
+<body class="public-glass-page gallery-page gallery-mobile-page min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="public-glass-nav text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="gallery-brand text-lg font-bold">🎵 MHO Music Academy</h1>
+                </div>
+                <div class="hidden md:flex space-x-4 items-center">
+                    <a href="index.html" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-home">Acasă</a>
+                    <a href="noutati.html" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-news">Noutăți</a>
+                    <a href="register.html" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-register">Înregistrare</a>
+                    <a href="exam.html" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-exam">Examen</a>
+                    <a href="galerie.html" class="public-nav-link public-nav-link-active px-4 py-2 rounded-full transition" data-i18n="nav-gallery">Galerie</a>
+                    <a href="admin.html" class="public-nav-link px-4 py-2 rounded-full transition hidden" data-admin-link="true" data-i18n="nav-admin">Admin</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="public-page-shell max-w-7xl mx-auto px-4 py-12 flex-grow">
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <h1 class="gallery-mobile-title text-4xl md:text-6xl font-black text-gray-900 mb-4" data-i18n="gallery-title">Galerie Foto</h1>
+            <p class="gallery-mobile-copy text-lg text-gray-600 max-w-2xl mx-auto" data-i18n="gallery-desc">Imagini din cadrul seminarelor, cursurilor și evenimentelor academiei noastre.</p>
+            <div class="w-24 h-1.5 bg-amber-500 mx-auto rounded-full mt-6"></div>
+        </div>
+
+        <!-- Folder Hint -->
+        <div class="public-glass-card mx-auto mb-10 max-w-3xl rounded-3xl p-5 text-center shadow-sm">
+            <p class="text-sm font-semibold uppercase tracking-[0.18em] text-amber-600" data-i18n="gallery-auto-albums-eyebrow">Albume organizate automat</p>
+            <p class="mt-2 text-gray-600" data-i18n="gallery-auto-albums-desc">Fotografiile sunt grupate după curs și an: de exemplu, ORNI 2025, Coarde 2025 sau Aerofone 2026.</p>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="text-center py-20">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
+            <p class="mt-4 text-gray-600 font-medium" data-i18n="gallery-loading-memories">Se încarcă amintirile...</p>
+        </div>
+
+        <!-- Album Grid -->
+        <div id="albumGrid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <!-- Albums will be dynamically inserted here -->
+        </div>
+
+        <!-- Album View Header -->
+        <div id="albumViewHeader" class="public-glass-card hidden mb-8 flex flex-col gap-4 rounded-3xl p-5 shadow-sm md:flex-row md:items-center md:justify-between">
+            <div>
+                <button id="backToAlbums" type="button" class="public-secondary-btn mb-3 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition">
+                    <span data-i18n="gallery-back-to-folders">← Înapoi la foldere</span>
+                </button>
+                <h2 id="albumTitle" class="text-3xl font-black text-gray-900">Album</h2>
+                <p id="albumMeta" class="mt-1 text-gray-600"></p>
+            </div>
+        </div>
+
+        <!-- Image Grid -->
+        <div id="imageGrid" class="hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            <!-- Images will be dynamically inserted here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="public-glass-card hidden text-center py-20 rounded-3xl shadow-xl max-w-lg mx-auto">
+            <div class="text-6xl mb-6">📸</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2" data-i18n="gallery-empty-title">Galerie goală</h3>
+            <p class="text-gray-600" data-i18n="gallery-empty-desc">Nu am găsit nicio fotografie momentan.</p>
+        </div>
+    </main>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox fixed inset-0 z-[100] bg-black/95 items-center justify-center p-4">
+        <button id="closeLightbox" class="absolute top-6 right-6 text-white hover:text-amber-500 transition-colors z-[110]">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        
+        <div class="relative w-full max-w-5xl max-h-screen flex items-center justify-center">
+            <img id="lightboxImg" src="" alt="Fotografie la dimensiune completă" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" data-i18n-alt="gallery-full-size-alt">
+            
+            <a id="downloadLightbox" href="" download="" class="public-cta absolute bottom-[-60px] md:bottom-[-80px] text-white px-8 py-3 rounded-2xl font-bold shadow-2xl hover:scale-105 transition flex items-center gap-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                <span data-i18n="gallery-download-photo">Descarcă Fotografia</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="public-glass-footer py-12 px-4 mt-12">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-gray-400 text-sm font-medium">&copy; 2026 MHO Music Academy. <span data-i18n="footer-rights">Toate drepturile rezervate.</span></p>
+        </div>
+    </footer>
+
+    <!-- Firebase -->
+    <script type="module">
+        import { getApp, getApps, initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+        import { getFirestore, collection, query, onSnapshot, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAV0_Buy_KKD4TSe-1IpByCVoZFoRJQaNE",
+            authDomain: "mho-music-academy.firebaseapp.com",
+            projectId: "mho-music-academy",
+            storageBucket: "mho-music-academy.firebasestorage.app",
+            messagingSenderId: "705322739069",
+            appId: "1:705322739069:web:422b6fd0c7a08ab8921814",
+            measurementId: "G-CF5HDVT6MK"
+        };
+
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const safeLink = (value) => window.SafeDOM.safeURL(value);
+
+        const albumGrid = document.getElementById('albumGrid');
+        const albumViewHeader = document.getElementById('albumViewHeader');
+        const backToAlbums = document.getElementById('backToAlbums');
+        const albumTitle = document.getElementById('albumTitle');
+        const albumMeta = document.getElementById('albumMeta');
+        const imageGrid = document.getElementById('imageGrid');
+        const loadingState = document.getElementById('loadingState');
+        const emptyState = document.getElementById('emptyState');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const closeLightbox = document.getElementById('closeLightbox');
+        const downloadLightbox = document.getElementById('downloadLightbox');
+        const previewUrlCache = new Map();
+        let allGalleryPhotos = [];
+        let currentAlbumKey = '';
+        const esc = (value) => String(value || '').replace(/[&<>"']/g, (char) => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        }[char]));
+
+        function guessImageType(url) {
+            const decodedUrl = decodeURIComponent(String(url || '').toLowerCase());
+            if (decodedUrl.includes('.png')) return 'image/png';
+            if (decodedUrl.includes('.webp')) return 'image/webp';
+            if (decodedUrl.includes('.gif')) return 'image/gif';
+            return 'image/jpeg';
+        }
+
+        function normalizeCourse(value) {
+            return String(value || 'General').trim() || 'General';
+        }
+
+        function getCourseLabel(course) {
+            const courseKeys = {
+                ORNI: 'course-orni',
+                Coarde: 'course-strings',
+                Aerofone: 'course-aerophones',
+                Dirijor: 'course-conductor',
+                General: 'course-general',
+            };
+            return window.i18n.t(courseKeys[course] || course);
+        }
+
+        function normalizeYear(value) {
+            const numericYear = Number.parseInt(value, 10);
+            return Number.isFinite(numericYear) ? String(numericYear) : window.i18n.t('gallery-no-year');
+        }
+
+        function getPhotoCountLabel(count) {
+            return `${count} ${window.i18n.t(count === 1 ? 'unit-photo' : 'unit-photos')}`;
+        }
+
+        function getAlbumKey(photo) {
+            return `${normalizeCourse(photo.course)}__${normalizeYear(photo.year)}`;
+        }
+
+        function sortByDateDesc(a, b) {
+            const aDate = a.createdAt || a.uploadedAt || a.timestamp || 0;
+            const bDate = b.createdAt || b.uploadedAt || b.timestamp || 0;
+            const aValue = aDate?.toDate ? aDate.toDate() : new Date(aDate);
+            const bValue = bDate?.toDate ? bDate.toDate() : new Date(bDate);
+            return bValue - aValue;
+        }
+
+        async function resolvePreviewURL(url) {
+            const safeUrl = safeLink(url);
+            if (!safeUrl) return '';
+            if (previewUrlCache.has(safeUrl)) return previewUrlCache.get(safeUrl);
+
+            try {
+                const response = await fetch(safeUrl, { mode: 'cors' });
+                if (!response.ok) throw new Error(`Preview fetch failed: ${response.status}`);
+                const blob = await response.blob();
+                const previewBlob = blob.type?.startsWith('image/')
+                    ? blob
+                    : blob.slice(0, blob.size, guessImageType(safeUrl));
+                const objectUrl = URL.createObjectURL(previewBlob);
+                previewUrlCache.set(safeUrl, objectUrl);
+                return objectUrl;
+            } catch (error) {
+                console.warn('Could not create gallery preview URL, using direct URL:', error);
+                previewUrlCache.set(safeUrl, safeUrl);
+                return safeUrl;
+            }
+        }
+
+        function attachGalleryPreviewLoaders() {
+            imageGrid.querySelectorAll('[data-gallery-preview]').forEach((img) => {
+                const originalUrl = img.dataset.galleryPreview;
+                const card = img.closest('.image-card');
+                const placeholder = card?.querySelector('.gallery-placeholder');
+
+                const markLoaded = () => {
+                    img.classList.add('loaded');
+                    placeholder?.classList.add('hidden');
+                };
+
+                const markBroken = () => {
+                    card?.classList.add('broken');
+                    img.classList.remove('loaded');
+                    placeholder?.classList.remove('hidden');
+                };
+
+                img.addEventListener('load', markLoaded, { once: true });
+                img.addEventListener('error', async () => {
+                    if (img.dataset.previewFallbackTried === 'true') {
+                        markBroken();
+                        return;
+                    }
+                    img.dataset.previewFallbackTried = 'true';
+                    const fallbackUrl = await resolvePreviewURL(originalUrl);
+                    if (fallbackUrl && fallbackUrl !== img.src) {
+                        img.src = fallbackUrl;
+                    } else {
+                        markBroken();
+                    }
+                });
+
+                img.src = originalUrl;
+            });
+
+            imageGrid.querySelectorAll('[data-open-image]').forEach((button) => {
+                button.addEventListener('click', () => window.openImage(button.dataset.openImage));
+            });
+        }
+
+        function attachAlbumCoverLoaders() {
+            albumGrid.querySelectorAll('[data-album-preview]').forEach((img) => {
+                const originalUrl = img.dataset.albumPreview;
+                const placeholder = img.previousElementSibling;
+
+                img.addEventListener('load', () => {
+                    img.classList.add('loaded');
+                    placeholder?.classList.add('hidden');
+                }, { once: true });
+
+                img.addEventListener('error', async () => {
+                    if (img.dataset.previewFallbackTried === 'true') return;
+                    img.dataset.previewFallbackTried = 'true';
+                    const fallbackUrl = await resolvePreviewURL(originalUrl);
+                    if (fallbackUrl && fallbackUrl !== img.src) {
+                        img.src = fallbackUrl;
+                    }
+                });
+
+                img.src = originalUrl;
+            });
+
+            albumGrid.querySelectorAll('[data-open-album]').forEach((button) => {
+                button.addEventListener('click', () => openAlbum(button.dataset.openAlbum));
+            });
+        }
+
+        function buildAlbums(photos) {
+            const albums = new Map();
+            photos.forEach((photo) => {
+                const imageUrl = safeLink(photo.imageURL || photo.url);
+                if (!imageUrl) return;
+
+                const key = getAlbumKey(photo);
+                const course = normalizeCourse(photo.course);
+                const year = normalizeYear(photo.year);
+
+                if (!albums.has(key)) {
+                    albums.set(key, {
+                        key,
+                        course,
+                        year,
+                        photos: []
+                    });
+                }
+                albums.get(key).photos.push({ ...photo, imageUrl });
+            });
+
+            return Array.from(albums.values())
+                .map((album) => ({
+                    ...album,
+                    photos: album.photos.sort(sortByDateDesc)
+                }))
+                .sort((a, b) => {
+                    const yearCompare = Number.parseInt(b.year, 10) - Number.parseInt(a.year, 10);
+                    if (Number.isFinite(yearCompare) && yearCompare !== 0) return yearCompare;
+                    return a.course.localeCompare(b.course);
+                });
+        }
+
+        function renderAlbums() {
+            const albums = buildAlbums(allGalleryPhotos);
+            currentAlbumKey = '';
+            imageGrid.classList.add('hidden');
+            albumViewHeader.classList.add('hidden');
+
+            if (albums.length === 0) {
+                emptyState.classList.remove('hidden');
+                albumGrid.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            albumGrid.classList.remove('hidden');
+            albumGrid.innerHTML = albums.map((album) => {
+                const coverPhotos = album.photos.slice(0, 3);
+                const coverItems = [0, 1, 2].map((index) => {
+                    const photo = coverPhotos[index];
+                    if (!photo) {
+                        return '<div class="rounded-2xl bg-amber-50"></div>';
+                    }
+                    const title = photo.fileName || window.i18n.t('gallery-photo-default-title');
+                    return `
+                        <div class="relative overflow-hidden rounded-2xl bg-amber-50">
+                            <div class="gallery-placeholder absolute inset-0"></div>
+                            <img data-album-preview="${esc(photo.imageUrl)}" alt="${esc(title)}" loading="lazy" decoding="async" class="gallery-img h-full w-full object-cover">
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <button type="button" class="album-card rounded-[2rem] border border-amber-100 bg-white p-4 text-left shadow-lg" data-open-album="${esc(album.key)}">
+                        <div class="album-cover-grid overflow-hidden rounded-[1.35rem]">
+                            ${coverItems}
+                        </div>
+                        <div class="mt-5 flex items-end justify-between gap-4">
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-[0.22em] text-amber-600">${esc(window.i18n.t('gallery-folder-label'))}</p>
+                                <h2 class="mt-1 text-2xl font-black text-gray-900">${esc(getCourseLabel(album.course))} ${esc(album.year)}</h2>
+                                <p class="mt-1 text-sm font-semibold text-gray-500">${esc(getPhotoCountLabel(album.photos.length))}</p>
+                            </div>
+                            <span class="rounded-full bg-amber-100 px-4 py-2 text-sm font-bold text-amber-800">${esc(window.i18n.t('gallery-open-album'))}</span>
+                        </div>
+                    </button>
+                `;
+            }).join('');
+
+            attachAlbumCoverLoaders();
+        }
+
+        function renderPhotos(photos) {
+            imageGrid.innerHTML = photos.map((data) => {
+                const imageUrl = safeLink(data.imageURL || data.url || data.imageUrl);
+                if (!imageUrl) {
+                    return '';
+                }
+                const title = data.fileName || data.title || window.i18n.t('gallery-photo-default-title');
+                const course = getCourseLabel(normalizeCourse(data.course)).toUpperCase();
+                const year = normalizeYear(data.year);
+                const ariaLabel = window.i18n.t('gallery-open-photo-aria').replace('{title}', title);
+                return `
+                    <button type="button" class="image-card group relative cursor-pointer overflow-hidden rounded-2xl shadow-lg text-left" data-open-image="${esc(imageUrl)}" aria-label="${esc(ariaLabel)}">
+                        <div class="gallery-placeholder absolute inset-0"></div>
+                        <img data-gallery-preview="${esc(imageUrl)}" alt="${esc(title)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="gallery-img h-full w-full object-cover">
+                        <div class="broken-message pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 px-4 text-center text-amber-800 opacity-0 transition-opacity">
+                            <span class="text-3xl">📷</span>
+                            <span class="text-sm font-bold">${esc(window.i18n.t('gallery-preview-unavailable'))}</span>
+                            <span class="text-xs">${esc(window.i18n.t('gallery-preview-click-hint'))}</span>
+                        </div>
+                        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-4 opacity-0 transition-opacity group-hover:opacity-100">
+                            <span class="inline-flex rounded-full bg-white/90 px-3 py-1 text-xs font-bold text-amber-700">${esc(course)} · ${esc(year)}</span>
+                            <p class="mt-2 truncate text-sm font-bold text-white">${esc(window.i18n.t('gallery-view-image'))}</p>
+                        </div>
+                    </button>
+                `;
+            }).join('');
+            attachGalleryPreviewLoaders();
+        }
+
+        function openAlbum(albumKey) {
+            const albums = buildAlbums(allGalleryPhotos);
+            const album = albums.find((item) => item.key === albumKey);
+            if (!album) return;
+
+            currentAlbumKey = albumKey;
+            albumGrid.classList.add('hidden');
+            emptyState.classList.add('hidden');
+            albumViewHeader.classList.remove('hidden');
+            imageGrid.classList.remove('hidden');
+            albumTitle.textContent = `${getCourseLabel(album.course)} ${album.year}`;
+            albumMeta.textContent = window.i18n.t('gallery-photos-in-folder').replace('{count}', getPhotoCountLabel(album.photos.length));
+            renderPhotos(album.photos);
+            albumViewHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        backToAlbums.addEventListener('click', renderAlbums);
+
+        // Lightbox functions
+        window.openImage = async (url) => {
+            const safeUrl = safeLink(url);
+            if (!safeUrl) return;
+
+            lightboxImg.classList.remove('loaded');
+            lightboxImg.removeAttribute('src');
+            downloadLightbox.href = safeUrl;
+            downloadLightbox.setAttribute('download', `MHO_Academy_${Date.now()}.jpg`);
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            const previewUrl = await resolvePreviewURL(safeUrl);
+            lightboxImg.onload = () => lightboxImg.classList.add('loaded');
+            lightboxImg.src = previewUrl || safeUrl;
+        };
+
+        closeLightbox.onclick = () => {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+
+        lightbox.onclick = (e) => {
+            if (e.target === lightbox) closeLightbox.onclick();
+        };
+
+        // Real-time grid
+        const q = query(collection(db, 'gallery'));
+        onSnapshot(q, (snapshot) => {
+            loadingState.classList.add('hidden');
+            allGalleryPhotos = snapshot.docs
+                .map((doc) => ({ id: doc.id, ...doc.data() }))
+                .sort(sortByDateDesc);
+
+            if (currentAlbumKey) {
+                openAlbum(currentAlbumKey);
+            } else {
+                renderAlbums();
+            }
+        });
+
+        window.addEventListener('mho:language-change', () => {
+            if (currentAlbumKey) {
+                openAlbum(currentAlbumKey);
+            } else {
+                renderAlbums();
+            }
+        });
+    </script>
+    <script src="firebase-shared.js?v=20260530-left-sidebar"></script>
+    <script src="posthog-analytics.js?v=20260530-posthog"></script>
+    <script src="mobile-menu.js?v=20260601-ru"></script>
+    <script src="public-auth.js"></script>
+</body>
+</html>

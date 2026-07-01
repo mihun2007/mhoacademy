@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Materiale curs - MHO Music Academy</title>
+  <link rel="icon" type="image/png" href="Logo MHO Academy.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="mobile.css?v=20260701-custom-group-picker">
+  <link rel="stylesheet" href="glass-theme.css?v=20260602-cache-fix">
+  <link rel="stylesheet" href="public-glass-pages.css?v=20260616-glass-transparency">
+  <link rel="stylesheet" href="course-materials.css?v=20260701-mobile-overflow-fix">
+  <script src="i18n.js?v=20260603-bilingual-membership"></script>
+  <script src="safe-dom.js"></script>
+  <script src="exam-config.js"></script>
+</head>
+<body class="public-glass-page materials-page min-h-screen">
+  <nav class="public-glass-nav text-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a href="index.html" class="text-lg font-bold">MHO Music Academy</a>
+        <div class="hidden md:flex space-x-4">
+          <a href="index.html" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-home">Acasa</a>
+          <a href="materiale.html" class="public-nav-link public-nav-link-active px-4 py-2 rounded-full" data-i18n="nav-materials">Materiale</a>
+          <a href="exam.html" class="public-nav-link px-4 py-2 rounded-full transition" data-i18n="nav-exam">Examen</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main class="materials-shell mx-auto px-5 sm:px-8 py-10">
+    <a href="materiale.html" class="materials-action mb-5" data-i18n="materials-back-courses">Inapoi la cursuri</a>
+    <section class="materials-hero rounded-[2rem] p-8 mb-8">
+      <p id="courseKicker" class="text-sm uppercase tracking-[0.22em] font-black text-blue-700">Materiale curs</p>
+      <h1 id="courseTitle" class="text-4xl md:text-5xl font-black text-gray-900 mt-3">Materiale</h1>
+      <p class="text-lg text-gray-700 mt-4 max-w-3xl" data-i18n="materials-page-desc">Alege teorie, solfegiu sau instrumentul dorit, apoi cursul pentru materiale.</p>
+    </section>
+    <section id="materialsInstrumentSections"></section>
+  </main>
+  <footer class="public-glass-footer text-white py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-amber-100">&copy; 2025 MHO Music Academy. <span data-i18n="footer-rights">Toate drepturile rezervate.</span></p>
+    </div>
+  </footer>
+  <script src="posthog-analytics.js?v=20260530-posthog"></script>
+    <script src="mobile-menu.js?v=20260616-home-redirect"></script>
+  <script type="module" src="materials.js?v=20260603-final"></script>
+</body>
+</html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page-title-home">MHO Music Academy - Acasă</title>
+    <meta name="description" content="Platforma MHO Music Academy pentru înscrieri la cursuri, seminare, examene online și noutăți pentru studenți și profesori." data-i18n-content="meta-desc-home">
+    <meta property="og:title" content="MHO Music Academy">
+    <meta property="og:description" content="Înscrieri la cursuri, seminare, examene online și noutăți într-o singură platformă MHO Music Academy." data-i18n-content="meta-og-desc-home">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="Logo MHO Academy.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MHO Music Academy">
+    <meta name="twitter:description" content="Înscrieri la cursuri, seminare, examene online și noutăți într-o singură platformă MHO Music Academy." data-i18n-content="meta-og-desc-home">
+    <link rel="icon" type="image/png" href="Logo MHO Academy.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #001D39;
+            --navy: #0A4174;
+            --steel: #49769F;
+            --teal: #4E8EA2;
+            --mist: #6EA2B3;
+            --sky: #7BBDE8;
+            --ice: #BDD8E9;
+            --primary-orange: #0A4174;
+            --primary-amber: #49769F;
+            --glass: rgba(189, 216, 233, 0.22);
+            --glass-strong: rgba(189, 216, 233, 0.36);
+            --glass-line: rgba(255, 255, 255, 0.34);
+        }
+        * {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            color: var(--ice);
+            background:
+                radial-gradient(circle at 16% 12%, rgba(123, 189, 232, 0.48), transparent 26rem),
+                radial-gradient(circle at 88% 8%, rgba(78, 142, 162, 0.54), transparent 28rem),
+                radial-gradient(circle at 52% 74%, rgba(10, 65, 116, 0.72), transparent 34rem),
+                linear-gradient(145deg, #BDD8E9 0%, #7BBDE8 18%, #49769F 42%, #0A4174 68%, #001D39 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(115deg, rgba(255, 255, 255, 0.28), transparent 24%, rgba(255, 255, 255, 0.08) 46%, transparent 70%),
+                radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.25), transparent 34rem);
+            mix-blend-mode: soft-light;
+            z-index: -1;
+        }
+        .serif-display {
+            font-family: 'Playfair Display', serif;
+        }
+        .site-shell {
+            position: relative;
+            overflow: hidden;
+        }
+        .site-shell::before,
+        .site-shell::after {
+            content: "";
+            position: absolute;
+            width: 28rem;
+            height: 28rem;
+            border-radius: 999px;
+            filter: blur(30px);
+            opacity: 0.32;
+            pointer-events: none;
+        }
+        .site-shell::before {
+            top: 4rem;
+            left: -10rem;
+            background: #7BBDE8;
+        }
+        .site-shell::after {
+            right: -12rem;
+            top: 24rem;
+            background: #4E8EA2;
+        }
+        .site-shell > section {
+            position: relative;
+            z-index: 1;
+        }
+        .glass-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.26), rgba(189, 216, 233, 0.14));
+            backdrop-filter: blur(30px) saturate(1.35);
+            -webkit-backdrop-filter: blur(30px) saturate(1.35);
+            border: 1px solid var(--glass-line);
+            box-shadow: 0 24px 70px rgba(0, 29, 57, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.42);
+            border-radius: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 240ms ease, box-shadow 240ms ease, background 240ms ease;
+        }
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(130deg, rgba(255, 255, 255, 0.38), transparent 32%, rgba(255, 255, 255, 0.08));
+            opacity: 0.8;
+            pointer-events: none;
+        }
+        .glass-card:hover {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.34), rgba(189, 216, 233, 0.2));
+            transform: translateY(-7px) scale(1.012);
+            box-shadow: 0 32px 90px rgba(0, 29, 57, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.48);
+        }
+        .glass-nav {
+            background: rgba(0, 29, 57, 0.42);
+            backdrop-filter: blur(28px) saturate(1.4);
+            -webkit-backdrop-filter: blur(28px) saturate(1.4);
+            border-bottom: 1px solid rgba(189, 216, 233, 0.24);
+            box-shadow: 0 12px 40px rgba(0, 29, 57, 0.18);
+        }
+        .nav-pill {
+            border: 1px solid transparent;
+            color: rgba(221, 238, 247, 0.88);
+        }
+        .nav-pill:hover {
+            background: rgba(189, 216, 233, 0.14);
+            border-color: rgba(189, 216, 233, 0.22);
+            color: white;
+        }
+        .nav-pill-active {
+            background: rgba(189, 216, 233, 0.24);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 12px 30px rgba(0, 29, 57, 0.18);
+        }
+        .primary-cta {
+            background: linear-gradient(135deg, #7BBDE8, #4E8EA2 55%, #0A4174);
+            color: white;
+            box-shadow: 0 18px 48px rgba(10, 65, 116, 0.38);
+        }
+        .primary-cta:hover {
+            filter: brightness(1.08);
+            box-shadow: 0 24px 62px rgba(10, 65, 116, 0.48);
+        }
+        .secondary-cta {
+            background: rgba(189, 216, 233, 0.18);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.32);
+            backdrop-filter: blur(24px);
+        }
+        .secondary-cta:hover {
+            background: rgba(189, 216, 233, 0.28);
+        }
+        .liquid-orb {
+            background:
+                radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.86), transparent 0.7rem),
+                radial-gradient(circle at 36% 34%, rgba(189, 216, 233, 0.85), transparent 7rem),
+                linear-gradient(145deg, rgba(123, 189, 232, 0.78), rgba(10, 65, 116, 0.86));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 30px 90px rgba(0, 29, 57, 0.38);
+        }
+        .quick-card {
+            min-height: 330px;
+        }
+        .quick-icon {
+            background: rgba(189, 216, 233, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32);
+        }
+        .footer-glass {
+            background: rgba(0, 29, 57, 0.52);
+            backdrop-filter: blur(26px);
+            border-top: 1px solid rgba(189, 216, 233, 0.2);
+        }
+        html[lang="ru"] .hero-title {
+            font-size: clamp(3.45rem, 7.4vw, 6.15rem);
+            line-height: 0.98;
+            overflow-wrap: normal;
+        }
+        html[lang="ru"] .primary-cta,
+        html[lang="ru"] .secondary-cta,
+        html[lang="ru"] .quick-card span {
+            white-space: normal;
+            line-height: 1.35;
+        }
+        html[lang="ru"] .floating-info-card {
+            width: min(20rem, calc(100vw - 2rem));
+        }
+    </style>
+    <link rel="stylesheet" href="mobile.css?v=20260701-custom-group-picker">
+    <link rel="stylesheet" href="glass-theme.css?v=20260602-cache-fix">
+    <style>
+        @media (max-width: 768px) {
+            .home-page .site-shell > section:first-of-type {
+                padding-top: 2rem !important;
+                padding-bottom: 0.75rem !important;
+            }
+
+            .home-page .site-shell > section:nth-of-type(2) {
+                padding-top: 0.75rem !important;
+            }
+
+            .home-page .hero-visual-stack {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0.9rem !important;
+                min-height: 0 !important;
+                height: auto !important;
+                padding: 0 !important;
+                margin: 0.6rem 0 0 !important;
+            }
+
+            .home-page .hero-visual-stack .liquid-orb {
+                display: none !important;
+            }
+
+            .home-page .hero-visual-stack .floating-info-card {
+                position: relative !important;
+                inset: auto !important;
+                left: auto !important;
+                right: auto !important;
+                top: auto !important;
+                bottom: auto !important;
+                width: calc(100% - 1.25rem) !important;
+                max-width: none !important;
+                min-height: 0 !important;
+                margin: 0 auto !important;
+                padding: 1.15rem 1.05rem !important;
+                transform: none !important;
+                border-radius: 1.45rem !important;
+            }
+        }
+    </style>
+    <script src="i18n.js?v=20260603-bilingual-membership"></script>
+</head>
+<body class="home-page min-h-screen">
+    <!-- Navigation -->
+    <nav class="glass-nav sticky top-0 z-50 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="home-brand text-lg font-black tracking-tight">🎵 MHO Music Academy</h1>
+                </div>
+                <div class="hidden md:flex space-x-4 items-center">
+                    <a href="index.html" class="nav-pill nav-pill-active px-4 py-2 rounded-full transition" data-i18n="nav-home">Acasă</a>
+                    <a href="noutati.html" class="nav-pill px-4 py-2 rounded-full transition" data-i18n="nav-news">Noutăți</a>
+                    <a href="register.html" class="nav-pill px-4 py-2 rounded-full transition" data-i18n="nav-register">Înregistrare</a>
+                    <a href="exam.html" class="nav-pill px-4 py-2 rounded-full transition" data-i18n="nav-exam">Examen</a>
+                    <a href="galerie.html" class="nav-pill px-4 py-2 rounded-full transition" data-i18n="nav-gallery">Galerie</a>
+                    <a href="admin.html" class="nav-pill px-4 py-2 rounded-full transition hidden" data-admin-link="true" data-i18n="nav-admin">Admin</a>
+                    <div id="authButtons" class="flex items-center space-x-2 ml-4 pl-4 border-l border-white/20">
+                        <a href="login.html" class="nav-pill px-4 py-2 rounded-full transition" data-i18n="nav-login">Autentificare</a>
+                        <a href="signup.html" class="bg-white/90 text-[#0A4174] px-4 py-2 rounded-full font-bold hover:bg-white transition" data-i18n="nav-signup">Înregistrare</a>
+                    </div>
+                    <div id="userMenu" class="hidden flex items-center space-x-2 ml-4 pl-4 border-l border-white/20">
+                        <a href="profile.html" id="userName" class="nav-pill flex items-center space-x-2 text-sm px-4 py-2 rounded-full transition">
+                            <img id="userProfilePicture" src="" alt="Profile" class="w-8 h-8 rounded-full object-cover border-2 border-white hidden">
+                            <span id="userProfilePicturePlaceholder" class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-lg">👤</span>
+                            <span id="userNameText"></span>
+                        </a>
+                        <button id="logoutBtn" class="nav-pill px-4 py-2 rounded-full transition" data-i18n="nav-logout">Deconectare</button>
+                    </div>
+                </div>
+                <!-- Mobile menu button handled by mobile-menu.js?v=20260616-home-redirect -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="site-shell min-h-screen">
+        <!-- Hero Section -->
+        <section class="relative px-4 py-20 md:py-28">
+            <div class="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.08fr_0.92fr]">
+                <div class="glass-card home-hero-card p-8 md:p-12">
+                    <div class="relative z-10">
+                        <p class="hero-eyebrow mb-5 inline-flex rounded-full border border-white/30 bg-white/15 px-4 py-2 text-sm font-bold uppercase tracking-[0.22em] text-[#BDD8E9]">
+                            MHO Music Academy
+                        </p>
+                        <h1 class="hero-title serif-display mb-7 text-6xl font-black leading-[0.92] tracking-tight text-white md:text-8xl" data-i18n="hero-welcome">Bine ai Venit!</h1>
+                        <p class="hero-copy mb-10 max-w-2xl text-lg font-medium leading-8 text-[#D8ECF7] md:text-xl" data-i18n="hero-description">
+                            Înregistrează-te la Cursuri ori la Seminare și Susține Examenele Online de Intrare.
+                            Am creat această platformă pentru a facilita procesul de învățare și evaluare.
+                        </p>
+                        <div class="flex flex-col gap-4 sm:flex-row">
+                            <a href="register.html" class="primary-cta rounded-2xl px-8 py-4 text-center text-lg font-black transition transform hover:-translate-y-1" data-i18n="btn-register-now">
+                                Înregistrează-te Acum
+                            </a>
+                            <a href="noutati.html" class="secondary-cta home-secondary-cta rounded-2xl px-8 py-4 text-center text-lg font-black transition transform hover:-translate-y-1" data-i18n="btn-view-news">
+                                Vezi Noutăți
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual-stack relative min-h-[420px]">
+                    <div class="liquid-orb absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-[5rem] md:h-96 md:w-96"></div>
+                    <div class="glass-card floating-info-card absolute left-0 top-8 w-56 p-5 md:w-64">
+                        <div class="relative z-10">
+                            <p class="text-sm font-bold uppercase tracking-[0.18em] text-[#BDD8E9]" data-i18n="hero-live-label">Live</p>
+                            <p class="mt-2 text-3xl font-black text-white" data-i18n="hero-live-title">Cursuri</p>
+                            <p class="mt-1 text-sm text-[#D8ECF7]" data-i18n="hero-live-courses">ORNI · Coarde · Aerofone · Dirijor</p>
+                        </div>
+                    </div>
+                    <div class="glass-card floating-info-card absolute bottom-8 right-0 w-64 p-5 md:w-72">
+                        <div class="relative z-10">
+                            <p class="text-sm font-bold uppercase tracking-[0.18em] text-[#BDD8E9]" data-i18n="hero-platform-label">Platformă</p>
+                            <p class="mt-2 text-3xl font-black text-white" data-i18n="hero-platform-title">Examene online</p>
+                            <p class="mt-1 text-sm text-[#D8ECF7]" data-i18n="hero-platform-desc">Înscrieri, seminare și galerie într-un singur loc.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Quick Links Section -->
+        <section class="px-4 py-20">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <p class="mb-3 text-sm font-black uppercase tracking-[0.24em] text-[#BDD8E9]" data-i18n="quick-access-eyebrow">Acces rapid</p>
+                    <h2 class="serif-display text-5xl md:text-6xl font-black text-white mb-4 tracking-tight" data-i18n="quick-links-title">Navigare rapidă</h2>
+                    <div class="mx-auto h-1.5 w-28 rounded-full bg-gradient-to-r from-[#BDD8E9] via-[#7BBDE8] to-[#4E8EA2] shadow-sm"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <a href="register.html" class="glass-card quick-card p-8 transition-all duration-300 flex flex-col">
+                        <div class="quick-icon relative z-10 mb-7 flex h-16 w-16 items-center justify-center rounded-3xl text-4xl">📝</div>
+                        <h3 class="relative z-10 text-2xl font-black text-white mb-3" data-i18n="link-student-reg">Înscriere Studenți</h3>
+                        <p class="relative z-10 text-[#D8ECF7] mb-8 leading-relaxed" data-i18n="link-student-reg-desc">Alege cursul tău și Înregistrează-te pentru a începe studiile.</p>
+                        <span class="relative z-10 mt-auto rounded-full bg-white/18 px-6 py-2 text-sm font-black text-white" data-i18n="link-student-reg-action">Înregistrează-te</span>
+                    </a>
+                    <a href="exam.html" class="glass-card quick-card p-8 transition-all duration-300 flex flex-col">
+                        <div class="quick-icon relative z-10 mb-7 flex h-16 w-16 items-center justify-center rounded-3xl text-4xl">✍️</div>
+                        <h3 class="relative z-10 text-2xl font-black text-white mb-3" data-i18n="link-take-exam">Susține examenul</h3>
+                        <p class="relative z-10 text-[#D8ECF7] mb-8 leading-relaxed" data-i18n="link-take-exam-desc">Trimite răspunsurile la examen pentru a evalua cunoștințele tale muzicale.</p>
+                        <span class="relative z-10 mt-auto rounded-full bg-white/18 px-6 py-2 text-sm font-black text-white" data-i18n="link-take-exam-action">Mergi la examen</span>
+                    </a>
+                    <a href="noutati.html" class="glass-card quick-card p-8 transition-all duration-300 flex flex-col">
+                        <div class="quick-icon relative z-10 mb-7 flex h-16 w-16 items-center justify-center rounded-3xl text-4xl">📰</div>
+                        <h3 class="relative z-10 text-2xl font-black text-white mb-3" data-i18n="link-news-seminars">Noutăți și Seminare</h3>
+                        <p class="relative z-10 text-[#D8ECF7] mb-8 leading-relaxed" data-i18n="link-news-seminars-desc">Vezi cele mai recente noutăți și seminare disponibile pentru studenți.</p>
+                        <span class="relative z-10 mt-auto rounded-full bg-white/18 px-6 py-2 text-sm font-black text-white" data-i18n="link-news-seminars-action">Vezi noutăți</span>
+                    </a>
+                    <a href="galerie.html" class="glass-card quick-card p-8 transition-all duration-300 flex flex-col">
+                        <div class="quick-icon relative z-10 mb-7 flex h-16 w-16 items-center justify-center rounded-3xl text-4xl">📷</div>
+                        <h3 class="relative z-10 text-2xl font-black text-white mb-3" data-i18n="link-gallery">Galerie Foto</h3>
+                        <p class="relative z-10 text-[#D8ECF7] mb-8 leading-relaxed" data-i18n="link-gallery-desc">Explorează fotografiile din cursurile și evenimentele noastre academice.</p>
+                        <span class="relative z-10 mt-auto rounded-full bg-white/18 px-6 py-2 text-sm font-black text-white" data-i18n="link-gallery-action">Vezi galeria</span>
+                    </a>
+                    <a href="profile.html" class="glass-card quick-card p-8 transition-all duration-300 flex flex-col">
+                        <div class="quick-icon relative z-10 mb-7 flex h-16 w-16 items-center justify-center rounded-3xl text-4xl">👤</div>
+                        <h3 class="relative z-10 text-2xl font-black text-white mb-3" data-i18n="link-profile">Profilul Meu</h3>
+                        <p class="relative z-10 text-[#D8ECF7] mb-8 leading-relaxed" data-i18n="link-profile-desc">Gestionează datele tale personale și vezi cine mai este online pe platformă.</p>
+                        <span class="relative z-10 mt-auto rounded-full bg-white/18 px-6 py-2 text-sm font-black text-white" data-i18n="link-profile-action">Vezi profilul</span>
+                    </a>
+                    <a href="admin.html" class="glass-card quick-card p-8 transition-all duration-300 flex flex-col hidden" data-admin-link="true">
+                        <div class="quick-icon relative z-10 mb-7 flex h-16 w-16 items-center justify-center rounded-3xl text-4xl">🛠️</div>
+                        <h3 class="relative z-10 text-2xl font-black text-white mb-3" data-i18n="link-admin">Administrare</h3>
+                        <p class="relative z-10 text-[#D8ECF7] mb-8 leading-relaxed" data-i18n="link-admin-desc">Gestionează înregistrările și vizualizează lucrările trimise. (Profesori)</p>
+                        <span class="relative z-10 mt-auto rounded-full bg-[#7BBDE8]/30 px-6 py-2 text-sm font-black text-white" data-i18n="link-admin-action">Panou Admin</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-glass text-white py-10 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+                <div>
+                    <h3 class="serif-display text-3xl font-bold mb-4">MHO Music Academy</h3>
+                    <p class="text-[#BDD8E9]" data-i18n="footer-brand-desc">Educație muzicală, examene și comunitate într-o experiență digitală modernă.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4" data-i18n="footer-links-title">Link-uri Rapide</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-[#BDD8E9] hover:text-white transition" data-i18n="nav-home">Acasă</a></li>
+                        <li><a href="noutati.html" class="text-[#BDD8E9] hover:text-white transition" data-i18n="nav-news">Noutăți</a></li>
+                        <li><a href="register.html" class="text-[#BDD8E9] hover:text-white transition" data-i18n="nav-register">Înregistrare</a></li>
+                        <li><a href="exam.html" class="text-[#BDD8E9] hover:text-white transition" data-i18n="nav-exam">Examen</a></li>
+                        <li><a href="galerie.html" class="text-[#BDD8E9] hover:text-white transition" data-i18n="nav-gallery">Galerie</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4" data-i18n="footer-contact-title">Contact</h4>
+                    <p class="text-[#BDD8E9] mb-2">
+                        <a href="tel:+37369956831" class="hover:text-white transition underline">+373 69 956 831</a>
+                        <span class="text-sm block mt-1" data-i18n="footer-general-q">- pentru întrebări generale - Andrei Borinschi</span>
+                    </p>
+                    <p class="text-[#BDD8E9] mb-2">
+                        <a href="tel:+37369597497" class="hover:text-white transition underline">+373 69 597 497</a>
+                        <span class="text-sm block mt-1" data-i18n="footer-tech-assist">- pentru asistență tehnică - Mihail Borinschi</span>
+                    </p>
+                    <p class="text-[#BDD8E9]">
+                        <a href="tel:+37369430494" class="hover:text-white transition underline">+373 69 430 494</a>
+                        <span class="text-sm block mt-1" data-i18n="footer-exam-q">- Oleg Șarcov - răspunzator de cursurile ORNI</span>
+                        <span class="text-sm block mt-2"><a href="tel:+37369247568" class="hover:text-white transition underline">+373 69 247 568</a> Daniel Damian - răspunzator cursurile de dirijor</span>
+                        <span class="text-sm block mt-2"><a href="tel:+37369343678" class="hover:text-white transition underline">+373 69 343 678</a> Sergiu Bazi - răspunzator cursurile Aerofone</span>
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-white/15 pt-6 text-center">
+                <p class="text-[#BDD8E9]">&copy; 2025 MHO Music Academy. <span data-i18n="footer-rights">Toate drepturile rezervate.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Handle password reset redirect
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('mode') === 'resetPassword' && urlParams.get('oobCode')) {
+            window.location.replace(`resetPassword.html?${urlParams.toString()}`);
+        }
+    </script>
+
+    <!-- Firebase App -->
+    <script type="module">
+        import { getApp, getApps, initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+        import { getFirestore, doc, setDoc, updateDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAV0_Buy_KKD4TSe-1IpByCVoZFoRJQaNE",
+            authDomain: "mho-music-academy.firebaseapp.com",
+            projectId: "mho-music-academy",
+            storageBucket: "mho-music-academy.firebasestorage.app",
+            messagingSenderId: "705322739069",
+            appId: "1:705322739069:web:422b6fd0c7a08ab8921814",
+            measurementId: "G-CF5HDVT6MK"
+        };
+
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        async function updatePresence(isOnline, user) {
+            if (!user) return;
+            const userPresenceRef = doc(db, 'presence', user.uid);
+            if (isOnline) {
+                await setDoc(userPresenceRef, {
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: user.displayName || user.email.split('@')[0],
+                    photoURL: user.photoURL || null,
+                    lastSeen: serverTimestamp(),
+                    online: true
+                }, { merge: true });
+            } else {
+                await updateDoc(userPresenceRef, { online: false, lastSeen: serverTimestamp() });
+            }
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            const authBtn = document.getElementById('authButtons');
+            const userMnu = document.getElementById('userMenu');
+            const userName = document.getElementById('userNameText');
+            const userPic = document.getElementById('userProfilePicture');
+            const userPlaceholder = document.getElementById('userProfilePicturePlaceholder');
+
+            if (user) {
+                window.location.replace('dashboard.html');
+                return;
+                if (authBtn) authBtn.classList.add('hidden');
+                if (userMnu) userMnu.classList.remove('hidden');
+                if (userName) userName.textContent = user.displayName || user.email.split('@')[0];
+                
+                if (user.photoURL) {
+                    if (userPic) { userPic.src = user.photoURL; userPic.classList.remove('hidden'); }
+                    if (userPlaceholder) userPlaceholder.classList.add('hidden');
+                }
+                await updatePresence(true, user);
+            } else {
+                if (authBtn) authBtn.classList.remove('hidden');
+                if (userMnu) userMnu.classList.add('hidden');
+            }
+        });
+
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                const user = auth.currentUser;
+                if (user) await updatePresence(false, user);
+                await signOut(auth);
+                window.location.reload();
+            });
+        }
+    </script>
+    <script src="firebase-shared.js?v=20260602-teacher-allowlist"></script>
+    <script src="posthog-analytics.js?v=20260530-posthog"></script>
+    <script src="mobile-menu.js?v=20260616-home-redirect"></script>
+    <script src="public-auth.js?v=20260602-teacher-allowlist"></script>
+</body>
+</html>
